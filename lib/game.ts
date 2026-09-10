@@ -10,11 +10,19 @@ export type Answer = {
   explanation: string;
   model: string;
 };
+export type Attempt = Answer & { accepted: boolean };
+export const acceptsAnswer = (answer: Answer) =>
+  answer.rowFit > 0 && answer.colFit > 0;
 export type Board = {
+  resumeWithAccount?: boolean;
   id: string;
   puzzleId: string;
   answers: Answer[];
+  attempts: Attempt[];
+  guessesUsed: number;
+  guessesLeft: number;
   locked: boolean;
+  isOwner: boolean;
   editable: boolean;
   gradingReady: boolean;
 };

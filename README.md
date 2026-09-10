@@ -8,16 +8,30 @@ Use Node 22.13 or newer. Install with `npm ci`, start with `npm run dev`, and bu
 
 ## Grading
 
-Configure `OPENROUTER_API_KEY` as a hosted secret through Sites. `OPENROUTER_MODEL` defaults to `openrouter/free`. The key is only read by server code. Until configured, browsing and session creation work, while submission is disabled. Do not put the key in a public environment variable or source file. Local environment keys are listed in `.env.example`.
+Configure `OPENROUTER_API_KEY` as a hosted secret through Sites. `OPENROUTER_MODEL` defaults to `nvidia/nemotron-3-super-120b-a12b:free`. The key is only read by server code. Until configured, browsing and session creation work, while submission is disabled. Do not put the key in a public environment variable or source file. Local environment keys are listed in `.env.example`.
 
-The judge estimates both prompt fits and obscurity. The server computes `max(1, round(min(rowFit, colFit) * (0.8 + 0.2 * obscurity / 100)))`. These are AI judgments, not verified catalog facts or population rarity percentiles. Free routing may select different models, so judgments may vary. Successful identical input grades are cached. There is a conservative shared daily cap of 45 uncached grading attempts (UTC), and the provider can impose additional limits. Cached grades do not consume that cap. Provider failures and invalid outputs do not commit an answer.
+The judge estimates both prompt fits and obscurity. The server computes `max(1, round(min(rowFit, colFit) * (0.8 + 0.2 * obscurity / 100)))`. These are AI judgments, not verified catalog facts or population rarity percentiles. The judge uses a pinned general-purpose free model with structured-output support. Successful identical input grades are cached. There is a conservative shared daily cap of 45 uncached grading attempts (UTC), and the provider can impose additional limits. Cached grades do not consume that cap. Provider failures and invalid outputs do not commit an answer.
 
 ## Sessions and sharing
 
-A random 256-bit browser credential is stored locally; the server stores its SHA-256 hash. A deterministic opaque board ID lets the same browser resume one board per puzzle. Answers live in D1. Public reads never return the credential hash. Every answer write checks the credential, completion status and a short exclusive lease, then atomically saves the answer. A ninth answer locks the board. Clearing browser storage loses editing access; completed links remain viewable.
+A random 256-bit browser credential is stored locally; the server stores its SHA-256 hash. A deterministic opaque board ID lets the same browser resume one board per puzzle. Answers live in D1. Public reads never return the credential hash. Every answer write checks the credential, completion status and a short exclusive lease, then atomically saves the answer. Every valid grade consumes one of nine guesses. A zero fit on either prompt rejects the pick and leaves its square open; accepted picks lock their square. The ninth guess locks the board, with empty squares worth zero. Legacy submissions are treated as prior guesses without resetting progress. Clearing browser storage loses editing access; completed links remain viewable.
 
 The app has no sign-in UI. Sites initially hosts it behind owner-only platform access for review. To make links work for friends, explicitly change the Site's audience to public. The game's read-only link behavior does not bypass that platform access policy.
 
 ## Validation
 
-Automated route tests use the actual handlers with in-memory SQLite and explicitly mocked OpenRouter responses. They cover resuming, unauthorized writes, failed grading, overlapping requests, duplicates, final locking and scoring boundaries. Live OpenRouter grading requires a real key and remains untested until supplied. Experimental WebMCP tools are feature-detected; their browser registration has not been verified because a supported validation context was not available.
+Automated route tests use the actual handlers with in-memory SQLite and explicitly mocked OpenRouter responses. They cover resuming, unauthorized writes, failed grading, overlapping requests, duplicates, final locking and scoring boundaries. Live OpenRouter grading was verified locally with the configured key and a separate test song. Experimental WebMCP tools are feature-detected; their browser registration has not been verified because a supported validation context was not available.
+
+
+## Accounts and themes
+Optional ChatGPT sign-in uses Sites' platform routes. Local `npm run dev` simulates one stable user (Seedy); production uses real ChatGPT identities. Local test accounts and scores stay in the local database. To test, choose Account → Sign in with ChatGPT → choose a username → Start playing. Sign out in Account to return to guest use.
+
+Usernames are public and case-insensitively unique (3–20 letters, numbers, underscores). Emails are not stored. Accounts have one board per puzzle, enforced by a database unique index. Opening a puzzle while an account profile exists claims this browser's guest board if available and the account has no existing run; otherwise it resumes the account run. Claimed boards require that signed-in account to edit. Guests retain browser-token ownership for unclaimed boards.
+
+Leaderboards show up to 100 players, finished runs only, with equal points sharing a rank. Overall standings sum all completed puzzle scores. Scores are computed from server-saved grades; clients cannot write scores. These are casual leaderboards, not cheat-proof competitions.
+
+Five visual themes (punk, jazz, disco, synthwave, folk) are independent of puzzles. The initial choice is random; choosing a theme saves it in browser storage.
+
+Hosting must use Sites dispatch to authenticate the user headers. Do not expose the Worker directly through another host while trusting those headers. Make the Site public when ready to allow guests; private Sites still impose their hosting access gate. Database migrations ship with the build. No deployment is needed for local testing.
+
+First sign-in requires choosing a username before playing. The setup dialog cannot be dismissed until a username is saved (sign-out remains available). Signed-in requests cannot create or submit to guest runs. Owned guest progress is automatically moved into the account flow when opened; other players’ shared links stay read-only.

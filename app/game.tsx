@@ -10,6 +10,7 @@ import {
   ArrowRight,
   Copy,
   LoaderCircle,
+  Music2,
 } from 'lucide-react';
 import {
   Dialog,
@@ -17,9 +18,40 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog';
+import Community from './community';
 import { puzzles, getPuzzle } from '@/lib/puzzles';
 import type { Board } from '@/lib/game';
 import { registerGameTools } from '@/lib/webmcp';
+function ListenLinks({ title, artist }: { title: string; artist: string }) {
+  const query = encodeURIComponent(`${title} ${artist}`);
+  return (
+    <div
+      className="listen-links"
+      aria-label={`Listen to ${title} by ${artist}`}
+    >
+      <a
+        href={`https://music.apple.com/us/search?term=${query}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`Find ${title} by ${artist} on Apple Music (opens in a new tab)`}
+      >
+        <Music2 size={14} />
+        <span>Apple Music</span>
+        <ArrowUpRight size={12} />
+      </a>
+      <a
+        href={`https://open.spotify.com/search/${query}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`Find ${title} by ${artist} on Spotify (opens in a new tab)`}
+      >
+        <Headphones size={14} />
+        <span>Spotify</span>
+        <ArrowUpRight size={12} />
+      </a>
+    </div>
+  );
+}
 function getToken() {
   let token = localStorage.getItem('chord-owner');
   if (!token) {
@@ -69,6 +101,11 @@ export default function Game({
   const puzzle = getPuzzle(puzzleId)!;
   const answers = board?.answers || [];
   const selected = answers.find((a) => a.cell === cell);
+  const attempts = board?.attempts || [];
+  const lastRejected = [...attempts]
+    .reverse()
+    .find((a) => a.cell === cell && !a.accepted);
+  const guessesLeft = board?.guessesLeft ?? 9;
   const complete = !!board?.locked;
   const readonly = !!board && !board.editable;
   const total = answers.reduce((sum, a) => sum + a.score, 0);
@@ -88,12 +125,20 @@ export default function Game({
         throw new Error(
           'Enable browser storage to keep your private editing credential. Shared boards can still be viewed.',
         );
-      const data = existing
+      let data = existing
         ? await request(`/api/boards/${existing}`, token.current)
         : await request('/api/boards', token.current, {
             puzzleId: id,
             ownerToken: token.current,
           });
+      if (data.resumeWithAccount) {
+        data = await request('/api/boards', token.current, {
+          puzzleId: id,
+          ownerToken: token.current,
+        });
+        if (gen === generation.current)
+          window.history.replaceState(null, '', `/${id}/${data.id}`);
+      }
       if (gen !== generation.current) return;
       if (data.puzzleId !== id)
         throw new Error(
@@ -133,7 +178,7 @@ export default function Game({
         setBoard(data);
         return {
           cell: index,
-          answer: data.answers.find((a) => a.cell === index),
+          answer: data.attempts[data.attempts.length - 1],
           locked: data.locked,
         };
       } finally {
@@ -178,15 +223,25 @@ export default function Game({
     <main className="shell">
       <header className="masthead">
         <a className="brand" href="/">
-          <Disc3 /> IMMACULATE CHORD<span className="beta">VOL. 01</span>
+          <Disc3 />
+          <span className="wordmark">
+            <span>IMMACULATE</span>
+            <span>CHORD</span>
+          </span>
+          <span className="beta">VOL. 01</span>
         </a>
         <button className="text-button" onClick={() => setHelp(true)}>
           How to play <ArrowUpRight size={16} />
         </button>
       </header>
+      <Community
+        puzzleId={puzzleId}
+        disabled={busy}
+        onAccount={() => void load(puzzleId)}
+      />
       <div className="intro">
         <div>
-          <p className="eyebrow">THE MUSIC GRID / PUZZLE {puzzle.id} OF 20</p>
+          <p className="eyebrow">TONIGHT’S SET / PUZZLE {puzzle.id} OF 20</p>
           <h1>
             {puzzle.title}
             <span>.</span>
@@ -198,7 +253,7 @@ export default function Game({
           onClick={() => setCollection(true)}
           disabled={busy}
         >
-          The puzzle collection <ArrowUpRight size={17} />
+          Pick a different set <ArrowUpRight size={17} />
         </button>
       </div>
       {error && cell === null && (
@@ -214,95 +269,106 @@ export default function Game({
       <div className="workspace">
         <section aria-label="Music grid">
           <div className="board">
-            <div className="corner">
-              <Headphones />
-              <span>
-                FIND YOUR
-                <br />
-                INTERSECTION
-              </span>
-            </div>
+            <div aria-hidden="true" />
             {puzzle.cols.map((c) => (
-              <div className="col-label" key={c.label}>
-                <span className="tag">{c.kind.toUpperCase()}</span>
+              <div className="col-label" data-kind={c.kind} key={c.label}>
+                <span className="tag" data-kind={c.kind}>
+                  {c.kind.toUpperCase()}
+                </span>
                 {c.label}
               </div>
             ))}
             {puzzle.rows.map((r, ri) => (
               <div className="grid-row" key={r.label}>
                 <div className="row-label">
-                  <span className="tag">{r.kind.toUpperCase()}</span>
+                  <span className="tag" data-kind={r.kind}>
+                    {r.kind.toUpperCase()}
+                  </span>
                   {r.label}
                 </div>
                 {puzzle.cols.map((c, ci) => {
                   const index = ri * 3 + ci,
                     a = answers.find((x) => x.cell === index);
                   return (
-                    <button
+                    <div
                       key={c.label}
-                      className={`cell ${a ? 'filled' : ''}`}
-                      disabled={loading || !board || busy}
-                      onClick={() => openCell(index)}
-                      aria-label={`${r.label} and ${c.label}${a ? `: ${a.title} by ${a.artist}, ${a.score} percent` : ': empty square'}`}
+                      className={`cell-shell ${a ? 'has-song' : ''}`}
                     >
-                      {a ? (
-                        <>
-                          <span className="cell-grade">
-                            {a.score}
-                            <small>%</small>
-                          </span>
-                          <strong>{a.title}</strong>
-                          <span className="cell-artist">{a.artist}</span>
-                          <Lock className="cell-lock" size={12} />
-                        </>
-                      ) : (
-                        <>
-                          {readonly ? <Lock /> : <Plus />}
-                          <span>
-                            {readonly
-                              ? 'No song'
-                              : loading
-                                ? 'Opening…'
-                                : 'Add a song'}
-                          </span>
-                        </>
+                      <button
+                        className={`cell ${a ? 'filled' : ''}`}
+                        disabled={loading || !board || busy}
+                        onClick={() => openCell(index)}
+                        aria-label={`${r.label} and ${c.label}${a ? `: ${a.title} by ${a.artist}, ${a.score} percent` : ': empty square'}`}
+                      >
+                        {a ? (
+                          <>
+                            <span className="cell-grade">
+                              {a.score}
+                              <small>%</small>
+                            </span>
+                            <strong>{a.title}</strong>
+                            <span className="cell-artist">{a.artist}</span>
+                            <Lock className="cell-lock" size={12} />
+                          </>
+                        ) : (
+                          <>
+                            {readonly ? <Lock /> : <Plus />}
+                            <span>
+                              {readonly
+                                ? 'Empty · 0 pts'
+                                : loading
+                                  ? 'Opening…'
+                                  : attempts.some(
+                                        (a) => a.cell === index && !a.accepted,
+                                      )
+                                    ? 'Try again'
+                                    : 'Add a song'}
+                            </span>
+                          </>
+                        )}
+                      </button>
+                      {a && readonly && (
+                        <ListenLinks title={a.title} artist={a.artist} />
                       )}
-                    </button>
+                    </div>
                   );
                 })}
               </div>
             ))}
           </div>
-          <div className="board-caption">
-            <span>
-              {complete
-                ? 'Complete. Locked. Unmistakably yours.'
-                : readonly
-                  ? 'Shared session · read-only'
-                  : 'One song per square. No repeats.'}
-            </span>
-            <span>YOUR TASTE. YOUR NINE.</span>
-          </div>
         </section>
         <aside className="score-panel">
-          <p className="eyebrow">
-            {complete
-              ? 'THE FINISHED SET'
-              : readonly
-                ? 'SHARED SESSION'
-                : 'YOUR SESSION'}
-          </p>
+          {!complete && (
+            <p className="eyebrow">
+              {readonly ? 'SHARED SESSION' : 'YOUR SESSION'}
+            </p>
+          )}
           <div className="score-number">
-            {answers.length}
+            {guessesLeft}
             <span>/ 9</span>
           </div>
-          <p>Songs on the board</p>
+          {guessesLeft > 0 && (
+            <p>
+              {guessesLeft} {guessesLeft === 1 ? 'guess' : 'guesses'} left ·{' '}
+              {9 - guessesLeft} used
+            </p>
+          )}
+          <p className="small-print">{answers.length}/9 squares filled</p>
           <div className="ticks" aria-hidden="true">
             {Array.from({ length: 9 }, (_, i) => (
-              <i key={i} className={i < answers.length ? 'done' : ''} />
+              <i
+                key={i}
+                className={
+                  i < attempts.length
+                    ? attempts[i].accepted
+                      ? 'done'
+                      : 'missed'
+                    : ''
+                }
+              />
             ))}
           </div>
-          {answers.length > 0 && (
+          {attempts.length > 0 && (
             <div className="total">
               <span>Total score</span>
               <strong>
@@ -313,16 +379,10 @@ export default function Game({
           )}
           {complete && (
             <>
-              <p className="complete-note">
-                <Check size={16} /> Your nine are locked in.
-              </p>
               <button className="primary-button" onClick={() => void share()}>
                 {copied ? <Check size={16} /> : <Copy size={16} />}{' '}
-                {copied ? 'Link copied' : 'Share your grid'}
+                {copied ? 'Link copied' : 'Copy public link'}
               </button>
-              <p className="small-print">
-                Anyone with the link can view your finished grid.
-              </p>
             </>
           )}
           {readonly && !complete && (
@@ -330,41 +390,16 @@ export default function Game({
               This player is still working on their grid.
             </p>
           )}
-          {readonly && (
+          {readonly && !board?.isOwner && (
             <button
               className="outline-button"
               onClick={() => {
-                window.location.assign('/');
+                void load(puzzleId);
               }}
             >
-              Play your own grid <ArrowRight size={16} />
+              Play this grid yourself <ArrowRight size={16} />
             </button>
           )}
-          <div className="score-divider" />
-          <p className="eyebrow">THE PERFECT PICK</p>
-          <h2>
-            Fits the brief.
-            <br />
-            Digs a little deeper.
-          </h2>
-          <p>
-            Match both prompts to score well. An unexpected pick adds a little
-            extra.
-          </p>
-          <div className="legend">
-            <span>
-              <i className="fit-dot" />
-              80% fit
-            </span>
-            <span>
-              <i />
-              20% deep cut
-            </span>
-          </div>
-          <p className="small-print">
-            The weaker match sets your ceiling. Obscurity is an AI estimate, not
-            a popularity percentile.
-          </p>
           {board && !board.gradingReady && (
             <div className="note">
               The judge isn’t connected yet. You can explore every puzzle and
@@ -374,10 +409,6 @@ export default function Game({
           {loading && <p role="status">Opening your session…</p>}
         </aside>
       </div>
-      <footer>
-        <span>A LITTLE KNOWLEDGE. A LOT OF LISTENING.</span>
-        <span>Facts × feelings × deep cuts</span>
-      </footer>
       <Dialog
         open={cell !== null}
         onOpenChange={(o) => {
@@ -392,7 +423,9 @@ export default function Game({
             {selected
               ? 'Behind the pick'
               : readonly
-                ? 'An open square'
+                ? complete
+                  ? 'No guesses left'
+                  : 'An open square'
                 : 'What’s your pick?'}
           </DialogTitle>
           <DialogDescription>
@@ -419,6 +452,15 @@ export default function Game({
               </p>
             </div>
           )}
+          {!selected && lastRejected && (
+            <div className="rejected-pick" role="status">
+              <strong>Not a match · one guess used</strong>
+              <p>
+                {lastRejected.title} — {lastRejected.artist}
+              </p>
+              <p>{lastRejected.explanation}</p>
+            </div>
+          )}
           {selected ? (
             <div className="grade-detail">
               <div className="result-score">
@@ -427,6 +469,7 @@ export default function Game({
               </div>
               <h2>{selected.title}</h2>
               <p className="artist-name">{selected.artist}</p>
+              <ListenLinks title={selected.title} artist={selected.artist} />
               <div className="grade-stats">
                 <span>
                   Row fit<strong>{selected.rowFit}%</strong>
@@ -439,14 +482,33 @@ export default function Game({
                 </span>
               </div>
               <p>{selected.explanation}</p>
-              <p className="small-print">
-                <Lock size={12} /> Answer locked · AI judgment can be imperfect.
-              </p>
             </div>
           ) : readonly ? (
-            <p>This player hasn’t filled this square yet.</p>
+            <p>
+              {complete
+                ? 'This square finished empty and contributes 0 points.'
+                : 'This player hasn’t filled this square yet.'}
+            </p>
           ) : (
             <form
+              onKeyDown={(e) => {
+                if (
+                  e.key !== 'Enter' ||
+                  !e.metaKey ||
+                  e.nativeEvent.isComposing
+                )
+                  return;
+                e.preventDefault();
+                if (
+                  e.repeat ||
+                  busy ||
+                  !board?.gradingReady ||
+                  !title.trim() ||
+                  !artist.trim()
+                )
+                  return;
+                e.currentTarget.requestSubmit();
+              }}
               onSubmit={async (e) => {
                 e.preventDefault();
                 if (cell === null) return;
@@ -477,10 +539,6 @@ export default function Game({
                 required
                 disabled={busy}
               />
-              <p className="small-print">
-                For a live version or cover, include the recording or release in
-                the title.
-              </p>
               {error && (
                 <p className="form-error" role="alert">
                   {error}
@@ -502,15 +560,15 @@ export default function Game({
                   </>
                 ) : (
                   <>
-                    Submit & lock answer <ArrowRight size={17} />
+                    Submit guess <ArrowRight size={17} />
                   </>
                 )}
               </button>
-              <p className="small-print">
-                {board?.gradingReady
-                  ? 'Once graded, this pick is final—even if it misses the brief.'
-                  : 'Grading is not connected yet. Your square will stay open.'}
-              </p>
+              {!board?.gradingReady && (
+                <p className="small-print">
+                  Grading is not connected yet. Your square will stay open.
+                </p>
+              )}
             </form>
           )}
         </DialogContent>
@@ -559,24 +617,34 @@ export default function Game({
               language and era is welcome. No repeat recordings on a board.
             </li>
             <li>
-              <b>Commit to the pick.</b> Each submitted answer gets an AI score
-              and locks. Failed grading requests leave the square open.
+              <b>Nine guesses total.</b> An accepted answer fills and locks its
+              square. A rejected answer uses a guess but leaves the square open:
+              try it again or move to another. Duplicate songs and
+              grading-service failures don’t use a guess.
             </li>
             <li>
-              <b>Finish your nine.</b> Your completed board locks automatically.
-              Share its read-only link and compare notes.
+              <b>Finish your set.</b> After nine guesses, your score locks.
+              Empty squares contribute zero. Share the read-only result and
+              compare notes.
             </li>
           </ol>
+          <p className="how-scoring">
+            Match both prompts to score well. The weaker match determines your
+            base score, and an obscure pick earns a bonus. A zero fit on either
+            prompt rejects the answer; partial vibe matches can still score.
+            Obscurity is an AI estimate, not a popularity percentile.
+          </p>
           <div className="note">
             Scoring: the lower of the two fit ratings × (0.8 + 0.2 × obscurity /
-            100), rounded to 1–100. A perfect fit scores 80–100. A wrong answer
-            stays near the bottom.
+            100), rounded to 1–100 for accepted answers. A perfect fit scores
+            80–100. Rejected answers add no points.
           </div>
           <p className="small-print">
-            No account needed. Your browser holds your private editing
-            credential. Clearing browser storage loses editing access; save your
-            finished link. Scores reflect an AI’s judgment and may get facts or
-            musical taste wrong.
+            Accounts save one run per puzzle and add finished scores to the
+            leaderboards. Guests can play without signing in. For guests, your
+            browser holds your private editing credential. Clearing browser
+            storage loses editing access; save your finished link. Scores
+            reflect an AI’s judgment and may get facts or musical taste wrong.
           </p>
         </DialogContent>
       </Dialog>

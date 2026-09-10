@@ -6,9 +6,15 @@ import {
   publicBoard,
   owns,
   sameOrigin,
+  boardAttempts,
 } from '@/lib/server';
 import { getPuzzle } from '@/lib/puzzles';
-import { validText, normalizeSong, type Answer } from '@/lib/game';
+import {
+  validText,
+  normalizeSong,
+  acceptsAnswer,
+  type Answer,
+} from '@/lib/game';
 import { grade } from '@/lib/grader';
 export async function POST(
   req: Request,
@@ -23,7 +29,8 @@ export async function POST(
     if (!b) return json({ error: 'Board not found.' }, 404);
     if (!(await owns(req, b)))
       return json({ error: 'This shared board is read-only.' }, 403);
-    if (b.locked)
+    const attempts = boardAttempts(b);
+    if (b.locked || attempts.length >= 9)
       return json({ error: 'This board is complete and locked.' }, 409);
     const { cell, title, artist } = (await req.json()) as {
       cell: number;
@@ -38,7 +45,7 @@ export async function POST(
       !validText(artist)
     )
       return json({ error: 'Enter a song title and artist.' }, 400);
-    const answers: Answer[] = JSON.parse(b.answers);
+    const answers: Answer[] = attempts.filter((a) => a.accepted);
     if (answers.some((a) => a.cell === cell))
       return json({ error: 'That square is already locked.' }, 409);
     if (
@@ -60,9 +67,9 @@ export async function POST(
     const db = getDb();
     const acquired = await db
       .prepare(
-        'UPDATE boards SET lease = ?, lease_until = ? WHERE id = ? AND locked = 0 AND lease_until < ? AND answers = ? RETURNING id',
+        'UPDATE boards SET lease = ?, lease_until = ? WHERE id = ? AND locked = 0 AND lease_until < ? AND answers = ? AND attempts IS ? RETURNING id',
       )
-      .bind(lease, Date.now() + 70000, id, Date.now(), b.answers)
+      .bind(lease, Date.now() + 70000, id, Date.now(), b.answers, b.attempts)
       .first();
     if (!acquired)
       return json(
@@ -75,9 +82,11 @@ export async function POST(
     const p = getPuzzle(b.puzzle_id)!;
     const cacheKey = await hash(
       JSON.stringify({
-        version: 1,
+        version: 2,
         puzzle: p.id,
         cell,
+        row: p.rows[Math.floor(cell / 3)],
+        column: p.cols[cell % 3],
         song: normalizeSong(title, artist),
         model: getGradingConfig().model,
       }),
@@ -118,12 +127,20 @@ export async function POST(
         },
         409,
       );
-    answers.push(result);
+    const accepted = acceptsAnswer(result);
+    attempts.push({ ...result, accepted });
+    if (accepted) answers.push(result);
     const updated = await db
       .prepare(
-        'UPDATE boards SET answers = ?, locked = ?, lease = NULL, lease_until = 0 WHERE id = ? AND lease = ? AND locked = 0 RETURNING id',
+        'UPDATE boards SET answers = ?, attempts = ?, locked = ?, lease = NULL, lease_until = 0 WHERE id = ? AND lease = ? AND locked = 0 RETURNING id',
       )
-      .bind(JSON.stringify(answers), answers.length === 9 ? 1 : 0, id, lease)
+      .bind(
+        JSON.stringify(answers),
+        JSON.stringify(attempts),
+        attempts.length >= 9 ? 1 : 0,
+        id,
+        lease,
+      )
       .first();
     if (!updated)
       return json(

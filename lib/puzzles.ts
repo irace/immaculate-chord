@@ -53,7 +53,7 @@ const p = (
   rows: Prompt[],
   cols: Prompt[],
 ): Puzzle => ({ id, title, subtitle, rows, cols });
-export const puzzles: Puzzle[] = [
+const collection: Puzzle[] = [
   p(
     '01',
     'Across the decades',
@@ -405,4 +405,19 @@ export const puzzles: Puzzle[] = [
     [big, vibe('The final singalong'), night],
   ),
 ];
+// Fixed layouts, shared by everyone. Only compatible categories are mixed:
+// instruments can overlap, unlike mutually exclusive release decades.
+const reversed = new Set(['02', '05', '07', '10', '13', '17', '19']);
+const mixed = new Set(['04', '06', '08', '12', '18']);
+export const puzzles: Puzzle[] = collection.map((puzzle) => {
+  if (reversed.has(puzzle.id))
+    return { ...puzzle, rows: puzzle.cols, cols: puzzle.rows };
+  if (mixed.has(puzzle.id))
+    return {
+      ...puzzle,
+      rows: [puzzle.rows[0], puzzle.cols[1], puzzle.rows[2]],
+      cols: [puzzle.cols[0], puzzle.rows[1], puzzle.cols[2]],
+    };
+  return puzzle;
+});
 export const getPuzzle = (id: string) => puzzles.find((p) => p.id === id);

@@ -1,0 +1,313 @@
+'use client';
+import { useEffect, useState } from 'react';
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogDescription,
+} from '@/components/ui/dialog';
+const themes = [
+  ['punk', 'Punk basement', 'Torn flyers. Loud guitars.'],
+  ['jazz', 'After-hours jazz', 'Blue notes and brass.'],
+  ['disco', 'Disco fever', 'Mirror balls and velvet.'],
+  ['synth', 'Midnight synth', 'Neon under a digital sky.'],
+  ['folk', 'Folk sleeve', 'Warm paper and worn records.'],
+];
+type Account = { signedIn: boolean; username: string | null; error?: string };
+type Entry = {
+  rank: number;
+  username: string;
+  score: number;
+  completed: number;
+  boardId: string | null;
+};
+export default function Community({
+  puzzleId,
+  onAccount,
+  disabled,
+}: {
+  puzzleId: string;
+  onAccount: () => void;
+  disabled: boolean;
+}) {
+  const [panel, setPanel] = useState(''),
+    [theme, setTheme] = useState('punk');
+  const [account, setAccount] = useState<{
+    signedIn: boolean;
+    username: string | null;
+  } | null>(null);
+  const [username, setUsername] = useState(''),
+    [error, setError] = useState(''),
+    [saving, setSaving] = useState(false);
+  const [scope, setScope] = useState('puzzle'),
+    [entries, setEntries] = useState<Entry[] | null>(null);
+  const [returnTo, setReturnTo] = useState('/');
+  const needsUsername = account?.signedIn === true && !account.username;
+  useEffect(() => {
+    setReturnTo(location.pathname);
+    let choice = themes[Math.floor(Math.random() * themes.length)][0];
+    try {
+      const saved = localStorage.getItem('chord-theme');
+      if (themes.some((t) => t[0] === saved)) choice = saved!;
+    } catch {}
+    document.documentElement.dataset.theme = choice;
+    setTheme(choice);
+    fetch('/api/account')
+      .then((r) => {
+        if (!r.ok) throw Error();
+        return r.json() as Promise<Account>;
+      })
+      .then((a) => {
+        setAccount(a);
+        setUsername(a.username || '');
+        if (a.signedIn && !a.username) setPanel('account');
+        if (new URLSearchParams(location.search).has('account'))
+          history.replaceState(null, '', location.pathname);
+      })
+      .catch(() =>
+        setError('Could not load your account. Reload to try again.'),
+      );
+  }, []);
+  useEffect(() => {
+    if (panel !== 'leaderboard') return;
+    let active = true;
+    setEntries(null);
+    setError('');
+    fetch(
+      '/api/leaderboards' + (scope === 'puzzle' ? '?puzzle=' + puzzleId : ''),
+    )
+      .then((r) => {
+        if (!r.ok) throw Error();
+        return r.json() as Promise<{ entries: Entry[] }>;
+      })
+      .then((d) => {
+        if (active) setEntries(d.entries);
+      })
+      .catch(() => {
+        if (active)
+          setError('Could not load standings. Please reopen to retry.');
+      });
+    return () => {
+      active = false;
+    };
+  }, [panel, scope, puzzleId]);
+  function open(value: string) {
+    setError('');
+    setReturnTo(location.pathname);
+    setPanel(value);
+  }
+  return (
+    <>
+      <nav className="community-nav" aria-label="Game menu">
+        <button className="text-button" onClick={() => open('themes')}>
+          Change the mood
+        </button>
+        <button className="text-button" onClick={() => open('leaderboard')}>
+          Leaderboards
+        </button>
+        <button
+          className="text-button"
+          disabled={disabled}
+          onClick={() => open('account')}
+        >
+          {account?.username ? '@' + account.username : 'Account'}
+        </button>
+      </nav>
+      <Dialog
+        open={needsUsername || !!panel}
+        onOpenChange={(o) => !o && !needsUsername && !saving && setPanel('')}
+      >
+        <DialogContent showCloseButton={!needsUsername}>
+          <DialogTitle>
+            {panel === 'themes'
+              ? 'Pick your sound'
+              : panel === 'leaderboard'
+                ? 'Top of the bill'
+                : needsUsername
+                  ? 'Choose your username'
+                  : 'Your account'}
+          </DialogTitle>
+          {panel !== 'themes' && (
+            <DialogDescription>
+              {panel === 'leaderboard'
+                ? 'Completed games only. Equal scores share a rank.'
+                : account?.signedIn
+                  ? needsUsername
+                    ? 'Pick a public name to start playing.'
+                    : 'Your progress is saved to your account.'
+                  : 'Sign in to save your progress and join the leaderboards.'}
+            </DialogDescription>
+          )}
+          {panel === 'themes' && (
+            <div className="theme-options">
+              {themes.map(([id, name, desc]) => (
+                <button
+                  key={id}
+                  className="theme-option"
+                  data-selected={id === theme}
+                  aria-pressed={id === theme}
+                  onClick={() => {
+                    setTheme(id);
+                    document.documentElement.dataset.theme = id;
+                    try {
+                      localStorage.setItem('chord-theme', id);
+                    } catch {}
+                  }}
+                >
+                  <strong>{name}</strong>
+                  <span>{desc}</span>
+                  {id === theme && <small>Now playing</small>}
+                </button>
+              ))}
+            </div>
+          )}
+          {panel === 'account' && (
+            <>
+              {!account ? (
+                <p>Loading account…</p>
+              ) : !account.signedIn ? (
+                <a
+                  className="primary-button"
+                  href={
+                    '/signin-with-chatgpt?return_to=' +
+                    encodeURIComponent(returnTo + '?account=1')
+                  }
+                  target="_top"
+                >
+                  Sign in with ChatGPT
+                </a>
+              ) : (
+                <form
+                  onSubmit={async (e) => {
+                    e.preventDefault();
+                    setSaving(true);
+                    setError('');
+                    try {
+                      const r = await fetch('/api/account', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ username }),
+                      });
+                      const d = (await r.json()) as Account;
+                      if (!r.ok) throw Error(d.error);
+                      setAccount(d);
+                      onAccount();
+                      setPanel('');
+                    } catch (e) {
+                      setError((e as Error).message);
+                    } finally {
+                      setSaving(false);
+                    }
+                  }}
+                >
+                  <label htmlFor="username">Public username</label>
+                  <input
+                    id="username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    minLength={3}
+                    maxLength={20}
+                    pattern="[a-zA-Z0-9_]{3,20}"
+                    required
+                    autoComplete="username"
+                  />
+                  <p className="small-print">
+                    3–20 letters, numbers, or underscores.
+                  </p>
+                  <button className="primary-button" disabled={saving}>
+                    {saving
+                      ? 'Saving…'
+                      : needsUsername
+                        ? 'Start playing'
+                        : 'Save username'}
+                  </button>
+                  <a
+                    className="text-button"
+                    target="_top"
+                    href="/signout-with-chatgpt?return_to=/"
+                  >
+                    Sign out
+                  </a>
+                </form>
+              )}
+            </>
+          )}
+          {panel === 'leaderboard' && (
+            <>
+              <div className="standings-switch">
+                <button
+                  className="text-button"
+                  aria-pressed={scope === 'puzzle'}
+                  onClick={() => setScope('puzzle')}
+                >
+                  Puzzle {puzzleId}
+                </button>
+                <button
+                  className="text-button"
+                  aria-pressed={scope === 'overall'}
+                  onClick={() => setScope('overall')}
+                >
+                  Overall
+                </button>
+              </div>
+              {!entries && !error ? (
+                <p role="status">Loading standings…</p>
+              ) : entries?.length === 0 ? (
+                account?.signedIn === false && (
+                  <a
+                    className="text-button"
+                    href={
+                      '/signin-with-chatgpt?return_to=' +
+                      encodeURIComponent(returnTo + '?account=1')
+                    }
+                    target="_top"
+                  >
+                    Sign in to show on the leaderboard
+                  </a>
+                )
+              ) : (
+                entries && (
+                  <div className="standings-table">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Rank</th>
+                          <th>Player</th>
+                          <th>Points</th>
+                          {scope === 'overall' && <th>Sets</th>}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {entries.map((e) => (
+                          <tr key={e.username}>
+                            <td>{e.rank}</td>
+                            <td>
+                              {e.boardId ? (
+                                <a href={'/' + puzzleId + '/' + e.boardId}>
+                                  @{e.username} ↗
+                                </a>
+                              ) : (
+                                '@' + e.username
+                              )}
+                            </td>
+                            <td>{e.score}</td>
+                            {scope === 'overall' && <td>{e.completed}/20</td>}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )
+              )}
+            </>
+          )}
+          {error && (
+            <p role="alert" className="form-error">
+              {error}
+            </p>
+          )}
+        </DialogContent>
+      </Dialog>
+    </>
+  );
+}

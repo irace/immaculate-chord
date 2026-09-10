@@ -8,6 +8,20 @@
       "when": 1788991563685,
       "tag": "0000_abnormal_guardsmen",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1789001889968,
+      "tag": "0001_outgoing_dormammu",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1789002997521,
+      "tag": "0002_sudden_firebrand",
+      "breakpoints": true
     }
   ]
 }
