@@ -34,7 +34,7 @@ for (const [source, name] of Object.entries(files)) {
 await writeFile(
   `${temp}/db.mjs`,
   `import {DatabaseSync} from 'node:sqlite';
-export const sql=new DatabaseSync(':memory:');export const config={key:'test-only',model:'nvidia/nemotron-3-super-120b-a12b:free'};
+export const sql=new DatabaseSync(':memory:');export const config={key:'test-only',model:'nvidia/nemotron-3-ultra-550b-a55b:free'};
 export const getGradingConfig=()=>config;
 export const getDb=()=>({prepare(query){return {bind(...args){return {async all(){return {results:sql.prepare(query).all(...args)};},async first(){return sql.prepare(query).get(...args)||null;},async run(){return sql.prepare(query).run(...args);}}}}}});`,
 );
@@ -222,14 +222,16 @@ await test('invalid cells and cross-origin writes are rejected', async () => {
   foreign.headers.set('Origin', 'https://other.test');
   assert.equal((await create(foreign)).status, 403);
 });
-await test('valid fenced JSON works and routing requires structured-output parameters', async () => {
+await test('Ultra uses prompt JSON and validates fenced output', async () => {
   mode = 'fenced';
   const result = await grade(puzzles[0], 0, 'A song', 'An artist');
   assert.equal(result.score, 81);
-  assert.equal(lastRequest.model, 'nvidia/nemotron-3-super-120b-a12b:free');
+  assert.equal(lastRequest.model, 'nvidia/nemotron-3-ultra-550b-a55b:free');
   assert.equal(lastRequest.provider.require_parameters, true);
   assert.equal(lastRequest.max_tokens, 4096);
-  assert.equal(lastRequest.reasoning.effort, 'low');
+  assert.equal(lastRequest.reasoning.enabled, false);
+  assert.equal(lastRequest.response_format, undefined);
+  assert.ok(lastRequest.messages[0].content.includes('additionalProperties'));
   mode = 'valid';
 });
 await test('rejected guess leaves square open, retry fills it, nine attempts lock an incomplete grid', async () => {

@@ -6,6 +6,21 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog';
+const welcomeKey = 'chord-welcome-choice';
+let welcomeAcknowledged = false;
+function acknowledgeWelcome() {
+  welcomeAcknowledged = true;
+  try {
+    localStorage.setItem(welcomeKey, '1');
+  } catch {}
+}
+function hasSeenWelcome() {
+  try {
+    return welcomeAcknowledged || localStorage.getItem(welcomeKey) === '1';
+  } catch {
+    return welcomeAcknowledged;
+  }
+}
 const themes = [
   ['punk', 'Punk basement', 'Torn flyers. Loud guitars.'],
   ['jazz', 'After-hours jazz', 'Blue notes and brass.'],
@@ -56,6 +71,9 @@ export default function Community({
       })
       .then((a) => {
         setAccount(a);
+        setReturnTo(location.pathname);
+        if (a.signedIn) acknowledgeWelcome();
+        else if (!hasSeenWelcome()) setPanel('welcome');
         if (new URLSearchParams(location.search).has('account'))
           history.replaceState(null, '', location.pathname);
       })
@@ -108,16 +126,21 @@ export default function Community({
           {account?.username ? <>{account.username}</> : 'Account'}
         </button>
       </nav>
-      <Dialog open={!!panel} onOpenChange={(o) => !o && setPanel('')}>
-        <DialogContent>
+      <Dialog
+        open={!!panel}
+        onOpenChange={(o) => !o && panel !== 'welcome' && setPanel('')}
+      >
+        <DialogContent showCloseButton={panel !== 'welcome'}>
           <DialogTitle>
-            {panel === 'themes'
-              ? 'Pick your sound'
-              : panel === 'leaderboard'
-                ? 'Top of the bill'
-                : 'Your account'}
+            {panel === 'welcome'
+              ? 'How do you want to play?'
+              : panel === 'themes'
+                ? 'Pick your sound'
+                : panel === 'leaderboard'
+                  ? 'Top of the bill'
+                  : 'Your account'}
           </DialogTitle>
-          {panel !== 'themes' && (
+          {panel !== 'themes' && panel !== 'welcome' && (
             <DialogDescription>
               {panel === 'leaderboard'
                 ? 'Completed games only. Equal scores share a rank.'
@@ -125,6 +148,50 @@ export default function Community({
                   ? 'Your progress is saved to your account.'
                   : 'Sign in to save your progress and join the leaderboards.'}
             </DialogDescription>
+          )}
+          {panel === 'welcome' && (
+            <>
+              <DialogDescription>
+                Same puzzles and scoring either way.
+              </DialogDescription>
+              <div className="welcome-options">
+                <section>
+                  <h2>With an account</h2>
+                  <p>
+                    Resume on any device and join the leaderboards. Your ChatGPT
+                    display name and finished scores appear publicly.
+                  </p>
+                  <a
+                    className="primary-button"
+                    href={
+                      '/signin-with-chatgpt?return_to=' +
+                      encodeURIComponent(returnTo + '?account=1')
+                    }
+                    target="_top"
+                    onClick={acknowledgeWelcome}
+                  >
+                    Sign in with ChatGPT
+                  </a>
+                </section>
+                <section>
+                  <h2>As a guest</h2>
+                  <p>
+                    Play and share your results without signing in. Progress
+                    stays tied to this browser; clearing its storage loses
+                    access. Guest scores don’t appear on leaderboards.
+                  </p>
+                  <button
+                    className="text-button"
+                    onClick={() => {
+                      acknowledgeWelcome();
+                      setPanel('');
+                    }}
+                  >
+                    Continue as guest
+                  </button>
+                </section>
+              </div>
+            </>
           )}
           {panel === 'themes' && (
             <div className="theme-options">

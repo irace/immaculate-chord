@@ -1262,3 +1262,29 @@ input::placeholder {
   flex-direction: column;
   gap: 20px;
 }
+
+.welcome-options {
+  display: grid;
+  gap: 20px;
+}
+.welcome-options section {
+  display: grid;
+  gap: 12px;
+}
+.welcome-options section + section {
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+.welcome-options h2 {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+}
+.welcome-options p {
+  color: var(--muted-foreground);
+  line-height: 1.6;
+  margin: 0;
+}
+.welcome-options .text-button {
+  justify-content: center;
+}
