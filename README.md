@@ -8,7 +8,7 @@ Use Node 22.13 or newer. Install with `npm ci`, start with `npm run dev`, and bu
 
 ## Grading
 
-Configure `OPENROUTER_API_KEY` as a hosted secret through Sites. `OPENROUTER_MODEL` defaults to `nvidia/nemotron-3-ultra-550b-a55b:free`. The key is only read by server code. Until configured, browsing and session creation work, while submission is disabled. Do not put the key in a public environment variable or source file. Local environment keys are listed in `.env.example`.
+Configure `OPENROUTER_API_KEY` as a hosted secret through Sites. `OPENROUTER_MODEL` defaults to `nvidia/nemotron-3-super-120b-a12b:free`. The key is only read by server code. Until configured, browsing and session creation work, while submission is disabled. Do not put the key in a public environment variable or source file. Local environment keys are listed in `.env.example`.
 
 The judge estimates both prompt fits and obscurity. The server computes `max(1, round(min(rowFit, colFit) * (0.8 + 0.2 * obscurity / 100)))`. These are AI judgments, not verified catalog facts or population rarity percentiles. The judge uses a pinned general-purpose free model with structured-output support. Successful identical input grades are cached. There is a conservative shared daily cap of 45 uncached grading attempts (UTC), and the provider can impose additional limits. Cached grades do not consume that cap. Provider failures and invalid outputs do not commit an answer.
 

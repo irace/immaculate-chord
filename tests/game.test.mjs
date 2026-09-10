@@ -234,6 +234,20 @@ await test('Ultra uses prompt JSON and validates fenced output', async () => {
   assert.ok(lastRequest.messages[0].content.includes('additionalProperties'));
   mode = 'valid';
 });
+await test('Super retains enforced JSON grading', async () => {
+  const previous = config.model;
+  config.model = 'nvidia/nemotron-3-super-120b-a12b:free';
+  try {
+    mode = 'valid';
+    await grade(puzzles[0], 0, 'A song', 'An artist');
+    assert.equal(lastRequest.model, config.model);
+    assert.equal(lastRequest.response_format.type, 'json_schema');
+    assert.equal(lastRequest.response_format.json_schema.strict, true);
+    assert.equal(lastRequest.reasoning.effort, 'low');
+  } finally {
+    config.model = previous;
+  }
+});
 await test('rejected guess leaves square open, retry fills it, nine attempts lock an incomplete grid', async () => {
   const b = await open('03');
   mode = 'wrong';
