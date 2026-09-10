@@ -1,7 +1,6 @@
 import { getDb } from '@/db';
 import { getPuzzle } from '@/lib/puzzles';
 import {
-  identity,
   profile,
   hash,
   json,
@@ -22,8 +21,6 @@ export async function POST(req: Request) {
       return json({ error: 'Invalid session.' }, 400);
     const ownerHash = await hash(body.ownerToken);
     const user = await profile(req);
-    if (identity(req) && !user)
-      return json({ error: 'Choose a username to start playing.' }, 409);
     if (user) {
       // A unique account/puzzle index makes concurrent claims safe.
       await getDb()

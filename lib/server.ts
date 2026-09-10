@@ -76,10 +76,29 @@ export function identity(req: Request) {
 }
 export async function profile(req: Request) {
   const id = identity(req);
-  return id
-    ? getDb()
-        .prepare('SELECT id, username FROM users WHERE id = ?')
-        .bind(id)
-        .first<{ id: string; username: string }>()
-    : null;
+  if (!id) return null;
+  let name = req.headers.get('oai-authenticated-user-full-name') || '';
+  if (
+    req.headers.get('oai-authenticated-user-full-name-encoding') ===
+    'percent-encoded-utf-8'
+  ) {
+    try {
+      name = decodeURIComponent(name);
+    } catch {
+      name = '';
+    }
+  }
+  const username =
+    name
+      .replace(/[\u0000-\u001f\u007f]/g, '')
+      .trim()
+      .slice(0, 100) || 'Listener';
+  // Identity, not display name, distinguishes players with the same name.
+  await getDb()
+    .prepare(
+      'INSERT INTO users (id,username,username_key) VALUES (?,?,?) ON CONFLICT(id) DO UPDATE SET username=excluded.username, username_key=excluded.username_key WHERE users.username != excluded.username OR users.username_key != excluded.username_key',
+    )
+    .bind(id, username, 'chatgpt:' + id)
+    .run();
+  return { id, username };
 }

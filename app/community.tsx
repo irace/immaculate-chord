@@ -25,11 +25,9 @@ type Entry = {
 };
 export default function Community({
   puzzleId,
-  onAccount,
   disabled,
 }: {
   puzzleId: string;
-  onAccount: () => void;
   disabled: boolean;
 }) {
   const [panel, setPanel] = useState(''),
@@ -38,13 +36,10 @@ export default function Community({
     signedIn: boolean;
     username: string | null;
   } | null>(null);
-  const [username, setUsername] = useState(''),
-    [error, setError] = useState(''),
-    [saving, setSaving] = useState(false);
+  const [error, setError] = useState('');
   const [scope, setScope] = useState('puzzle'),
     [entries, setEntries] = useState<Entry[] | null>(null);
   const [returnTo, setReturnTo] = useState('/');
-  const needsUsername = account?.signedIn === true && !account.username;
   useEffect(() => {
     setReturnTo(location.pathname);
     let choice = themes[Math.floor(Math.random() * themes.length)][0];
@@ -61,8 +56,6 @@ export default function Community({
       })
       .then((a) => {
         setAccount(a);
-        setUsername(a.username || '');
-        if (a.signedIn && !a.username) setPanel('account');
         if (new URLSearchParams(location.search).has('account'))
           history.replaceState(null, '', location.pathname);
       })
@@ -112,31 +105,24 @@ export default function Community({
           disabled={disabled}
           onClick={() => open('account')}
         >
-          {account?.username ? '@' + account.username : 'Account'}
+          {account?.username ? <>{account.username}</> : 'Account'}
         </button>
       </nav>
-      <Dialog
-        open={needsUsername || !!panel}
-        onOpenChange={(o) => !o && !needsUsername && !saving && setPanel('')}
-      >
-        <DialogContent showCloseButton={!needsUsername}>
+      <Dialog open={!!panel} onOpenChange={(o) => !o && setPanel('')}>
+        <DialogContent>
           <DialogTitle>
             {panel === 'themes'
               ? 'Pick your sound'
               : panel === 'leaderboard'
                 ? 'Top of the bill'
-                : needsUsername
-                  ? 'Choose your username'
-                  : 'Your account'}
+                : 'Your account'}
           </DialogTitle>
           {panel !== 'themes' && (
             <DialogDescription>
               {panel === 'leaderboard'
                 ? 'Completed games only. Equal scores share a rank.'
                 : account?.signedIn
-                  ? needsUsername
-                    ? 'Pick a public name to start playing.'
-                    : 'Your progress is saved to your account.'
+                  ? 'Your progress is saved to your account.'
                   : 'Sign in to save your progress and join the leaderboards.'}
             </DialogDescription>
           )}
@@ -179,50 +165,10 @@ export default function Community({
                   Sign in with ChatGPT
                 </a>
               ) : (
-                <form
-                  onSubmit={async (e) => {
-                    e.preventDefault();
-                    setSaving(true);
-                    setError('');
-                    try {
-                      const r = await fetch('/api/account', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ username }),
-                      });
-                      const d = (await r.json()) as Account;
-                      if (!r.ok) throw Error(d.error);
-                      setAccount(d);
-                      onAccount();
-                      setPanel('');
-                    } catch (e) {
-                      setError((e as Error).message);
-                    } finally {
-                      setSaving(false);
-                    }
-                  }}
-                >
-                  <label htmlFor="username">Public username</label>
-                  <input
-                    id="username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    minLength={3}
-                    maxLength={20}
-                    pattern="[a-zA-Z0-9_]{3,20}"
-                    required
-                    autoComplete="username"
-                  />
-                  <p className="small-print">
-                    3–20 letters, numbers, or underscores.
-                  </p>
-                  <button className="primary-button" disabled={saving}>
-                    {saving
-                      ? 'Saving…'
-                      : needsUsername
-                        ? 'Start playing'
-                        : 'Save username'}
-                  </button>
+                <div className="account-profile">
+                  <div className="player-name">
+                    <strong>{account.username || 'Listener'}</strong>
+                  </div>
                   <a
                     className="text-button"
                     target="_top"
@@ -230,7 +176,7 @@ export default function Community({
                   >
                     Sign out
                   </a>
-                </form>
+                </div>
               )}
             </>
           )}
@@ -281,15 +227,27 @@ export default function Community({
                       </thead>
                       <tbody>
                         {entries.map((e) => (
-                          <tr key={e.username}>
+                          <tr
+                            key={
+                              e.rank +
+                              ':' +
+                              e.username +
+                              ':' +
+                              e.boardId +
+                              ':' +
+                              entries.indexOf(e)
+                            }
+                          >
                             <td>{e.rank}</td>
                             <td>
                               {e.boardId ? (
                                 <a href={'/' + puzzleId + '/' + e.boardId}>
-                                  @{e.username} ↗
+                                  {e.username} ↗
                                 </a>
                               ) : (
-                                '@' + e.username
+                                <span className="player-name">
+                                  {e.username}
+                                </span>
                               )}
                             </td>
                             <td>{e.score}</td>

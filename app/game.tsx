@@ -234,11 +234,7 @@ export default function Game({
           How to play <ArrowUpRight size={16} />
         </button>
       </header>
-      <Community
-        puzzleId={puzzleId}
-        disabled={busy}
-        onAccount={() => void load(puzzleId)}
-      />
+      <Community puzzleId={puzzleId} disabled={busy} />
       <div className="intro">
         <div>
           <p className="eyebrow">TONIGHT’S SET / PUZZLE {puzzle.id} OF 20</p>

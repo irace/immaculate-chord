@@ -288,42 +288,43 @@ await test('legacy answers retain guess count and false answers reopen without r
 });
 
 await test('accounts require identity, claim owned guests, isolate runs, and rank server scores', async () => {
-  const { POST: save, GET: account } = await import(`${temp}/account.mjs`);
+  const { GET: account } = await import(`${temp}/account.mjs`);
   const { GET: leaders } = await import(`${temp}/leaderboards.mjs`);
   const auth = (body, id = 'alice', token = owner) => {
     const r = req(body, token);
     r.headers.set('oai-authenticated-user-id', id);
     r.headers.set('oai-authenticated-user-email', id + '@test.invalid');
+    r.headers.set(
+      'oai-authenticated-user-full-name',
+      id === 'alice' ? 'Alice' : 'Bob',
+    );
     return r;
   };
-  assert.equal((await save(req({ username: 'Alice' }))).status, 401);
-  assert.equal(
-    (await create(auth({ puzzleId: '18', ownerToken: owner }, 'new_user')))
-      .status,
-    409,
+  assert.deepEqual(await (await account(req())).json(), {
+    signedIn: false,
+    username: null,
+  });
+  const first = await (await account(auth(undefined))).json();
+  assert.equal(first.username, 'Alice');
+  const sameName = auth(undefined, 'bob');
+  sameName.headers.set('oai-authenticated-user-full-name', 'Alice');
+  assert.equal((await (await account(sameName)).json()).username, 'Alice');
+  const encoded = auth(undefined, 'unicode');
+  encoded.headers.set(
+    'oai-authenticated-user-full-name',
+    encodeURIComponent('Zoë García'),
   );
-  const pendingGuest = await (
-    await create(req({ puzzleId: '18', ownerToken: owner }))
+  encoded.headers.set(
+    'oai-authenticated-user-full-name-encoding',
+    'percent-encoded-utf-8',
+  );
+  assert.equal((await (await account(encoded)).json()).username, 'Zoë García');
+  encoded.headers.delete('oai-authenticated-user-full-name');
+  assert.equal((await (await account(encoded)).json()).username, 'Listener');
+  const direct = await (
+    await create(auth({ puzzleId: '18', ownerToken: owner }, 'new_user'))
   ).json();
-  const pendingContext = { params: Promise.resolve({ id: pendingGuest.id }) };
-  assert.equal(
-    (await (await read(auth(undefined, 'new_user'), pendingContext)).json())
-      .editable,
-    false,
-  );
-  assert.equal(
-    (
-      await submit(
-        auth({ cell: 0, title: 'Song', artist: 'Artist' }, 'new_user'),
-        pendingContext,
-      )
-    ).status,
-    403,
-  );
-
-  assert.equal((await save(auth({ username: 'Alice' }))).status, 200);
-  assert.equal((await save(auth({ username: 'alice' }, 'bob'))).status, 409);
-  assert.equal((await save(auth({ username: 'Bob' }, 'bob'))).status, 200);
+  assert.equal(direct.editable, true);
   const guestToken = 'claimable_guest_abcdefghijklmnopqrstuvwxyz123456';
   const guest = await (
     await create(req({ puzzleId: '20', ownerToken: guestToken }, guestToken))
