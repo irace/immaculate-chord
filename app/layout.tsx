@@ -13,6 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  icons: { icon: { url: '/favicon.svg?v=2', type: 'image/svg+xml' } },
   title: 'Immaculate Chord — The music grid',
   description:
     'Nine songs. Twenty puzzles. Match music facts with feelings and find your perfect deep cut.',

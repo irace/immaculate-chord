@@ -12,6 +12,8 @@ const themes = [
   ['disco', 'Disco fever', 'Mirror balls and velvet.'],
   ['synth', 'Midnight synth', 'Neon under a digital sky.'],
   ['folk', 'Folk sleeve', 'Warm paper and worn records.'],
+  ['jam', 'Endless jam', 'Phish meets the Dead. Tie-dye after sundown.'],
+  ['gizzard', 'Gizzverse', 'Acid green. Cosmic fuzz.'],
 ];
 type Account = { signedIn: boolean; username: string | null; error?: string };
 type Entry = {

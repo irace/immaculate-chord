@@ -1137,3 +1137,115 @@ input::placeholder {
   font-size: 40px;
   letter-spacing: 3px;
 }
+
+/* Festival silk-screen and psychedelic garage sleeves. */
+:root[data-theme='jam'] {
+  --background: #172b32;
+  --foreground: #fff3d7;
+  --popover: #203840;
+  --muted: #324952;
+  --muted-foreground: #d0d9ca;
+  --border: #829c94;
+  --primary: #f9cf79;
+  --pink: #ffa6b6;
+  --display-font: Georgia;
+}
+[data-theme='jam'] body {
+  background-image:
+    radial-gradient(ellipse at 10% 12%, #df658330, transparent 45%),
+    radial-gradient(ellipse at 90% 65%, #4bc8ad30, transparent 45%),
+    repeating-radial-gradient(
+      ellipse at 20% 30%,
+      #eed7780d 0 12px,
+      #d3639e10 14px 28px,
+      #63aeda0d 30px 44px,
+      transparent 46px 65px
+    );
+  background-size: auto;
+}
+[data-theme='jam'] .wordmark {
+  font-weight: 900;
+  font-style: italic;
+  text-shadow:
+    2px 2px #172b32,
+    4px 4px #c45a73;
+}
+[data-theme='jam'] .wordmark span:last-child {
+  font-size: 44px;
+  letter-spacing: 1px;
+}
+[data-theme='jam'] .cell-shell {
+  border-radius: 18px 6px 20px 8px;
+  overflow: hidden;
+}
+[data-theme='jam'] .score-panel {
+  border-radius: 44px 10px 38px 12px;
+  background: linear-gradient(145deg, #ffde91, #f5ba82 60%, #f1a5ad);
+  box-shadow:
+    5px 5px 0 #101f26,
+    9px 9px 0 #79b9a1;
+  transform: rotate(-1deg);
+}
+[data-theme='jam'] .outline-button {
+  border-radius: 24px 8px;
+  transform: rotate(-1deg);
+}
+[data-theme='jam'] .masthead {
+  border-bottom-color: var(--primary);
+}
+:root[data-theme='gizzard'] {
+  --background: #181e0f;
+  --foreground: #f5f3d0;
+  --popover: #242d18;
+  --muted: #344024;
+  --muted-foreground: #c8d1ac;
+  --border: #84975b;
+  --primary: #d2ff58;
+  --pink: #ffad68;
+  --display-font: Impact;
+}
+[data-theme='gizzard'] body {
+  background-image:
+    radial-gradient(ellipse at 85% 0%, #e264192b, transparent 55%),
+    repeating-radial-gradient(
+      ellipse at 70% 20%,
+      transparent 0 22px,
+      #b8e34e12 23px 25px,
+      transparent 26px 44px
+    );
+  background-size: auto;
+}
+[data-theme='gizzard'] .wordmark {
+  transform: rotate(-3deg) skew(-5deg);
+  text-shadow:
+    3px 3px #181e0f,
+    5px 5px #bf572c;
+}
+[data-theme='gizzard'] .wordmark span:last-child {
+  letter-spacing: 6px;
+}
+[data-theme='gizzard'] .cell-shell {
+  border-color: #879d55;
+  box-shadow:
+    3px 3px 0 #0b1006,
+    5px 5px 0 #586c32;
+}
+[data-theme='gizzard'] .score-panel {
+  background: linear-gradient(155deg, #deff64, #accd41);
+  border-radius: 2px 30px 2px 2px;
+  box-shadow:
+    7px 7px 0 #101509,
+    10px 10px 0 #cb692f;
+  transform: rotate(2deg);
+}
+[data-theme='gizzard'] .outline-button {
+  box-shadow: 4px 4px 0 #647d32;
+}
+[data-theme='gizzard'] .masthead {
+  border-bottom: 3px double var(--primary);
+}
+.theme-options {
+  max-height: 60dvh;
+  overflow-y: auto;
+  padding: 2px 6px 6px 2px;
+}
