@@ -27,7 +27,7 @@ export async function grade(
         Authorization: `Bearer ${key}`,
         'Content-Type': 'application/json',
       },
-      signal: AbortSignal.timeout(55000),
+      signal: AbortSignal.timeout(isUltra ? 120000 : 55000),
       body: JSON.stringify({
         model,
         temperature: 0,

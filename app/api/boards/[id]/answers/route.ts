@@ -69,7 +69,7 @@ export async function POST(
       .prepare(
         'UPDATE boards SET lease = ?, lease_until = ? WHERE id = ? AND locked = 0 AND lease_until < ? AND answers = ? AND attempts IS ? RETURNING id',
       )
-      .bind(lease, Date.now() + 70000, id, Date.now(), b.answers, b.attempts)
+      .bind(lease, Date.now() + 140000, id, Date.now(), b.answers, b.attempts)
       .first();
     if (!acquired)
       return json(
