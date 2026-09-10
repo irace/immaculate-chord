@@ -91,6 +91,7 @@ export default function Game({
     [title, setTitle] = useState(''),
     [artist, setArtist] = useState(''),
     [busy, setBusy] = useState(false),
+    [regrading, setRegrading] = useState(false),
     [loading, setLoading] = useState(true),
     [error, setError] = useState(''),
     [copied, setCopied] = useState(false),
@@ -208,6 +209,29 @@ export default function Game({
     setArtist('');
     setError('');
   }
+  async function regrade() {
+    if (!board?.isOwner || !lastRejected || busyRef.current) return;
+    busyRef.current = true;
+    setBusy(true);
+    setRegrading(true);
+    setError('');
+    try {
+      const data = await request(
+        `/api/boards/${board.id}/regrade`,
+        token.current,
+        {
+          attemptIndex: attempts.indexOf(lastRejected),
+        },
+      );
+      setBoard(data);
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      busyRef.current = false;
+      setBusy(false);
+      setRegrading(false);
+    }
+  }
   async function share() {
     if (!board) return;
     const url = `${window.location.origin}/${puzzleId}/${board.id}`;
@@ -284,17 +308,20 @@ export default function Game({
                 </div>
                 {puzzle.cols.map((c, ci) => {
                   const index = ri * 3 + ci,
-                    a = answers.find((x) => x.cell === index);
+                    a = answers.find((x) => x.cell === index),
+                    rejected = [...attempts]
+                      .reverse()
+                      .find((x) => x.cell === index && !x.accepted);
                   return (
                     <div
                       key={c.label}
                       className={`cell-shell ${a ? 'has-song' : ''}`}
                     >
                       <button
-                        className={`cell ${a ? 'filled' : ''}`}
+                        className={`cell ${a ? 'filled' : rejected ? 'rejected-cell' : ''}`}
                         disabled={loading || !board || busy}
                         onClick={() => openCell(index)}
-                        aria-label={`${r.label} and ${c.label}${a ? `: ${a.title} by ${a.artist}, ${a.score} percent` : ': empty square'}`}
+                        aria-label={`${r.label} and ${c.label}${a ? `: ${a.title} by ${a.artist}, ${a.score} percent` : rejected ? `: rejected guess ${rejected.title} by ${rejected.artist}` : ': empty square'}`}
                       >
                         {a ? (
                           <>
@@ -305,6 +332,17 @@ export default function Game({
                             <strong>{a.title}</strong>
                             <span className="cell-artist">{a.artist}</span>
                             <Lock className="cell-lock" size={12} />
+                          </>
+                        ) : rejected ? (
+                          <>
+                            <span className="rejected-label">Not a match</span>
+                            <strong>{rejected.title}</strong>
+                            <span className="cell-artist">
+                              {rejected.artist}
+                            </span>
+                            <span className="retry-label">
+                              {readonly ? 'View guess' : 'Try another song'}
+                            </span>
                           </>
                         ) : (
                           <>
@@ -455,7 +493,33 @@ export default function Game({
                 {lastRejected.title} — {lastRejected.artist}
               </p>
               <p>{lastRejected.explanation}</p>
+              {board?.isOwner &&
+                (lastRejected.regraded ? (
+                  <p className="small-print">
+                    Re-graded · still not a match. No extra guess used.
+                  </p>
+                ) : (
+                  <div className="regrade-action">
+                    <p>
+                      Think the judge got this wrong? Re-evaluate this same
+                      guess once, without using another guess.
+                    </p>
+                    <button
+                      type="button"
+                      className="text-button"
+                      disabled={busy || !board.gradingReady}
+                      onClick={() => void regrade()}
+                    >
+                      {regrading ? 'Re-evaluating…' : 'Re-grade'}
+                    </button>
+                  </div>
+                ))}
             </div>
+          )}
+          {error && readonly && (
+            <p className="form-error" role="alert">
+              {error}
+            </p>
           )}
           {selected ? (
             <div className="grade-detail">
@@ -619,9 +683,10 @@ export default function Game({
               grading-service failures don’t use a guess.
             </li>
             <li>
-              <b>Finish your set.</b> After nine guesses, your score locks.
-              Empty squares contribute zero. Share the read-only result and
-              compare notes.
+              <b>Finish your set.</b> After nine guesses, new submissions close.
+              Empty squares contribute zero. You can re-grade the latest
+              rejected guess in an empty square once, without using another
+              guess—even after finishing. Share your result and compare notes.
             </li>
           </ol>
           <p className="how-scoring">

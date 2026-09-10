@@ -37,3 +37,6 @@ Five visual themes (punk, jazz, disco, synthwave, folk) are independent of puzzl
 Hosting must use Sites dispatch to authenticate the user headers. Do not expose the Worker directly through another host while trusting those headers. Make the Site public when ready to allow guests; private Sites still impose their hosting access gate. Database migrations ship with the build. No deployment is needed for local testing.
 
 Signing in starts account play immediately, without username setup. Signed-in requests cannot submit to guest runs. Owned guest progress automatically moves into the account flow when opened; other players’ shared links stay read-only.
+
+## Re-grading
+Owners may request one fresh evaluation of the latest rejected attempt in an unfilled square, including on completed boards. It bypasses the grade cache, replaces that attempt, and preserves the guess count and board lock. Accepted corrections update saved answers and leaderboard totals. Errors leave the original attempt and re-grade eligibility unchanged. Re-grading uses the shared daily provider allowance and the same per-board submission lease.

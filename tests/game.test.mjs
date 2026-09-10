@@ -8,6 +8,7 @@ const temp = await mkdtemp(path.join(tmpdir(), 'chord-tests-'));
 const files = {
   'app/api/account/route.ts': 'account',
   'app/api/leaderboards/route.ts': 'leaderboards',
+  'app/api/boards/[id]/regrade/route.ts': 'regrade',
   'lib/game.ts': 'game',
   'lib/puzzles.ts': 'puzzles',
   'lib/server.ts': 'server',
@@ -425,6 +426,82 @@ await test('accounts require identity, claim owned guests, isolate runs, and ran
   assert.equal(overall.entries.find((e) => e.username === 'Alice').score, 90);
   const me = await (await account(auth(undefined))).json();
   assert.deepEqual(me, { signedIn: true, username: 'Alice' });
+});
+
+await test('re-grade refreshes the same guess once, preserves attempts and protects completed boards', async () => {
+  const { POST: regrade } = await import(`${temp}/regrade.mjs`);
+  sql.exec('DELETE FROM quotas');
+  const b = await open('15');
+  mode = 'wrong';
+  let state = await (await post(b.id, 0, 'Regrade fixture')).json();
+  const original = state.attempts[0];
+  const context = { params: Promise.resolve({ id: b.id }) };
+  const retry = (index = 0, token = owner) =>
+    regrade(req({ attemptIndex: index }, token), context);
+  assert.equal((await retry(0, 'unrelated')).status, 403);
+  assert.equal((await retry(99)).status, 400);
+  const cross = req({ attemptIndex: 0 });
+  cross.headers.set('Origin', 'https://elsewhere.test');
+  assert.equal((await regrade(cross, context)).status, 403);
+  mode = 'malformed';
+  assert.equal((await retry()).status, 503);
+  state = await (await read(req(), context)).json();
+  assert.deepEqual(state.attempts[0], original);
+  mode = 'wait';
+  const inFlight = retry();
+  while (!release) await new Promise((r) => setTimeout(r, 1));
+  assert.equal((await retry()).status, 409);
+  assert.equal((await post(b.id, 1, 'Concurrent input')).status, 409);
+  release();
+  release = undefined;
+  assert.equal((await inFlight).status, 200);
+  state = await (await read(req(), context)).json();
+  assert.equal(state.guessesUsed, 1);
+  assert.equal(state.answers.length, 1);
+  assert.equal(state.attempts[0].regraded, true);
+  assert.equal(
+    JSON.parse(lastRequest.messages[1].content).song.title,
+    original.title,
+  );
+  assert.equal((await retry()).status, 409);
+  // A finished board may correct its latest rejection, without gaining guesses.
+  const finalBoard = await open('14');
+  const misses = Array.from({ length: 9 }, (_, i) => ({
+    ...original,
+    cell: i,
+    accepted: false,
+  }));
+  sql
+    .prepare('UPDATE boards SET answers=?,attempts=?,locked=1 WHERE id=?')
+    .run('[]', JSON.stringify(misses), finalBoard.id);
+  mode = 'valid';
+  const corrected = await regrade(req({ attemptIndex: 8 }), {
+    params: Promise.resolve({ id: finalBoard.id }),
+  });
+  assert.equal(corrected.status, 200);
+  state = await corrected.json();
+  assert.equal(state.locked, true);
+  assert.equal(state.guessesLeft, 0);
+  assert.equal(state.guessesUsed, 9);
+  assert.equal(state.answers.length, 1);
+  mode = 'wrong';
+  const stillWrong = await regrade(req({ attemptIndex: 7 }), {
+    params: Promise.resolve({ id: finalBoard.id }),
+  });
+  assert.equal(stillWrong.status, 200);
+  state = await stillWrong.json();
+  assert.equal(state.attempts[7].accepted, false);
+  assert.equal(state.attempts[7].regraded, true);
+  assert.equal(state.guessesUsed, 9);
+  assert.equal(
+    (
+      await regrade(req({ attemptIndex: 7 }), {
+        params: Promise.resolve({ id: finalBoard.id }),
+      })
+    ).status,
+    409,
+  );
+  mode = 'valid';
 });
 
 sql.close();

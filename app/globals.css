@@ -1288,3 +1288,28 @@ input::placeholder {
 .welcome-options .text-button {
   justify-content: center;
 }
+
+.rejected-cell {
+  align-items: flex-start;
+  text-align: left;
+  gap: 10px;
+}
+.rejected-label {
+  font: 12px monospace;
+  color: var(--pink);
+  text-transform: uppercase;
+}
+.retry-label {
+  font-size: 12px;
+  color: var(--muted-foreground);
+  margin-top: auto;
+}
+.regrade-action {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+.regrade-action p {
+  font-size: 13px;
+  margin-bottom: 10px;
+}

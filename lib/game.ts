@@ -10,7 +10,7 @@ export type Answer = {
   explanation: string;
   model: string;
 };
-export type Attempt = Answer & { accepted: boolean };
+export type Attempt = Answer & { accepted: boolean; regraded?: boolean };
 export const acceptsAnswer = (answer: Answer) =>
   answer.rowFit > 0 && answer.colFit > 0;
 export type Board = {
