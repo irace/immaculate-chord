@@ -9,7 +9,7 @@ const description =
   'Nine songs. Make them count. Match music facts with feelings and find your perfect deep cut.';
 const images = [
   {
-    url: 'https://chord.irace.dev/api/share/home',
+    url: 'https://chord.irace.dev/api/share/home?v=2',
     width: 1200,
     height: 630,
     alt: 'Immaculate Chord. Nine songs. Make them count.',

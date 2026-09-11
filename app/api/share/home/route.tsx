@@ -13,22 +13,18 @@ export async function GET() {
         fontFamily: 'sans-serif',
       }}
     >
-      <div style={{ display: 'flex', flexDirection: 'column', width: 690 }}>
-        <div
-          style={{
-            display: 'flex',
-            color: '#fa83d0',
-            fontSize: 22,
-            letterSpacing: 5,
-          }}
-        >
-          THE MUSIC GRID
-        </div>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          width: 690,
+        }}
+      >
         <div
           style={{
             display: 'flex',
             fontSize: 78,
-            marginTop: 42,
             lineHeight: 1,
           }}
         >
@@ -46,16 +42,6 @@ export async function GET() {
         </div>
         <div style={{ display: 'flex', fontSize: 30, marginTop: 36 }}>
           Nine songs. Make them count.
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            fontSize: 20,
-            marginTop: 'auto',
-            color: '#b8a8b9',
-          }}
-        >
-          chord.irace.dev
         </div>
       </div>
       <div
@@ -85,16 +71,6 @@ export async function GET() {
               {i === 4 ? '♪' : '+'}
             </div>
           ))}
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            fontSize: 23,
-            marginTop: 28,
-            color: '#fa83d0',
-          }}
-        >
-          FACTS × FEELINGS
         </div>
       </div>
     </div>,
