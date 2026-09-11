@@ -591,5 +591,56 @@ await test('local clear resets owned finished boards and rejects production, for
   }
 });
 
+await test('completed set list follows the viewer account or guest credential', async () => {
+  const { GET: list } = await import(`${temp}/create.mjs`);
+  const guestToken = 'completion_guest_abcdefghijklmnopqrstuvwxyz0123456789';
+  const guest = await (
+    await create(req({ puzzleId: '02', ownerToken: guestToken }, guestToken))
+  ).json();
+  assert.deepEqual(
+    (await (await list(req(undefined, guestToken))).json()).completedPuzzleIds,
+    [],
+  );
+  sql.prepare('UPDATE boards SET locked=1 WHERE id=?').run(guest.id);
+  assert.deepEqual(
+    (await (await list(req(undefined, guestToken))).json()).completedPuzzleIds,
+    ['02'],
+  );
+  assert.deepEqual(
+    (
+      await (
+        await list(
+          req(undefined, 'other_guest_abcdefghijklmnopqrstuvwxyz0123456789'),
+        )
+      ).json()
+    ).completedPuzzleIds,
+    [],
+  );
+  const accountReq = req(
+    { puzzleId: '03', ownerToken: guestToken },
+    guestToken,
+  );
+  accountReq.headers.set('oai-authenticated-user-id', 'completion-user');
+  accountReq.headers.set(
+    'oai-authenticated-user-email',
+    'completion@example.test',
+  );
+  const accountBoard = await (await create(accountReq)).json();
+  sql.prepare('UPDATE boards SET locked=1 WHERE id=?').run(accountBoard.id);
+  // The same browser credential must not mix guest results into account results.
+  assert.deepEqual((await (await list(accountReq)).json()).completedPuzzleIds, [
+    '03',
+  ]);
+  assert.deepEqual(
+    (await (await list(req(undefined, guestToken))).json()).completedPuzzleIds,
+    ['02'],
+  );
+  sql.prepare('UPDATE boards SET locked=0 WHERE id=?').run(accountBoard.id);
+  assert.deepEqual(
+    (await (await list(accountReq)).json()).completedPuzzleIds,
+    [],
+  );
+});
+
 sql.close();
 await rm(temp, { recursive: true, force: true });

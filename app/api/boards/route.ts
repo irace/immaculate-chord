@@ -2,6 +2,9 @@ import { getDb } from '@/db';
 import { getPuzzle } from '@/lib/puzzles';
 import {
   profile,
+  identity,
+  boardAttempts,
+  type BoardRow,
   hash,
   json,
   publicBoard,
@@ -77,5 +80,29 @@ export async function POST(req: Request) {
       { error: 'Could not open your session. Please try again.' },
       503,
     );
+  }
+}
+
+export async function GET(req: Request) {
+  const accountId = identity(req);
+  const token = req.headers.get('Authorization')?.replace(/^Bearer /, '');
+  if (!accountId && (!token || !/^[-\w]{40,100}$/.test(token)))
+    return json({ completedPuzzleIds: [] });
+  try {
+    const result = await getDb()
+      .prepare(
+        accountId
+          ? 'SELECT * FROM boards WHERE account_id = ?'
+          : 'SELECT * FROM boards WHERE owner_hash = ? AND account_id IS NULL',
+      )
+      .bind(accountId || (await hash(token!)))
+      .all<BoardRow>();
+    return json({
+      completedPuzzleIds: result.results
+        .filter((b) => !!b.locked || boardAttempts(b).length >= 9)
+        .map((b) => b.puzzle_id),
+    });
+  } catch {
+    return json({ error: 'Could not load completed sets.' }, 503);
   }
 }

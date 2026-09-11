@@ -516,6 +516,7 @@ a {
   color: #171417;
 }
 .cell-shell .listen-links {
+  background: var(--popover);
   padding: 5px;
   margin: 0;
   border-top: 1px dashed #847088;
@@ -1295,4 +1296,55 @@ input::placeholder {
     12px var(--font-geist-mono),
     monospace;
   text-align: center;
+}
+
+.session-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.score-number.final-score {
+  font-size: 64px;
+}
+.score-number.final-score span {
+  font-size: 18px;
+  margin-left: 6px;
+}
+.local-reset {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 12px auto 0;
+  padding: 6px 10px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--muted-foreground);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+.local-reset:hover:not(:disabled) {
+  color: var(--foreground);
+  border-color: var(--border);
+  background: var(--muted);
+}
+.local-reset:focus-visible {
+  outline: 2px solid var(--pink);
+  outline-offset: 3px;
+}
+.local-reset:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+
+.set-complete {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 6px;
+  color: var(--pink);
+  font-size: 12px;
+  font-weight: 600;
 }

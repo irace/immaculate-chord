@@ -11,6 +11,7 @@ import {
   Copy,
   LoaderCircle,
   Music2,
+  RotateCcw,
 } from 'lucide-react';
 import {
   Dialog,
@@ -88,6 +89,8 @@ export default function Game({
     [cell, setCell] = useState<number | null>(null),
     [collection, setCollection] = useState(false),
     [help, setHelp] = useState(false),
+    [completedSets, setCompletedSets] = useState<string[]>([]),
+    [setsStatus, setSetsStatus] = useState(''),
     [title, setTitle] = useState(''),
     [artist, setArtist] = useState(''),
     [busy, setBusy] = useState(false),
@@ -100,6 +103,35 @@ export default function Game({
   const token = useRef(''),
     busyRef = useRef(false),
     generation = useRef(0);
+  useEffect(() => {
+    if (!collection) return;
+    let cancelled = false;
+    setCompletedSets([]);
+    setSetsStatus('Loading completion status…');
+    fetch('/api/boards', {
+      headers: token.current
+        ? { Authorization: `Bearer ${token.current}` }
+        : {},
+    })
+      .then(async (response) => {
+        if (!response.ok) throw new Error();
+        return response.json() as Promise<{ completedPuzzleIds: string[] }>;
+      })
+      .then((data) => {
+        if (cancelled) return;
+        setCompletedSets(data.completedPuzzleIds);
+        setSetsStatus('');
+      })
+      .catch(() => {
+        if (!cancelled)
+          setSetsStatus(
+            'Could not load completion status. Reopen the list to retry.',
+          );
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [collection]);
   const puzzle = getPuzzle(puzzleId)!;
   const answers = board?.answers || [];
   const selected = answers.find((a) => a.cell === cell);
@@ -399,20 +431,37 @@ export default function Game({
         </section>
         <div className="session-sidebar">
           <aside className="score-panel">
-            {!complete && (
-              <p className="eyebrow">
-                {readonly ? 'SHARED SESSION' : 'YOUR SESSION'}
-              </p>
-            )}
-            <div className="score-number">
-              {guessesLeft}
-              <span>/ 9</span>
+            <p className="eyebrow session-status">
+              {complete ? (
+                <>
+                  <Check size={16} aria-hidden="true" /> Finished
+                </>
+              ) : readonly ? (
+                'SHARED SESSION'
+              ) : (
+                'YOUR SESSION'
+              )}
+            </p>
+            <div
+              className={`score-number${complete ? ' final-score' : ''}`}
+              aria-label={
+                complete
+                  ? `Final score: ${total} out of 900`
+                  : `${guessesLeft} guesses remaining out of 9`
+              }
+            >
+              {complete ? total : guessesLeft}
+              <span>/ {complete ? 900 : 9}</span>
             </div>
-            {guessesLeft > 0 && (
-              <p>
-                {guessesLeft} {guessesLeft === 1 ? 'guess' : 'guesses'} left ·{' '}
-                {9 - guessesLeft} used
-              </p>
+            {complete ? (
+              <p>Final score</p>
+            ) : (
+              guessesLeft > 0 && (
+                <p>
+                  {guessesLeft} {guessesLeft === 1 ? 'guess' : 'guesses'} left ·{' '}
+                  {9 - guessesLeft} used
+                </p>
+              )
             )}
             <p className="small-print">{answers.length}/9 squares filled</p>
             <div className="ticks" aria-hidden="true">
@@ -429,7 +478,7 @@ export default function Game({
                 />
               ))}
             </div>
-            {attempts.length > 0 && (
+            {!complete && attempts.length > 0 && (
               <div className="total">
                 <span>Total score</span>
                 <strong>
@@ -474,11 +523,11 @@ export default function Game({
           </p>
           {board?.canClearBoard && (
             <button
-              className="button secondary"
+              className="local-reset"
               disabled={busy || loading}
               onClick={clearBoard}
             >
-              Clear board
+              <RotateCcw size={13} aria-hidden="true" /> Clear board
             </button>
           )}
         </div>
@@ -678,6 +727,11 @@ export default function Game({
             Twenty ways to connect the dots. Pick a grid; your progress saves as
             you play.
           </DialogDescription>
+          {setsStatus && (
+            <p className="small-print" role="status">
+              {setsStatus}
+            </p>
+          )}
           <div className="puzzle-list">
             {puzzles.map((p) => (
               <button
@@ -692,6 +746,11 @@ export default function Game({
                 <span>
                   <strong>{p.title}</strong>
                   <small>{p.subtitle}</small>
+                  {completedSets.includes(p.id) && (
+                    <span className="set-complete">
+                      <Check size={13} aria-hidden="true" /> Completed
+                    </span>
+                  )}
                 </span>
                 <ArrowUpRight size={17} />
               </button>
