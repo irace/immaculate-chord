@@ -19,7 +19,7 @@ export async function GET(req: Request) {
         AND (b.locked=1 OR json_array_length(COALESCE(b.attempts,b.answers))>=9)
         ${puzzle ? 'AND b.puzzle_id = ?' : ''}
     ), totals AS (
-      SELECT u.username, SUM(f.score) AS score, COUNT(*) AS completed,
+      SELECT u.username, u.public_id AS profileId, SUM(f.score) AS score, COUNT(*) AS completed,
         ${puzzle ? 'MAX(f.id)' : 'NULL'} AS boardId
       FROM finished f JOIN users u ON u.id=f.account_id GROUP BY u.id
     )

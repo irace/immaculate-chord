@@ -6,6 +6,7 @@ import path from 'node:path';
 import ts from 'typescript';
 const temp = await mkdtemp(path.join(tmpdir(), 'chord-tests-'));
 const files = {
+  'lib/players.ts': 'players',
   'app/api/puzzles/[id]/community/route.ts': 'comparisons',
   'app/api/boards/[id]/clear/route.ts': 'clear',
   'app/api/account/route.ts': 'account',
@@ -45,6 +46,7 @@ const { sql, config } = await import(`${temp}/db.mjs`);
 sql.exec(await readFile('drizzle/0000_abnormal_guardsmen.sql', 'utf8'));
 sql.exec(await readFile('drizzle/0001_outgoing_dormammu.sql', 'utf8'));
 sql.exec(await readFile('drizzle/0002_sudden_firebrand.sql', 'utf8'));
+sql.exec(await readFile('drizzle/0003_breezy_rick_jones.sql', 'utf8'));
 const { POST: create } = await import(`${temp}/create.mjs`),
   { GET: read } = await import(`${temp}/read.mjs`),
   { POST: submit } = await import(`${temp}/submit.mjs`);
@@ -418,6 +420,9 @@ await test('accounts require identity, claim owned guests, isolate runs, and ran
   assert.deepEqual(ranked.entries, [
     {
       username: 'Alice',
+      profileId: sql
+        .prepare('SELECT public_id FROM users WHERE username=?')
+        .get('Alice').public_id,
       score: 80,
       completed: 1,
       boardId: claimed.id,
@@ -718,6 +723,60 @@ await test('community lists paginate finished boards, scope picks, and omit priv
   assert.equal((await call('cell=9')).status, 400);
   assert.equal((await call('after=bad')).status, 400);
   assert.equal((await call('', 'missing')).status, 404);
+});
+
+await test('public profiles have stable IDs, scoped finished grids and no private fields', async () => {
+  const { getPlayerProfile } = await import(`${temp}/players.mjs`);
+  const { profile, publicBoard, readBoard } = await import(
+    `${temp}/server.mjs`
+  );
+  const r = req();
+  r.headers.set('oai-authenticated-user-id', 'profile-test');
+  r.headers.set('oai-authenticated-user-email', 'PRIVATE@example.test');
+  r.headers.set('oai-authenticated-user-full-name', 'Profile Person');
+  await profile(r);
+  const publicId = sql
+    .prepare('SELECT public_id FROM users WHERE id=?')
+    .get('profile-test').public_id;
+  assert.match(publicId, /^[a-f0-9]{32}$/);
+  await profile(r);
+  assert.equal(
+    sql.prepare('SELECT public_id FROM users WHERE id=?').get('profile-test')
+      .public_id,
+    publicId,
+  );
+  for (let i = 0; i < 2; i++)
+    sql
+      .prepare(
+        'INSERT INTO boards (id,puzzle_id,account_id,owner_hash,locked,created_at) VALUES (?,?,?,?,?,?)',
+      )
+      .run(
+        String(800 + i).padStart(32, '0'),
+        String(i + 1).padStart(2, '0'),
+        'profile-test',
+        'SECRET',
+        i,
+        0,
+      );
+  const p = await getPlayerProfile(publicId);
+  assert.equal(p.username, 'Profile Person');
+  assert.equal(p.boards.length, 1);
+  assert.equal(p.boards[0].puzzleId, '02');
+  assert.ok(!JSON.stringify(p).includes('SECRET'));
+  assert.ok(!JSON.stringify(p).includes('PRIVATE'));
+  const b = await publicBoard(
+    req(),
+    await readBoard(String(801).padStart(32, '0')),
+  );
+  assert.deepEqual(
+    { ...b.player },
+    {
+      username: 'Profile Person',
+      profileId: publicId,
+    },
+  );
+  assert.equal(await getPlayerProfile('invalid'), null);
+  assert.equal(await getPlayerProfile('a'.repeat(32)), null);
 });
 
 sql.close();

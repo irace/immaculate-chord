@@ -37,6 +37,7 @@ type Entry = {
   score: number;
   completed: number;
   boardId: string | null;
+  profileId?: string | null;
 };
 export default function Community({
   puzzleId,
@@ -295,7 +296,11 @@ export default function Community({
                           >
                             <td>{e.rank}</td>
                             <td>
-                              {e.boardId ? (
+                              {e.profileId ? (
+                                <a href={`/players/${e.profileId}`}>
+                                  {e.username} ↗
+                                </a>
+                              ) : e.boardId ? (
                                 <a href={'/' + puzzleId + '/' + e.boardId}>
                                   {e.username} ↗
                                 </a>

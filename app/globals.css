@@ -1449,3 +1449,99 @@ input::placeholder {
   overflow-wrap: anywhere;
   padding-top: 5px;
 }
+
+.other-players h3 {
+  font:
+    700 13px var(--font-geist-mono),
+    monospace;
+  text-transform: uppercase;
+  letter-spacing: 1.3px;
+  color: var(--pink);
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--pink);
+}
+.score-panel .board-player {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.25;
+  margin-bottom: 16px;
+  overflow-wrap: anywhere;
+}
+.board-player a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.other-board-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.profile-home {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--primary);
+  font-size: 24px;
+  font-weight: 700;
+  text-decoration: none;
+}
+.profile-heading {
+  padding: 44px 0 32px;
+}
+.profile-heading h1 {
+  font-size: clamp(32px, 6vw, 64px);
+  overflow-wrap: anywhere;
+  line-height: 1.1;
+  margin: 12px 0;
+}
+.profile-heading > p:last-child {
+  color: var(--muted-foreground);
+}
+.profile-page h2 {
+  font-size: 22px;
+  margin-bottom: 18px;
+}
+.profile-boards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+  gap: 18px;
+}
+.profile-board {
+  display: flex;
+  flex-direction: column;
+  background: var(--popover);
+  border: 1px solid var(--border);
+  padding: 22px;
+  text-decoration: none;
+  color: var(--foreground);
+  box-shadow: 4px 4px #080808;
+}
+.profile-board:hover {
+  border-color: var(--pink);
+}
+.profile-board h3 {
+  font-size: 22px;
+  margin: 8px 0 18px;
+}
+.profile-board-score {
+  color: var(--primary);
+  font-size: 44px;
+  margin-top: auto;
+}
+.profile-board-score small {
+  font: 16px monospace;
+  color: var(--muted-foreground);
+}
+.profile-board-footer,
+.profile-board-footer span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.profile-board-footer {
+  justify-content: space-between;
+  margin-top: 18px;
+  color: var(--muted-foreground);
+  font-size: 13px;
+}

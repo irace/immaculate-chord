@@ -14,6 +14,7 @@ export type Attempt = Answer & { accepted: boolean; regraded?: boolean };
 export const acceptsAnswer = (answer: Answer) =>
   answer.rowFit > 0 && answer.colFit > 0;
 export type Board = {
+  player?: { username: string; profileId: string | null };
   canClearBoard?: boolean;
   resumeWithAccount?: boolean;
   id: string;

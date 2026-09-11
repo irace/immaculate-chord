@@ -35,4 +35,5 @@ export const users = sqliteTable('users', {
   id: text('id').primaryKey(),
   username: text('username').notNull(),
   usernameKey: text('username_key').notNull().unique(),
+  publicId: text('public_id').unique(),
 });

@@ -11,6 +11,7 @@ import {
 type Entry = {
   boardId: string;
   username: string;
+  profileId?: string | null;
   score: number;
   filled: number;
   pick?: { title: string; artist: string; score: number; explanation: string };
@@ -82,12 +83,14 @@ export default function OtherPlayers({
       <section
         className="other-players"
         aria-label={
-          cell === undefined ? 'Other finished boards' : 'Other players’ picks'
+          cell === undefined
+            ? 'More takes on this grid'
+            : 'Other players’ picks'
         }
       >
         <h3>
           {cell === undefined
-            ? 'Other finished boards'
+            ? 'More takes on this grid'
             : 'Other players’ picks'}
         </h3>
         {entries.map((entry) => (
@@ -99,7 +102,11 @@ export default function OtherPlayers({
               <>
                 <a
                   className="player-name"
-                  href={`/${puzzleId}/${entry.boardId}`}
+                  href={
+                    entry.profileId
+                      ? `/players/${entry.profileId}`
+                      : `/${puzzleId}/${entry.boardId}`
+                  }
                 >
                   {entry.username}
                 </a>
@@ -161,17 +168,27 @@ export default function OtherPlayers({
                 </div>
               </>
             ) : (
-              <a className="other-board" href={`/${puzzleId}/${entry.boardId}`}>
+              <div className="other-board">
                 <span>
-                  {entry.username}
+                  {entry.profileId ? (
+                    <a href={`/players/${entry.profileId}`}>{entry.username}</a>
+                  ) : (
+                    entry.username
+                  )}
                   <small>{entry.filled}/9 squares filled</small>
                 </span>
-                <strong>
-                  {entry.score}
-                  <small> / 900</small>
-                </strong>
-                <ArrowUpRight size={16} aria-hidden="true" />
-              </a>
+                <a
+                  className="other-board-link"
+                  href={`/${puzzleId}/${entry.boardId}`}
+                  aria-label={`View ${entry.username}’s board, ${entry.score} points`}
+                >
+                  <strong>
+                    {entry.score}
+                    <small> / 900</small>
+                  </strong>
+                  <ArrowUpRight size={16} aria-hidden="true" />
+                </a>
+              </div>
             )}
           </div>
         ))}

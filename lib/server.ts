@@ -50,10 +50,19 @@ export function boardAttempts(b: BoardRow): Attempt[] {
   }));
 }
 export async function publicBoard(req: Request, b: BoardRow) {
+  const player = b.account_id
+    ? await getDb()
+        .prepare(
+          'SELECT username, public_id AS profileId FROM users WHERE id = ?',
+        )
+        .bind(b.account_id)
+        .first<{ username: string; profileId: string | null }>()
+    : null;
   const attempts = boardAttempts(b);
   const locked = !!b.locked || attempts.length >= 9;
   return {
     canClearBoard: isLocalTesting(req) && (await owns(req, b)),
+    player: player || { username: 'Guest', profileId: null },
     resumeWithAccount:
       !b.account_id && !!(await profile(req)) && (await ownsGuest(req, b)),
     id: b.id,
@@ -101,9 +110,9 @@ export async function profile(req: Request) {
   // Identity, not display name, distinguishes players with the same name.
   await getDb()
     .prepare(
-      'INSERT INTO users (id,username,username_key) VALUES (?,?,?) ON CONFLICT(id) DO UPDATE SET username=excluded.username, username_key=excluded.username_key WHERE users.username != excluded.username OR users.username_key != excluded.username_key',
+      'INSERT INTO users (id,username,username_key,public_id) VALUES (?,?,?,?) ON CONFLICT(id) DO UPDATE SET username=excluded.username, username_key=excluded.username_key, public_id=COALESCE(users.public_id,excluded.public_id) WHERE users.username != excluded.username OR users.username_key != excluded.username_key OR users.public_id IS NULL',
     )
-    .bind(id, username, 'chatgpt:' + id)
+    .bind(id, username, 'chatgpt:' + id, crypto.randomUUID().replace(/-/g, ''))
     .run();
   return { id, username };
 }

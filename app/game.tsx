@@ -445,6 +445,17 @@ export default function Game({
         </section>
         <div className="session-sidebar">
           <aside className="score-panel">
+            {complete && board?.player && (
+              <p className="board-player">
+                {board.player.profileId ? (
+                  <a href={`/players/${board.player.profileId}`}>
+                    {board.player.username} ↗
+                  </a>
+                ) : (
+                  board.player.username
+                )}
+              </p>
+            )}
             <p className="eyebrow session-status">
               {complete ? (
                 <>

@@ -22,7 +22,7 @@ export async function GET(
   try {
     const result = await getDb()
       .prepare(`
-      SELECT b.*, u.username FROM boards b LEFT JOIN users u ON u.id=b.account_id
+      SELECT b.*, u.username, u.public_id FROM boards b LEFT JOIN users u ON u.id=b.account_id
       WHERE b.puzzle_id=? AND (b.locked=1 OR json_array_length(COALESCE(b.attempts,b.answers))>=9)
       ${exclude ? 'AND b.id != ?' : ''}
       ${after ? 'AND b.id > ?' : ''}
@@ -40,7 +40,7 @@ export async function GET(
         ...(after ? [after] : []),
         ...(cell !== null ? [cell] : []),
       )
-      .all<BoardRow & { username: string | null }>();
+      .all<BoardRow & { username: string | null; public_id: string | null }>();
     const rows = result.results.slice(0, 30);
     const entries = rows.map((b) => {
       const answers = boardAttempts(b).filter((a) => a.accepted);
@@ -49,6 +49,7 @@ export async function GET(
       return {
         boardId: b.id,
         username: b.username || 'Guest',
+        profileId: b.public_id,
         score: answers.reduce((sum, a) => sum + a.score, 0),
         filled: answers.length,
         ...(answer
