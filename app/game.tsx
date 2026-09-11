@@ -801,9 +801,17 @@ export default function Game({
             Accounts save one run per puzzle and add finished scores to the
             leaderboards. Guests can play without signing in. For guests, your
             browser holds your private editing credential. Clearing browser
-            storage loses editing access; save your finished link. Scores
-            reflect an AI’s judgment and may get facts or musical taste wrong.
+            storage loses editing access; save your finished link.
           </p>
+          <section aria-labelledby="known-limitations">
+            <h3 id="known-limitations">Known limitations</h3>
+            <p className="small-print">
+              Scores reflect an AI’s judgment and may get facts or musical taste
+              wrong. It can get release dates flat-out wrong, accepting a song
+              from the wrong decade or rejecting one from the right decade.
+              Dates are not currently verified against a music catalog.
+            </p>
+          </section>
         </DialogContent>
       </Dialog>
       <Dialog open={!!shareText} onOpenChange={(o) => !o && setShareText('')}>
