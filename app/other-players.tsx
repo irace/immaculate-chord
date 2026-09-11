@@ -1,6 +1,12 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { ArrowUpRight, ChevronDown } from 'lucide-react';
+import { ArrowUpRight, Info, Music2 } from 'lucide-react';
+import {
+  Tooltip,
+  TooltipProvider,
+  TooltipTrigger,
+  TooltipContent,
+} from '@/components/ui/tooltip';
 
 type Entry = {
   boardId: string;
@@ -72,87 +78,134 @@ export default function OtherPlayers({
     }
   }
   return (
-    <section
-      className="other-players"
-      aria-label={
-        cell === undefined ? 'Other finished boards' : 'Other players’ picks'
-      }
-    >
-      <h3>
-        {cell === undefined ? 'Other finished boards' : 'Other players’ picks'}
-      </h3>
-      {entries.map((entry) => (
-        <div
-          className={`other-player${entry.pick ? ' with-pick' : ''}`}
-          key={entry.boardId}
-        >
-          {entry.pick ? (
-            <>
-              <a className="player-name" href={`/${puzzleId}/${entry.boardId}`}>
-                {entry.username}
-              </a>
-              <div className="pick-wrapper">
-                <details className="other-pick">
-                  <summary>
-                    <span>
-                      {entry.pick.title}
-                      <small>{entry.pick.artist}</small>
-                    </span>
-                    <strong>{entry.pick.score}%</strong>
-                    <ChevronDown size={14} aria-hidden="true" />
-                  </summary>
-                  <p className="pick-explanation">{entry.pick.explanation}</p>
-                </details>
-                <p className="hover-explanation" aria-hidden="true">
-                  {entry.pick.explanation}
-                </p>
-              </div>
-            </>
-          ) : (
-            <a className="other-board" href={`/${puzzleId}/${entry.boardId}`}>
-              <span>
-                {entry.username}
-                <small>{entry.filled}/9 squares filled</small>
-              </span>
-              <strong>
-                {entry.score}
-                <small> / 900</small>
-              </strong>
-              <ArrowUpRight size={16} aria-hidden="true" />
-            </a>
-          )}
-        </div>
-      ))}
-      {!busy && !error && entries.length === 0 && (
-        <p className="small-print">
+    <TooltipProvider>
+      <section
+        className="other-players"
+        aria-label={
+          cell === undefined ? 'Other finished boards' : 'Other players’ picks'
+        }
+      >
+        <h3>
           {cell === undefined
-            ? 'No other finished boards yet.'
-            : 'No other picks yet.'}
-        </p>
-      )}
-      {busy && (
-        <p className="small-print" role="status">
-          Loading…
-        </p>
-      )}
-      {error && (
-        <p className="small-print" role="alert">
-          {error}{' '}
-          <button
-            className="text-button"
-            onClick={() =>
-              entries.length ? void more() : setRetry((n) => n + 1)
-            }
+            ? 'Other finished boards'
+            : 'Other players’ picks'}
+        </h3>
+        {entries.map((entry) => (
+          <div
+            className={`other-player${entry.pick ? ' with-pick' : ''}`}
+            key={entry.boardId}
           >
-            Retry
+            {entry.pick ? (
+              <>
+                <a
+                  className="player-name"
+                  href={`/${puzzleId}/${entry.boardId}`}
+                >
+                  {entry.username}
+                </a>
+                <div className="other-pick">
+                  <span className="pick-song">
+                    {entry.pick.title}
+                    <small>{entry.pick.artist}</small>
+                  </span>
+                  <div className="pick-actions">
+                    <strong>{entry.pick.score}%</strong>
+                    <a
+                      className="pick-icon"
+                      href={`https://music.apple.com/us/search?term=${encodeURIComponent(`${entry.pick.title} ${entry.pick.artist}`)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`Find ${entry.pick.title} on Apple Music`}
+                      title="Apple Music"
+                    >
+                      <Music2 size={16} aria-hidden="true" />
+                    </a>
+                    <a
+                      className="pick-icon"
+                      href={`https://open.spotify.com/search/${encodeURIComponent(`${entry.pick.title} ${entry.pick.artist}`)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`Find ${entry.pick.title} on Spotify`}
+                      title="Spotify"
+                    >
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.7"
+                        strokeLinecap="round"
+                        aria-hidden="true"
+                      >
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M6 9c4-1.5 8-1 12 1M7 12c3-1 7-.6 10 1M8 15c2.5-.6 5-.3 8 1" />
+                      </svg>
+                    </a>
+                    <Tooltip>
+                      <TooltipTrigger
+                        className="pick-icon"
+                        aria-label={`Why ${entry.pick.title} scored ${entry.pick.score}%`}
+                      >
+                        <Info size={16} aria-hidden="true" />
+                      </TooltipTrigger>
+                      <TooltipContent
+                        className="pick-tooltip"
+                        side="top"
+                        align="end"
+                      >
+                        {entry.pick.explanation}
+                      </TooltipContent>
+                    </Tooltip>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <a className="other-board" href={`/${puzzleId}/${entry.boardId}`}>
+                <span>
+                  {entry.username}
+                  <small>{entry.filled}/9 squares filled</small>
+                </span>
+                <strong>
+                  {entry.score}
+                  <small> / 900</small>
+                </strong>
+                <ArrowUpRight size={16} aria-hidden="true" />
+              </a>
+            )}
+          </div>
+        ))}
+        {!busy && !error && entries.length === 0 && (
+          <p className="small-print">
+            {cell === undefined
+              ? 'No other finished boards yet.'
+              : 'No other picks yet.'}
+          </p>
+        )}
+        {busy && (
+          <p className="small-print" role="status">
+            Loading…
+          </p>
+        )}
+        {error && (
+          <p className="small-print" role="alert">
+            {error}{' '}
+            <button
+              className="text-button"
+              onClick={() =>
+                entries.length ? void more() : setRetry((n) => n + 1)
+              }
+            >
+              Retry
+            </button>
+          </p>
+        )}
+        {next && !busy && !error && (
+          <button className="text-button" onClick={() => void more()}>
+            Show more
           </button>
-        </p>
-      )}
-      {next && !busy && !error && (
-        <button className="text-button" onClick={() => void more()}>
-          Show more
-        </button>
-      )}
-    </section>
+        )}
+      </section>
+    </TooltipProvider>
   );
 }
