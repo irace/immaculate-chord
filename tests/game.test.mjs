@@ -779,5 +779,50 @@ await test('public profiles have stable IDs, scoped finished grids and no privat
   assert.equal(await getPlayerProfile('a'.repeat(32)), null);
 });
 
+await test('shared daily quota allows request 500 and blocks submissions and regrades afterward', async () => {
+  const { POST: regrade } = await import(`${temp}/regrade.mjs`);
+  const token = 'quota_boundary_abcdefghijklmnopqrstuvwxyz0123456789';
+  const b = await (
+    await create(req({ puzzleId: '15', ownerToken: token }, token))
+  ).json();
+  mode = 'wrong';
+  await post(b.id, 0, 'Quota rejected fixture', token);
+  mode = 'valid';
+  const quotaId = `grading:${new Date().toISOString().slice(0, 10)}`;
+  sql.prepare('UPDATE quotas SET used=499 WHERE id=?').run(quotaId);
+  assert.equal(
+    (await post(b.id, 1, 'Quota final allowed fixture', token)).status,
+    200,
+  );
+  assert.equal(
+    sql.prepare('SELECT used FROM quotas WHERE id=?').get(quotaId).used,
+    500,
+  );
+  const denied = await post(b.id, 2, 'Quota over limit fixture', token);
+  assert.equal(denied.status, 429);
+  assert.match(
+    (await denied.json()).error,
+    /keep costs down during this beta period/,
+  );
+  const retry = await regrade(req({ attemptIndex: 0 }, token), {
+    params: Promise.resolve({ id: b.id }),
+  });
+  assert.equal(retry.status, 429);
+  assert.match(
+    (await retry.json()).error,
+    /Please come back to play some more tomorrow/,
+  );
+  assert.equal(
+    sql.prepare('SELECT used FROM quotas WHERE id=?').get(quotaId).used,
+    500,
+  );
+  assert.equal(
+    JSON.parse(
+      sql.prepare('SELECT attempts FROM boards WHERE id=?').get(b.id).attempts,
+    ).length,
+    2,
+  );
+});
+
 sql.close();
 await rm(temp, { recursive: true, force: true });

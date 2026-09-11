@@ -66,14 +66,15 @@ export async function POST(
       );
     const quota = await db
       .prepare(
-        'INSERT INTO quotas (id,used) VALUES (?,1) ON CONFLICT(id) DO UPDATE SET used=used+1 WHERE used < 45 RETURNING used',
+        'INSERT INTO quotas (id,used) VALUES (?,1) ON CONFLICT(id) DO UPDATE SET used=used+1 WHERE used < 500 RETURNING used',
       )
       .bind(`grading:${new Date().toISOString().slice(0, 10)}`)
       .first();
     if (!quota)
       return json(
         {
-          error: 'Today’s grading allowance has been used. Try again tomorrow.',
+          error:
+            'Immaculate Chord limits how many requests can be made per day to keep costs down during this beta period. Please come back to play some more tomorrow.',
         },
         429,
       );
