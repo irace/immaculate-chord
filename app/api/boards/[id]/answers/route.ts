@@ -10,6 +10,7 @@ import {
 } from '@/lib/server';
 import { getPuzzle } from '@/lib/puzzles';
 import {
+  scoreAnswer,
   validText,
   normalizeSong,
   acceptsAnswer,
@@ -82,7 +83,7 @@ export async function POST(
     const p = getPuzzle(b.puzzle_id)!;
     const cacheKey = await hash(
       JSON.stringify({
-        version: 2,
+        version: 3,
         puzzle: p.id,
         cell,
         row: p.rows[Math.floor(cell / 3)],
@@ -98,6 +99,11 @@ export async function POST(
     let result: Answer;
     if (cached) {
       result = JSON.parse(cached.result);
+      result.score = scoreAnswer(
+        result.rowFit,
+        result.colFit,
+        result.obscurity,
+      );
     } else {
       const quota = await db
         .prepare(

@@ -1,5 +1,5 @@
 import { getDb, getGradingConfig } from '@/db';
-import { acceptsAnswer, type Answer, type Attempt } from './game';
+import { scoreAnswer, acceptsAnswer, type Answer, type Attempt } from './game';
 export type BoardRow = {
   account_id?: string | null;
   id: string;
@@ -38,17 +38,22 @@ async function ownsGuest(req: Request, b: BoardRow) {
   return !!token && token.length < 200 && (await hash(token)) === b.owner_hash;
 }
 export function boardAttempts(b: BoardRow): Attempt[] {
-  return b.attempts
+  const attempts: Attempt[] = b.attempts
     ? JSON.parse(b.attempts)
     : (JSON.parse(b.answers) as Answer[]).map((a) => ({
         ...a,
         accepted: acceptsAnswer(a),
       }));
+  return attempts.map((a) => ({
+    ...a,
+    score: scoreAnswer(a.rowFit, a.colFit, a.obscurity),
+  }));
 }
 export async function publicBoard(req: Request, b: BoardRow) {
   const attempts = boardAttempts(b);
   const locked = !!b.locked || attempts.length >= 9;
   return {
+    canClearBoard: isLocalTesting(req) && (await owns(req, b)),
     resumeWithAccount:
       !b.account_id && !!(await profile(req)) && (await ownsGuest(req, b)),
     id: b.id,
@@ -101,4 +106,11 @@ export async function profile(req: Request) {
     .bind(id, username, 'chatgpt:' + id)
     .run();
   return { id, username };
+}
+
+export function isLocalTesting(req: Request) {
+  return (
+    process.env.NODE_ENV === 'development' &&
+    ['localhost', '127.0.0.1', '[::1]'].includes(new URL(req.url).hostname)
+  );
 }

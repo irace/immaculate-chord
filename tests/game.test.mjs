@@ -6,6 +6,7 @@ import path from 'node:path';
 import ts from 'typescript';
 const temp = await mkdtemp(path.join(tmpdir(), 'chord-tests-'));
 const files = {
+  'app/api/boards/[id]/clear/route.ts': 'clear',
   'app/api/account/route.ts': 'account',
   'app/api/leaderboards/route.ts': 'leaderboards',
   'app/api/boards/[id]/regrade/route.ts': 'regrade',
@@ -144,7 +145,8 @@ await test('20 complete unique puzzles and scoring boundaries', () => {
     assert.equal(p.cols.length, 3);
   }
   assert.equal(scoreAnswer(100, 100, 100), 100);
-  assert.equal(scoreAnswer(100, 100, 0), 80);
+  assert.equal(scoreAnswer(100, 100, 0), 60);
+  assert.equal(scoreAnswer(100, 100, 50), 80);
   assert.equal(scoreAnswer(0, 100, 100), 1);
   assert.equal(scoreAnswer(20, 100, 100), 20);
   assert.equal(normalizeSong('Héllo!', 'A B'), normalizeSong('hello', 'AB'));
@@ -226,7 +228,7 @@ await test('invalid cells and cross-origin writes are rejected', async () => {
 await test('Ultra uses prompt JSON and validates fenced output', async () => {
   mode = 'fenced';
   const result = await grade(puzzles[0], 0, 'A song', 'An artist');
-  assert.equal(result.score, 81);
+  assert.equal(result.score, 72);
   assert.equal(lastRequest.model, 'nvidia/nemotron-3-ultra-550b-a55b:free');
   assert.equal(lastRequest.provider.require_parameters, true);
   assert.equal(lastRequest.max_tokens, 4096);
@@ -299,6 +301,7 @@ await test('legacy answers retain guess count and false answers reopen without r
     await read(req(), { params: Promise.resolve({ id: b.id }) })
   ).json();
   assert.equal(state.guessesUsed, 2);
+  assert.equal(state.answers[0].score, 60);
   assert.equal(state.guessesLeft, 7);
   assert.equal(state.answers.length, 1);
   assert.equal(state.attempts[1].accepted, false);
@@ -402,7 +405,7 @@ await test('accounts require identity, claim owned guests, isolate runs, and ran
   ).json();
   assert.notEqual(unowned.id, own19.id);
   const result = [
-    { rowFit: 100, colFit: 100, score: 90, accepted: true },
+    { rowFit: 100, colFit: 100, obscurity: 50, score: 90, accepted: true },
     { rowFit: 0, colFit: 100, score: 99, accepted: false },
   ];
   sql
@@ -414,7 +417,7 @@ await test('accounts require identity, claim owned guests, isolate runs, and ran
   assert.deepEqual(ranked.entries, [
     {
       username: 'Alice',
-      score: 90,
+      score: 80,
       completed: 1,
       boardId: claimed.id,
       rank: 1,
@@ -423,7 +426,7 @@ await test('accounts require identity, claim owned guests, isolate runs, and ran
   const overall = await (
     await leaders(new Request('https://chord.test/api/leaderboards'))
   ).json();
-  assert.equal(overall.entries.find((e) => e.username === 'Alice').score, 90);
+  assert.equal(overall.entries.find((e) => e.username === 'Alice').score, 80);
   const me = await (await account(auth(undefined))).json();
   assert.deepEqual(me, { signedIn: true, username: 'Alice' });
 });
@@ -502,6 +505,90 @@ await test('re-grade refreshes the same guess once, preserves attempts and prote
     409,
   );
   mode = 'valid';
+});
+
+await test('local clear resets owned finished boards and rejects production, foreign origins and active grading', async () => {
+  const { POST: clear } = await import(`${temp}/clear.mjs`);
+  const previousEnv = process.env.NODE_ENV;
+  const b = await (
+    await create(
+      req(
+        {
+          puzzleId: '01',
+          ownerToken: 'clear_test_owner_abcdefghijklmnopqrstuvwxyz0123456789',
+        },
+        'clear_test_owner_abcdefghijklmnopqrstuvwxyz0123456789',
+      ),
+    )
+  ).json();
+  assert.ok(b.id);
+  await post(
+    b.id,
+    0,
+    'Reset fixture',
+    'clear_test_owner_abcdefghijklmnopqrstuvwxyz0123456789',
+  );
+  const params = { params: Promise.resolve({ id: b.id }) };
+  const local = (
+    token = 'clear_test_owner_abcdefghijklmnopqrstuvwxyz0123456789',
+    host = 'localhost',
+    origin,
+  ) =>
+    new Request(`http://${host}/api/boards/${b.id}/clear`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        ...(origin ? { Origin: origin } : {}),
+      },
+    });
+  try {
+    process.env.NODE_ENV = 'production';
+    assert.equal((await clear(local(), params)).status, 404);
+    process.env.NODE_ENV = 'development';
+    assert.equal(
+      (
+        await clear(
+          local(
+            'clear_test_owner_abcdefghijklmnopqrstuvwxyz0123456789',
+            'chord.irace.dev',
+          ),
+          params,
+        )
+      ).status,
+      404,
+    );
+    assert.equal(
+      (
+        await clear(
+          local(
+            'clear_test_owner_abcdefghijklmnopqrstuvwxyz0123456789',
+            'localhost',
+            'https://evil.test',
+          ),
+          params,
+        )
+      ).status,
+      403,
+    );
+    assert.equal((await clear(local('someone-else'), params)).status, 403);
+    sql
+      .prepare('UPDATE boards SET locked=1, lease_until=? WHERE id=?')
+      .run(Date.now() + 10000, b.id);
+    assert.equal((await clear(local(), params)).status, 409);
+    sql.prepare('UPDATE boards SET lease_until=0 WHERE id=?').run(b.id);
+    const response = await clear(local(), params);
+    assert.equal(response.status, 200);
+    const reset = await response.json();
+    assert.equal(reset.id, b.id);
+    assert.equal(reset.locked, false);
+    assert.equal(reset.editable, true);
+    assert.equal(reset.guessesLeft, 9);
+    assert.deepEqual(reset.attempts, []);
+    assert.deepEqual(reset.answers, []);
+  } finally {
+    if (previousEnv === undefined) delete process.env.NODE_ENV;
+    else process.env.NODE_ENV = previousEnv;
+  }
 });
 
 sql.close();

@@ -14,6 +14,7 @@ export type Attempt = Answer & { accepted: boolean; regraded?: boolean };
 export const acceptsAnswer = (answer: Answer) =>
   answer.rowFit > 0 && answer.colFit > 0;
 export type Board = {
+  canClearBoard?: boolean;
   resumeWithAccount?: boolean;
   id: string;
   puzzleId: string;
@@ -26,9 +27,17 @@ export type Board = {
   editable: boolean;
   gradingReady: boolean;
 };
+export const FIT_POINTS = 60;
+export const OBSCURITY_POINTS = 40;
 export function scoreAnswer(rowFit: number, colFit: number, obscurity: number) {
-  const fit = Math.min(rowFit, colFit) / 100;
-  return Math.max(1, Math.round(100 * fit * (0.8 + (0.2 * obscurity) / 100)));
+  return Math.max(
+    1,
+    Math.round(
+      (Math.min(rowFit, colFit) *
+        (FIT_POINTS * 100 + OBSCURITY_POINTS * obscurity)) /
+        10000,
+    ),
+  );
 }
 export function normalizeSong(title: string, artist: string) {
   return `${title}|${artist}`

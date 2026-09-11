@@ -22,13 +22,13 @@ function hasSeenWelcome() {
   }
 }
 const themes = [
-  ['punk', 'Punk basement', 'Torn flyers. Loud guitars.'],
-  ['jazz', 'After-hours jazz', 'Blue notes and brass.'],
-  ['disco', 'Disco fever', 'Mirror balls and velvet.'],
-  ['synth', 'Midnight synth', 'Neon under a digital sky.'],
-  ['folk', 'Folk sleeve', 'Warm paper and worn records.'],
-  ['jam', 'Endless jam', 'Phish meets the Dead. Tie-dye after sundown.'],
-  ['gizzard', 'Gizzverse', 'Acid green. Cosmic fuzz.'],
+  ['punk', 'Punk basement'],
+  ['jazz', 'After-hours jazz'],
+  ['disco', 'Disco fever'],
+  ['synth', 'Midnight synth'],
+  ['folk', 'Folk sleeve'],
+  ['jam', 'Endless jam'],
+  ['gizzard', 'Gizzverse'],
 ];
 type Account = { signedIn: boolean; username: string | null; error?: string };
 type Entry = {
@@ -41,9 +41,11 @@ type Entry = {
 export default function Community({
   puzzleId,
   disabled,
+  onThemeChange,
 }: {
   puzzleId: string;
   disabled: boolean;
+  onThemeChange: (name: string) => void;
 }) {
   const [panel, setPanel] = useState(''),
     [theme, setTheme] = useState('punk');
@@ -64,6 +66,7 @@ export default function Community({
     } catch {}
     document.documentElement.dataset.theme = choice;
     setTheme(choice);
+    onThemeChange(themes.find((t) => t[0] === choice)![1]);
     fetch('/api/account')
       .then((r) => {
         if (!r.ok) throw Error();
@@ -80,7 +83,7 @@ export default function Community({
       .catch(() =>
         setError('Could not load your account. Reload to try again.'),
       );
-  }, []);
+  }, [onThemeChange]);
   useEffect(() => {
     if (panel !== 'leaderboard') return;
     let active = true;
@@ -104,6 +107,16 @@ export default function Community({
       active = false;
     };
   }, [panel, scope, puzzleId]);
+  function randomizeTheme() {
+    const options = themes.filter(([id]) => id !== theme);
+    const [id, name] = options[Math.floor(Math.random() * options.length)];
+    document.documentElement.dataset.theme = id;
+    setTheme(id);
+    onThemeChange(name);
+    try {
+      localStorage.setItem('chord-theme', id);
+    } catch {}
+  }
   function open(value: string) {
     setError('');
     setReturnTo(location.pathname);
@@ -112,7 +125,7 @@ export default function Community({
   return (
     <>
       <nav className="community-nav" aria-label="Game menu">
-        <button className="text-button" onClick={() => open('themes')}>
+        <button className="text-button" onClick={randomizeTheme}>
           Change the mood
         </button>
         <button className="text-button" onClick={() => open('leaderboard')}>
@@ -134,13 +147,11 @@ export default function Community({
           <DialogTitle>
             {panel === 'welcome'
               ? 'How do you want to play?'
-              : panel === 'themes'
-                ? 'Pick your sound'
-                : panel === 'leaderboard'
-                  ? 'Top of the bill'
-                  : 'Your account'}
+              : panel === 'leaderboard'
+                ? 'Top of the bill'
+                : 'Your account'}
           </DialogTitle>
-          {panel !== 'themes' && panel !== 'welcome' && (
+          {panel !== 'welcome' && (
             <DialogDescription>
               {panel === 'leaderboard'
                 ? 'Completed games only. Equal scores share a rank.'
@@ -192,29 +203,6 @@ export default function Community({
                 </section>
               </div>
             </>
-          )}
-          {panel === 'themes' && (
-            <div className="theme-options">
-              {themes.map(([id, name, desc]) => (
-                <button
-                  key={id}
-                  className="theme-option"
-                  data-selected={id === theme}
-                  aria-pressed={id === theme}
-                  onClick={() => {
-                    setTheme(id);
-                    document.documentElement.dataset.theme = id;
-                    try {
-                      localStorage.setItem('chord-theme', id);
-                    } catch {}
-                  }}
-                >
-                  <strong>{name}</strong>
-                  <span>{desc}</span>
-                  {id === theme && <small>Now playing</small>}
-                </button>
-              ))}
-            </div>
           )}
           {panel === 'account' && (
             <>

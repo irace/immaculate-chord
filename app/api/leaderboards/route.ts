@@ -1,4 +1,5 @@
 import { getDb } from '@/db';
+import { FIT_POINTS, OBSCURITY_POINTS } from '@/lib/game';
 import { json } from '@/lib/server';
 import { getPuzzle } from '@/lib/puzzles';
 export async function GET(req: Request) {
@@ -10,7 +11,7 @@ export async function GET(req: Request) {
     .prepare(`
     WITH finished AS (
       SELECT b.id, b.puzzle_id, b.account_id,
-        COALESCE((SELECT SUM(CAST(json_extract(a.value,'$.score') AS INTEGER))
+        COALESCE((SELECT SUM(CAST(MAX(1, ROUND(MIN(json_extract(a.value,'$.rowFit'), json_extract(a.value,'$.colFit')) * (${FIT_POINTS} * 100 + ${OBSCURITY_POINTS} * json_extract(a.value,'$.obscurity')) / 10000.0)) AS INTEGER))
           FROM json_each(COALESCE(b.attempts,b.answers)) a
           WHERE CAST(json_extract(a.value,'$.rowFit') AS INTEGER)>0
           AND CAST(json_extract(a.value,'$.colFit') AS INTEGER)>0),0) AS score

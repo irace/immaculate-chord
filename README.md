@@ -10,7 +10,7 @@ Use Node 22.13 or newer. Install with `npm ci`, start with `npm run dev`, and bu
 
 Configure `OPENROUTER_API_KEY` as a hosted secret through Sites. `OPENROUTER_MODEL` defaults to `nvidia/nemotron-3-super-120b-a12b:free`. The key is only read by server code. Until configured, browsing and session creation work, while submission is disabled. Do not put the key in a public environment variable or source file. Local environment keys are listed in `.env.example`.
 
-The judge estimates both prompt fits and obscurity. The server computes `max(1, round(min(rowFit, colFit) * (0.8 + 0.2 * obscurity / 100)))`. These are AI judgments, not verified catalog facts or population rarity percentiles. The judge uses a pinned general-purpose free model with structured-output support. Successful identical input grades are cached. There is a conservative shared daily cap of 45 uncached grading attempts (UTC), and the provider can impose additional limits. Cached grades do not consume that cap. Provider failures and invalid outputs do not commit an answer.
+The judge estimates both prompt fits and obscurity. The server computes `max(1, round(min(rowFit, colFit) * (0.6 + 0.4 * obscurity / 100)))`. These are AI judgments, not verified catalog facts or population rarity percentiles. The judge uses a pinned general-purpose free model with structured-output support. Clear matches receive full fit credit; partial vibe credit requires an explained limitation. Obscurity uses fixed familiarity bands calibrated to general listeners and the individual recording, rather than artist fame. Successful identical input grades are cached by rubric version; rubric updates bypass older cached judgments. There is a conservative shared daily cap of 45 uncached grading attempts (UTC), and the provider can impose additional limits. Cached grades do not consume that cap. Provider failures and invalid outputs do not commit an answer.
 
 ## Sessions and sharing
 
@@ -22,8 +22,8 @@ The app offers optional ChatGPT sign-in. The Site is publicly accessible. The ga
 
 Automated route tests use the actual handlers with in-memory SQLite and explicitly mocked OpenRouter responses. They cover resuming, unauthorized writes, failed grading, overlapping requests, duplicates, final locking and scoring boundaries. Live OpenRouter grading was verified locally with the configured key and a separate test song. Experimental WebMCP tools are feature-detected; their browser registration has not been verified because a supported validation context was not available.
 
-
 ## Accounts and themes
+
 Optional ChatGPT sign-in uses Sites' platform routes. Local `npm run dev` simulates one stable user (Seedy); production uses real ChatGPT identities. Local test accounts and scores stay in the local database. To test, choose Account → Sign in with ChatGPT. Sign out in Account to return to guest use.
 
 ChatGPT display names are used automatically. Avatars are omitted because the available Sites interface does not document a forwarded profile-photo field. Missing names display as “Listener”; emails are never exposed on leaderboards. Stable platform IDs identify accounts, so duplicate display names are supported. Existing account IDs and progress are preserved; display names refresh when a player returns.
@@ -39,4 +39,7 @@ Hosting must use Sites dispatch to authenticate the user headers. Do not expose 
 Signing in starts account play immediately, without username setup. Signed-in requests cannot submit to guest runs. Owned guest progress automatically moves into the account flow when opened; other players’ shared links stay read-only.
 
 ## Re-grading
+
 Owners may request one fresh evaluation of the latest rejected attempt in an unfilled square, including on completed boards. It bypasses the grade cache, replaces that attempt, and preserves the guess count and board lock. Accepted corrections update saved answers and leaderboard totals. Errors leave the original attempt and re-grade eligibility unchanged. Re-grading uses the shared daily provider allowance and the same per-board submission lease.
+
+Scores on existing boards and leaderboards are recomputed from saved fit/obscurity ratings using the current 60/40 formula, without new model calls or changing guess counts.

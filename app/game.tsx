@@ -95,7 +95,8 @@ export default function Game({
     [loading, setLoading] = useState(true),
     [error, setError] = useState(''),
     [copied, setCopied] = useState(false),
-    [shareText, setShareText] = useState('');
+    [shareText, setShareText] = useState(''),
+    [themeName, setThemeName] = useState('Punk basement');
   const token = useRef(''),
     busyRef = useRef(false),
     generation = useRef(0);
@@ -232,6 +233,27 @@ export default function Game({
       setRegrading(false);
     }
   }
+  async function clearBoard() {
+    if (!board?.canClearBoard || busyRef.current) return;
+    busyRef.current = true;
+    setBusy(true);
+    setError('');
+    try {
+      setBoard(
+        await request(`/api/boards/${board.id}/clear`, token.current, {}),
+      );
+      setCell(null);
+      setTitle('');
+      setArtist('');
+      setShareText('');
+      setCopied(false);
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      busyRef.current = false;
+      setBusy(false);
+    }
+  }
   async function share() {
     if (!board) return;
     const url = `${window.location.origin}/${puzzleId}/${board.id}`;
@@ -258,7 +280,11 @@ export default function Game({
           How to play <ArrowUpRight size={16} />
         </button>
       </header>
-      <Community puzzleId={puzzleId} disabled={busy} />
+      <Community
+        puzzleId={puzzleId}
+        disabled={busy}
+        onThemeChange={setThemeName}
+      />
       <div className="intro">
         <div>
           <p className="eyebrow">TONIGHT’S SET / PUZZLE {puzzle.id} OF 20</p>
@@ -371,77 +397,91 @@ export default function Game({
             ))}
           </div>
         </section>
-        <aside className="score-panel">
-          {!complete && (
-            <p className="eyebrow">
-              {readonly ? 'SHARED SESSION' : 'YOUR SESSION'}
-            </p>
-          )}
-          <div className="score-number">
-            {guessesLeft}
-            <span>/ 9</span>
-          </div>
-          {guessesLeft > 0 && (
-            <p>
-              {guessesLeft} {guessesLeft === 1 ? 'guess' : 'guesses'} left ·{' '}
-              {9 - guessesLeft} used
-            </p>
-          )}
-          <p className="small-print">{answers.length}/9 squares filled</p>
-          <div className="ticks" aria-hidden="true">
-            {Array.from({ length: 9 }, (_, i) => (
-              <i
-                key={i}
-                className={
-                  i < attempts.length
-                    ? attempts[i].accepted
-                      ? 'done'
-                      : 'missed'
-                    : ''
-                }
-              />
-            ))}
-          </div>
-          {attempts.length > 0 && (
-            <div className="total">
-              <span>Total score</span>
-              <strong>
-                {total}
-                <small> / 900</small>
-              </strong>
+        <div className="session-sidebar">
+          <aside className="score-panel">
+            {!complete && (
+              <p className="eyebrow">
+                {readonly ? 'SHARED SESSION' : 'YOUR SESSION'}
+              </p>
+            )}
+            <div className="score-number">
+              {guessesLeft}
+              <span>/ 9</span>
             </div>
-          )}
-          {complete && (
-            <>
-              <button className="primary-button" onClick={() => void share()}>
-                {copied ? <Check size={16} /> : <Copy size={16} />}{' '}
-                {copied ? 'Link copied' : 'Copy public link'}
+            {guessesLeft > 0 && (
+              <p>
+                {guessesLeft} {guessesLeft === 1 ? 'guess' : 'guesses'} left ·{' '}
+                {9 - guessesLeft} used
+              </p>
+            )}
+            <p className="small-print">{answers.length}/9 squares filled</p>
+            <div className="ticks" aria-hidden="true">
+              {Array.from({ length: 9 }, (_, i) => (
+                <i
+                  key={i}
+                  className={
+                    i < attempts.length
+                      ? attempts[i].accepted
+                        ? 'done'
+                        : 'missed'
+                      : ''
+                  }
+                />
+              ))}
+            </div>
+            {attempts.length > 0 && (
+              <div className="total">
+                <span>Total score</span>
+                <strong>
+                  {total}
+                  <small> / 900</small>
+                </strong>
+              </div>
+            )}
+            {complete && (
+              <>
+                <button className="primary-button" onClick={() => void share()}>
+                  {copied ? <Check size={16} /> : <Copy size={16} />}{' '}
+                  {copied ? 'Link copied' : 'Copy public link'}
+                </button>
+              </>
+            )}
+            {readonly && !complete && (
+              <p className="small-print">
+                This player is still working on their grid.
+              </p>
+            )}
+            {readonly && !board?.isOwner && (
+              <button
+                className="outline-button"
+                onClick={() => {
+                  void load(puzzleId);
+                }}
+              >
+                Play this grid yourself <ArrowRight size={16} />
               </button>
-            </>
-          )}
-          {readonly && !complete && (
-            <p className="small-print">
-              This player is still working on their grid.
-            </p>
-          )}
-          {readonly && !board?.isOwner && (
+            )}
+            {board && !board.gradingReady && (
+              <div className="note">
+                The judge isn’t connected yet. You can explore every puzzle and
+                compose a pick. Submitting and scoring will open soon.
+              </div>
+            )}
+            {loading && <p role="status">Opening your session…</p>}
+          </aside>
+          <p className="theme-credit" aria-live="polite">
+            Theme: {themeName}
+          </p>
+          {board?.canClearBoard && (
             <button
-              className="outline-button"
-              onClick={() => {
-                void load(puzzleId);
-              }}
+              className="button secondary"
+              disabled={busy || loading}
+              onClick={clearBoard}
             >
-              Play this grid yourself <ArrowRight size={16} />
+              Clear board
             </button>
           )}
-          {board && !board.gradingReady && (
-            <div className="note">
-              The judge isn’t connected yet. You can explore every puzzle and
-              compose a pick. Submitting and scoring will open soon.
-            </div>
-          )}
-          {loading && <p role="status">Opening your session…</p>}
-        </aside>
+        </div>
       </div>
       <Dialog
         open={cell !== null}
@@ -462,17 +502,14 @@ export default function Game({
                   : 'An open square'
                 : 'What’s your pick?'}
           </DialogTitle>
-          <DialogDescription>
-            {cell !== null &&
-              `${puzzle.rows[Math.floor(cell / 3)].label} × ${puzzle.cols[cell % 3].label}`}
-          </DialogDescription>
           {cell !== null && (
-            <div className="prompt-detail">
+            <DialogDescription render={<div />} className="prompt-detail">
               <p>
                 <b>
                   {puzzle.rows[Math.floor(cell / 3)].kind === 'fact'
                     ? 'The fact'
                     : 'The feeling'}
+                  : {puzzle.rows[Math.floor(cell / 3)].label}
                 </b>
                 {puzzle.rows[Math.floor(cell / 3)].rule}
               </p>
@@ -481,10 +518,11 @@ export default function Game({
                   {puzzle.cols[cell % 3].kind === 'fact'
                     ? 'The fact'
                     : 'The feeling'}
+                  : {puzzle.cols[cell % 3].label}
                 </b>
                 {puzzle.cols[cell % 3].rule}
               </p>
-            </div>
+            </DialogDescription>
           )}
           {!selected && lastRejected && (
             <div className="rejected-pick" role="status">
@@ -696,9 +734,9 @@ export default function Game({
             Obscurity is an AI estimate, not a popularity percentile.
           </p>
           <div className="note">
-            Scoring: the lower of the two fit ratings × (0.8 + 0.2 × obscurity /
+            Scoring: the lower of the two fit ratings × (0.6 + 0.4 × obscurity /
             100), rounded to 1–100 for accepted answers. A perfect fit scores
-            80–100. Rejected answers add no points.
+            60–100. Rejected answers add no points.
           </div>
           <p className="small-print">
             Accounts save one run per puzzle and add finished scores to the
