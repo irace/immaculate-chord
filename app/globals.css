@@ -1348,3 +1348,101 @@ input::placeholder {
   font-size: 12px;
   font-weight: 600;
 }
+
+.other-players {
+  margin-top: 26px;
+  padding-top: 18px;
+  border-top: 1px dashed var(--border);
+}
+.other-players h3 {
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+.other-player {
+  border-bottom: 1px solid var(--border);
+  padding: 10px 0;
+}
+.other-board,
+.other-pick summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.other-board > span,
+.other-pick summary > span {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.other-board {
+  color: var(--foreground);
+  text-decoration: none;
+}
+.other-board:hover,
+.player-name:hover {
+  color: var(--pink);
+}
+.other-player small {
+  display: block;
+  color: var(--muted-foreground);
+  font-size: 12px;
+  font-weight: 400;
+}
+.other-board strong {
+  white-space: nowrap;
+}
+.other-board strong small {
+  display: inline;
+}
+.player-name {
+  color: var(--pink);
+  font-size: 13px;
+}
+.other-pick summary {
+  cursor: pointer;
+  list-style: none;
+  font-size: 14px;
+  padding-top: 5px;
+}
+.other-pick summary::-webkit-details-marker {
+  display: none;
+}
+.other-pick summary strong {
+  color: var(--primary);
+}
+.other-pick .pick-explanation {
+  font-size: 13px;
+  margin: 10px 0 0;
+  padding: 10px;
+  background: var(--background);
+  color: var(--muted-foreground);
+}
+
+.other-player.with-pick {
+  display: grid;
+  grid-template-columns: minmax(70px, 0.7fr) minmax(0, 2fr);
+  gap: 12px;
+  align-items: start;
+}
+.player-name {
+  overflow-wrap: anywhere;
+  padding-top: 5px;
+}
+.pick-wrapper {
+  position: relative;
+}
+.hover-explanation {
+  display: none;
+}
+@media (hover: hover) {
+  .pick-wrapper:hover .other-pick:not([open]) + .hover-explanation,
+  .pick-wrapper:focus-within .other-pick:not([open]) + .hover-explanation {
+    display: block;
+    font-size: 13px;
+    line-height: 1.5;
+    padding: 10px;
+    background: var(--background);
+    color: var(--muted-foreground);
+    margin-top: 10px;
+  }
+}

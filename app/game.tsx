@@ -20,6 +20,7 @@ import {
   DialogDescription,
 } from '@/components/ui/dialog';
 import Community from './community';
+import OtherPlayers from './other-players';
 import { puzzles, getPuzzle } from '@/lib/puzzles';
 import type { Board } from '@/lib/game';
 import { registerGameTools } from '@/lib/webmcp';
@@ -190,6 +191,19 @@ export default function Game({
   useEffect(() => {
     void load(initialPuzzle, boardId);
   }, [initialPuzzle, boardId, load]);
+  async function playPuzzle(id: string) {
+    try {
+      const ownerToken = getToken();
+      const ownBoard = await request('/api/boards', ownerToken, {
+        puzzleId: id,
+        ownerToken,
+      });
+      // Native navigation adds a history entry and restores shared boards on Back.
+      window.location.assign(`/${id}/${ownBoard.id}`);
+    } catch (e) {
+      setError((e as Error).message);
+    }
+  }
   const submit = useCallback(
     async (songTitle: string, songArtist: string, index: number) => {
       if (busyRef.current)
@@ -504,7 +518,7 @@ export default function Game({
               <button
                 className="outline-button"
                 onClick={() => {
-                  void load(puzzleId);
+                  void playPuzzle(puzzleId);
                 }}
               >
                 Play this grid yourself <ArrowRight size={16} />
@@ -518,6 +532,13 @@ export default function Game({
             )}
             {loading && <p role="status">Opening your session…</p>}
           </aside>
+          {complete && board && (
+            <OtherPlayers
+              key={board.id}
+              puzzleId={puzzleId}
+              boardId={board.id}
+            />
+          )}
           <p className="theme-credit" aria-live="polite">
             Theme: {themeName}
           </p>
@@ -629,6 +650,14 @@ export default function Game({
                 </span>
               </div>
               <p>{selected.explanation}</p>
+              {board && (
+                <OtherPlayers
+                  key={`${board.id}:${selected.cell}`}
+                  puzzleId={puzzleId}
+                  boardId={board.id}
+                  cell={selected.cell}
+                />
+              )}
             </div>
           ) : readonly ? (
             <p>
@@ -738,7 +767,7 @@ export default function Game({
                 key={p.id}
                 onClick={() => {
                   setCollection(false);
-                  void load(p.id);
+                  void playPuzzle(p.id);
                 }}
                 className={p.id === puzzleId ? 'active' : ''}
               >

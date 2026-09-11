@@ -6,6 +6,7 @@ import path from 'node:path';
 import ts from 'typescript';
 const temp = await mkdtemp(path.join(tmpdir(), 'chord-tests-'));
 const files = {
+  'app/api/puzzles/[id]/community/route.ts': 'comparisons',
   'app/api/boards/[id]/clear/route.ts': 'clear',
   'app/api/account/route.ts': 'account',
   'app/api/leaderboards/route.ts': 'leaderboards',
@@ -640,6 +641,83 @@ await test('completed set list follows the viewer account or guest credential', 
     (await (await list(accountReq)).json()).completedPuzzleIds,
     [],
   );
+});
+
+await test('community lists paginate finished boards, scope picks, and omit private data', async () => {
+  const { GET: comparisons } = await import(`${temp}/comparisons.mjs`);
+  const fixture = {
+    cell: 4,
+    title: 'Public song',
+    artist: 'Artist',
+    canonicalKey: 'public',
+    rowFit: 100,
+    colFit: 100,
+    obscurity: 50,
+    score: 1,
+    explanation: 'Both prompts match.',
+    model: 'test',
+    accepted: true,
+  };
+  sql
+    .prepare('INSERT INTO users (id,username,username_key) VALUES (?,?,?)')
+    .run('social-user', 'Social listener', 'social-key');
+  for (let i = 0; i < 32; i++) {
+    sql
+      .prepare(
+        'INSERT INTO boards (id,puzzle_id,owner_hash,answers,attempts,locked,created_at,account_id) VALUES (?,?,?,?,?,?,?,?)',
+      )
+      .run(
+        (9000 + i).toString(16).padStart(32, '0'),
+        '16',
+        'PRIVATE',
+        JSON.stringify([fixture]),
+        JSON.stringify([fixture]),
+        1,
+        0,
+        i === 0 ? 'social-user' : null,
+      );
+  }
+  const unfinished = 'f'.repeat(32);
+  sql
+    .prepare(
+      'INSERT INTO boards (id,puzzle_id,owner_hash,answers,attempts,locked,created_at) VALUES (?,?,?,?,?,?,?)',
+    )
+    .run(
+      unfinished,
+      '16',
+      'SECRET',
+      JSON.stringify([fixture]),
+      JSON.stringify([fixture]),
+      0,
+      0,
+    );
+  const call = (query = '', id = '16') =>
+    comparisons(
+      new Request(`https://chord.test/api/puzzles/${id}/community?${query}`),
+      { params: Promise.resolve({ id }) },
+    );
+  const page = await (await call()).json();
+  assert.equal(page.entries.length, 30);
+  assert.ok(page.next);
+  assert.equal(page.entries[0].username, 'Social listener');
+  assert.equal(page.entries[0].score, 80);
+  assert.ok(!JSON.stringify(page).includes('PRIVATE'));
+  assert.ok(!JSON.stringify(page).includes('account_id'));
+  const last = await (await call(`after=${page.next}`)).json();
+  assert.equal(last.entries.length, 2);
+  assert.equal(last.next, null);
+  assert.ok(!last.entries.some((e) => e.boardId === unfinished));
+  const picks = await (
+    await call(`cell=4&exclude=${page.entries[0].boardId}`)
+  ).json();
+  assert.equal(picks.entries[0].username, 'Guest');
+  assert.equal(picks.entries[0].pick.score, 80);
+  assert.equal(picks.entries[0].pick.explanation, fixture.explanation);
+  assert.ok(!picks.entries.some((e) => e.boardId === page.entries[0].boardId));
+  assert.deepEqual((await (await call('cell=0')).json()).entries, []);
+  assert.equal((await call('cell=9')).status, 400);
+  assert.equal((await call('after=bad')).status, 400);
+  assert.equal((await call('', 'missing')).status, 404);
 });
 
 sql.close();
