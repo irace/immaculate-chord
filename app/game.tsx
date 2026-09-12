@@ -92,7 +92,10 @@ export default function Game({
     [help, setHelp] = useState(false),
     [completedSets, setCompletedSets] = useState<string[]>([]),
     [startedSets, setStartedSets] = useState<string[]>([]),
-    [completionCounts, setCompletionCounts] = useState<Record<string, number> | null>(null),
+    [completionCounts, setCompletionCounts] = useState<Record<
+      string,
+      number
+    > | null>(null),
     [setsStatus, setSetsStatus] = useState(''),
     [title, setTitle] = useState(''),
     [artist, setArtist] = useState(''),
@@ -120,7 +123,11 @@ export default function Game({
     })
       .then(async (response) => {
         if (!response.ok) throw new Error();
-        return response.json() as Promise<{ completedPuzzleIds: string[]; startedPuzzleIds: string[]; otherCompletionCounts: Record<string, number> }>;
+        return response.json() as Promise<{
+          completedPuzzleIds: string[];
+          startedPuzzleIds: string[];
+          otherCompletionCounts: Record<string, number>;
+        }>;
       })
       .then((data) => {
         if (cancelled) return;
@@ -800,7 +807,13 @@ export default function Game({
                     <span className="set-complete">In progress</span>
                   ) : null}
                   {completionCounts !== null && (
-                    <small>{completionCounts[p.id] || 0} other {(completionCounts[p.id] || 0) === 1 ? 'player has' : 'players have'} completed this set</small>
+                    <small>
+                      {completionCounts[p.id] || 0} other{' '}
+                      {(completionCounts[p.id] || 0) === 1
+                        ? 'player has'
+                        : 'players have'}{' '}
+                      completed this set
+                    </small>
                   )}
                 </span>
                 <ArrowUpRight size={17} />

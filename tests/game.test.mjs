@@ -607,7 +607,40 @@ await test('completed set list follows the viewer account or guest credential', 
     (await (await list(req(undefined, guestToken))).json()).completedPuzzleIds,
     [],
   );
+  assert.deepEqual(
+    (await (await list(req(undefined, guestToken))).json()).startedPuzzleIds,
+    [],
+  );
+  sql
+    .prepare('UPDATE boards SET attempts=? WHERE id=?')
+    .run(
+      JSON.stringify([
+        {
+          cell: 0,
+          title: 'Miss',
+          artist: 'Test',
+          rowFit: 0,
+          colFit: 100,
+          obscurity: 0,
+        },
+      ]),
+      guest.id,
+    );
+  assert.deepEqual(
+    (await (await list(req(undefined, guestToken))).json()).startedPuzzleIds,
+    ['02'],
+  );
   sql.prepare('UPDATE boards SET locked=1 WHERE id=?').run(guest.id);
+  const mine = await (await list(req(undefined, guestToken))).json();
+  assert.deepEqual(mine.startedPuzzleIds, []);
+  assert.equal(mine.otherCompletionCounts['02'] || 0, 0);
+  const outsider = await (
+    await list(
+      req(undefined, 'other_guest_abcdefghijklmnopqrstuvwxyz0123456789'),
+    )
+  ).json();
+  assert.equal(outsider.otherCompletionCounts['02'], 1);
+  assert.deepEqual(outsider.startedPuzzleIds, []);
   assert.deepEqual(
     (await (await list(req(undefined, guestToken))).json()).completedPuzzleIds,
     ['02'],

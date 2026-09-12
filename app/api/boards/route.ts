@@ -86,17 +86,22 @@ export async function POST(req: Request) {
 export async function GET(req: Request) {
   const accountId = identity(req);
   const token = req.headers.get('Authorization')?.replace(/^Bearer /, '');
-  const ownerHash = token && /^[-\w]{40,100}$/.test(token) ? await hash(token) : null;
+  const ownerHash =
+    token && /^[-\w]{40,100}$/.test(token) ? await hash(token) : null;
   try {
-    const result = accountId || ownerHash ? await getDb()
-      .prepare(
-        accountId
-          ? 'SELECT * FROM boards WHERE account_id = ?'
-          : 'SELECT * FROM boards WHERE owner_hash = ? AND account_id IS NULL',
-      )
-      .bind(accountId || ownerHash)
-      .all<BoardRow>() : { results: [] };
-    const counts = await getDb().prepare(`
+    const result =
+      accountId || ownerHash
+        ? await getDb()
+            .prepare(
+              accountId
+                ? 'SELECT * FROM boards WHERE account_id = ?'
+                : 'SELECT * FROM boards WHERE owner_hash = ? AND account_id IS NULL',
+            )
+            .bind(accountId || ownerHash)
+            .all<BoardRow>()
+        : { results: [] };
+    const counts = await getDb()
+      .prepare(`
       SELECT puzzle_id, COUNT(DISTINCT CASE WHEN account_id IS NOT NULL
         THEN 'account:' || account_id ELSE 'guest:' || owner_hash END) AS total
       FROM boards
@@ -104,13 +109,21 @@ export async function GET(req: Request) {
         AND (? IS NULL OR account_id IS NULL OR account_id != ?)
         AND (? IS NULL OR account_id IS NOT NULL OR owner_hash != ?)
       GROUP BY puzzle_id
-    `).bind(accountId, accountId, ownerHash, ownerHash)
+    `)
+      .bind(accountId, accountId, ownerHash, ownerHash)
       .all<{ puzzle_id: string; total: number }>();
     return json({
       startedPuzzleIds: result.results
-        .filter((b) => !b.locked && boardAttempts(b).length > 0 && boardAttempts(b).length < 9)
+        .filter(
+          (b) =>
+            !b.locked &&
+            boardAttempts(b).length > 0 &&
+            boardAttempts(b).length < 9,
+        )
         .map((b) => b.puzzle_id),
-      otherCompletionCounts: Object.fromEntries(counts.results.map((b) => [b.puzzle_id, b.total])),
+      otherCompletionCounts: Object.fromEntries(
+        counts.results.map((b) => [b.puzzle_id, b.total]),
+      ),
       completedPuzzleIds: result.results
         .filter((b) => !!b.locked || boardAttempts(b).length >= 9)
         .map((b) => b.puzzle_id),
