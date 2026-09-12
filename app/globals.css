@@ -1545,3 +1545,12 @@ input::placeholder {
   color: var(--muted-foreground);
   font-size: 13px;
 }
+
+.song-search { margin-bottom: 20px; }
+.song-search [data-slot='input-group'] { width: 100%; height: auto; border-radius: 0; }
+.song-search input { margin: 0; min-height: 48px; }
+.catalog-results { z-index: 100; background: var(--background); color: var(--foreground); border: 1px solid var(--primary); }
+.catalog-result { padding: 12px 32px 12px 12px; font-size: 16px; }
+.catalog-result strong, .catalog-result small { display: block; }
+.catalog-result small { font-size: 14px; color: var(--muted-foreground); }
+.catalog-result[data-highlighted] { background: var(--muted); }

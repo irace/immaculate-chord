@@ -1,4 +1,6 @@
 export type Answer = {
+  catalog?: { provider: string; id: string };
+  factSources?: { explanation: string; source: string }[];
   cell: number;
   title: string;
   artist: string;

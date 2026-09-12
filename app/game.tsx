@@ -19,6 +19,8 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog';
+import SongSearch from './song-search';
+import type { CatalogHit, CatalogSelection } from '@/lib/catalog/types';
 import Community from './community';
 import OtherPlayers from './other-players';
 import { puzzles, getPuzzle } from '@/lib/puzzles';
@@ -97,6 +99,7 @@ export default function Game({
       number
     > | null>(null),
     [setsStatus, setSetsStatus] = useState(''),
+    [catalogPick, setCatalogPick] = useState<CatalogHit | null>(null),
     [title, setTitle] = useState(''),
     [artist, setArtist] = useState(''),
     [busy, setBusy] = useState(false),
@@ -218,7 +221,12 @@ export default function Game({
     }
   }
   const submit = useCallback(
-    async (songTitle: string, songArtist: string, index: number) => {
+    async (
+      songTitle: string,
+      songArtist: string,
+      index: number,
+      catalog?: CatalogSelection,
+    ) => {
       if (busyRef.current)
         throw new Error('An answer is already being graded.');
       if (!board?.editable || board.locked)
@@ -234,7 +242,7 @@ export default function Game({
         const data = await request(
           `/api/boards/${board.id}/answers`,
           token.current,
-          { cell: index, title: songTitle, artist: songArtist },
+          { cell: index, title: songTitle, artist: songArtist, catalog },
         );
         setBoard(data);
         return {
@@ -257,6 +265,7 @@ export default function Game({
         (index: number) => {
           setCell(index);
           setTitle('');
+          setCatalogPick(null);
           setArtist('');
           setError('');
         },
@@ -266,6 +275,7 @@ export default function Game({
   function openCell(index: number) {
     setCell(index);
     setTitle('');
+    setCatalogPick(null);
     setArtist('');
     setError('');
   }
@@ -303,6 +313,7 @@ export default function Game({
       );
       setCell(null);
       setTitle('');
+      setCatalogPick(null);
       setArtist('');
       setShareText('');
       setCopied(false);
@@ -625,6 +636,20 @@ export default function Game({
                 {lastRejected.title} — {lastRejected.artist}
               </p>
               <p>{lastRejected.explanation}</p>
+              {!!lastRejected.factSources?.length && (
+                <p className="small-print">
+                  {lastRejected.factSources.map((fact, index) => (
+                    <a
+                      key={index}
+                      href={fact.source}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {index ? ' · ' : ''}Catalog source
+                    </a>
+                  ))}
+                </p>
+              )}
               {board?.isOwner &&
                 (lastRejected.regraded ? (
                   <p className="small-print">
@@ -674,6 +699,21 @@ export default function Game({
                 </span>
               </div>
               <p>{selected.explanation}</p>
+              {!!selected.factSources?.length && (
+                <p className="small-print">
+                  {selected.factSources.map((fact, index) => (
+                    <a
+                      key={index}
+                      href={fact.source}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {index ? ' · ' : ''}Catalog source
+                      {selected.factSources!.length > 1 ? ` ${index + 1}` : ''}
+                    </a>
+                  ))}
+                </p>
+              )}
               {board && (
                 <OtherPlayers
                   key={`${board.id}:${selected.cell}`}
@@ -713,31 +753,29 @@ export default function Game({
                 e.preventDefault();
                 if (cell === null) return;
                 try {
-                  await submit(title, artist, cell);
+                  if (!catalogPick)
+                    throw new Error(
+                      'Choose a recording from the search results.',
+                    );
+                  await submit(title, artist, cell, {
+                    provider: catalogPick.provider,
+                    id: catalogPick.id,
+                  });
                 } catch (e) {
                   setError((e as Error).message);
                 }
               }}
             >
-              <label htmlFor="song-title">Song title</label>
-              <input
-                id="song-title"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                placeholder="The song you have in mind"
-                maxLength={160}
-                required
+              <SongSearch
+                key={cell}
+                value={catalogPick}
                 disabled={busy}
-              />
-              <label htmlFor="song-artist">Artist</label>
-              <input
-                id="song-artist"
-                value={artist}
-                onChange={(e) => setArtist(e.target.value)}
-                placeholder="Who’s it by?"
-                maxLength={160}
-                required
-                disabled={busy}
+                onChange={(pick) => {
+                  setCatalogPick(pick);
+                  setTitle(pick?.title || '');
+                  setArtist(pick?.artist || '');
+                  setError('');
+                }}
               />
               {error && (
                 <p className="form-error" role="alert">
@@ -834,14 +872,16 @@ export default function Game({
               column. Facts are literal; feelings leave room for interpretation.
             </li>
             <li>
-              <b>Name your recording.</b> Enter a title and artist. Every genre,
-              language and era is welcome. No repeat recordings on a board.
+              <b>Choose your recording.</b> Search for a song or artist and
+              select the matching recording. Every genre, language and era is
+              welcome. No repeat recordings on a board.
             </li>
             <li>
               <b>Nine guesses total.</b> An accepted answer fills and locks its
               square. A rejected answer uses a guess but leaves the square open:
               try it again or move to another. Duplicate songs and
-              grading-service failures don’t use a guess.
+              grading-service failures and unverified catalog facts don’t use a
+              guess.
             </li>
             <li>
               <b>Finish your set.</b> After nine guesses, new submissions close.

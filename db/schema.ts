@@ -37,3 +37,13 @@ export const users = sqliteTable('users', {
   usernameKey: text('username_key').notNull().unique(),
   publicId: text('public_id').unique(),
 });
+
+export const catalogCache = sqliteTable('catalog_cache', {
+  id: text('id').primaryKey(),
+  value: text('value').notNull(),
+  expiresAt: integer('expires_at').notNull(),
+});
+export const catalogRate = sqliteTable('catalog_rate', {
+  id: text('id').primaryKey(),
+  nextAt: integer('next_at').notNull(),
+});

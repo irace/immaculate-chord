@@ -1,3 +1,4 @@
+import { prepareCatalog, validSelection } from '@/lib/catalog';
 import { getDb, getGradingConfig } from '@/db';
 import {
   hash,
@@ -33,12 +34,19 @@ export async function POST(
     const attempts = boardAttempts(b);
     if (b.locked || attempts.length >= 9)
       return json({ error: 'This board is complete and locked.' }, 409);
-    const { cell, title, artist } = (await req.json()) as {
+    const {
+      cell,
+      title,
+      artist,
+      catalog: selection,
+    } = (await req.json()) as {
+      catalog?: unknown;
       cell: number;
       title: unknown;
       artist: unknown;
     };
     if (
+      (selection !== undefined && !validSelection(selection)) ||
       !Number.isInteger(cell) ||
       cell < 0 ||
       cell > 8 ||
@@ -50,9 +58,11 @@ export async function POST(
     if (answers.some((a) => a.cell === cell))
       return json({ error: 'That square is already locked.' }, 409);
     if (
-      answers.some(
-        (a) =>
-          normalizeSong(a.title, a.artist) === normalizeSong(title, artist),
+      answers.some((a) =>
+        validSelection(selection) && a.catalog
+          ? a.catalog.provider === selection.provider &&
+            a.catalog.id === selection.id
+          : normalizeSong(a.title, a.artist) === normalizeSong(title, artist),
       )
     )
       return json(
@@ -81,9 +91,17 @@ export async function POST(
         409,
       );
     const p = getPuzzle(b.puzzle_id)!;
+    const catalog = await prepareCatalog(
+      p,
+      cell,
+      title.trim(),
+      artist.trim(),
+      validSelection(selection) ? selection : undefined,
+    );
     const cacheKey = await hash(
       JSON.stringify({
-        version: 3,
+        version: 4,
+        catalog,
         puzzle: p.id,
         cell,
         row: p.rows[Math.floor(cell / 3)],
@@ -119,7 +137,7 @@ export async function POST(
           },
           429,
         );
-      result = await grade(p, cell, title.trim(), artist.trim());
+      result = await grade(p, cell, title.trim(), artist.trim(), catalog);
       await db
         .prepare('INSERT OR IGNORE INTO grades (id,result) VALUES (?,?)')
         .bind(cacheKey, JSON.stringify(result))
@@ -161,7 +179,8 @@ export async function POST(
     return json(
       {
         error:
-          error instanceof Error && /judge|grade|Grading/.test(error.message)
+          error instanceof Error &&
+          /judge|grade|Grading|Catalog|catalog|recording/.test(error.message)
             ? error.message
             : 'Could not save your answer. Your square is still open; please try again.',
       },
