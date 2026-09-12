@@ -91,6 +91,8 @@ export default function Game({
     [collection, setCollection] = useState(false),
     [help, setHelp] = useState(false),
     [completedSets, setCompletedSets] = useState<string[]>([]),
+    [startedSets, setStartedSets] = useState<string[]>([]),
+    [completionCounts, setCompletionCounts] = useState<Record<string, number> | null>(null),
     [setsStatus, setSetsStatus] = useState(''),
     [title, setTitle] = useState(''),
     [artist, setArtist] = useState(''),
@@ -108,7 +110,9 @@ export default function Game({
     if (!collection) return;
     let cancelled = false;
     setCompletedSets([]);
-    setSetsStatus('Loading completion status…');
+    setStartedSets([]);
+    setCompletionCounts(null);
+    setSetsStatus('Loading set progress…');
     fetch('/api/boards', {
       headers: token.current
         ? { Authorization: `Bearer ${token.current}` }
@@ -116,17 +120,19 @@ export default function Game({
     })
       .then(async (response) => {
         if (!response.ok) throw new Error();
-        return response.json() as Promise<{ completedPuzzleIds: string[] }>;
+        return response.json() as Promise<{ completedPuzzleIds: string[]; startedPuzzleIds: string[]; otherCompletionCounts: Record<string, number> }>;
       })
       .then((data) => {
         if (cancelled) return;
         setCompletedSets(data.completedPuzzleIds);
+        setStartedSets(data.startedPuzzleIds);
+        setCompletionCounts(data.otherCompletionCounts);
         setSetsStatus('');
       })
       .catch(() => {
         if (!cancelled)
           setSetsStatus(
-            'Could not load completion status. Reopen the list to retry.',
+            'Could not load set progress. Reopen the list to retry.',
           );
       });
     return () => {
@@ -786,10 +792,15 @@ export default function Game({
                 <span>
                   <strong>{p.title}</strong>
                   <small>{p.subtitle}</small>
-                  {completedSets.includes(p.id) && (
+                  {completedSets.includes(p.id) ? (
                     <span className="set-complete">
                       <Check size={13} aria-hidden="true" /> Completed
                     </span>
+                  ) : startedSets.includes(p.id) ? (
+                    <span className="set-complete">In progress</span>
+                  ) : null}
+                  {completionCounts !== null && (
+                    <small>{completionCounts[p.id] || 0} other {(completionCounts[p.id] || 0) === 1 ? 'player has' : 'players have'} completed this set</small>
                   )}
                 </span>
                 <ArrowUpRight size={17} />

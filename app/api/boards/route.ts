@@ -86,23 +86,36 @@ export async function POST(req: Request) {
 export async function GET(req: Request) {
   const accountId = identity(req);
   const token = req.headers.get('Authorization')?.replace(/^Bearer /, '');
-  if (!accountId && (!token || !/^[-\w]{40,100}$/.test(token)))
-    return json({ completedPuzzleIds: [] });
+  const ownerHash = token && /^[-\w]{40,100}$/.test(token) ? await hash(token) : null;
   try {
-    const result = await getDb()
+    const result = accountId || ownerHash ? await getDb()
       .prepare(
         accountId
           ? 'SELECT * FROM boards WHERE account_id = ?'
           : 'SELECT * FROM boards WHERE owner_hash = ? AND account_id IS NULL',
       )
-      .bind(accountId || (await hash(token!)))
-      .all<BoardRow>();
+      .bind(accountId || ownerHash)
+      .all<BoardRow>() : { results: [] };
+    const counts = await getDb().prepare(`
+      SELECT puzzle_id, COUNT(DISTINCT CASE WHEN account_id IS NOT NULL
+        THEN 'account:' || account_id ELSE 'guest:' || owner_hash END) AS total
+      FROM boards
+      WHERE (locked=1 OR json_array_length(COALESCE(attempts,answers))>=9)
+        AND (? IS NULL OR account_id IS NULL OR account_id != ?)
+        AND (? IS NULL OR account_id IS NOT NULL OR owner_hash != ?)
+      GROUP BY puzzle_id
+    `).bind(accountId, accountId, ownerHash, ownerHash)
+      .all<{ puzzle_id: string; total: number }>();
     return json({
+      startedPuzzleIds: result.results
+        .filter((b) => !b.locked && boardAttempts(b).length > 0 && boardAttempts(b).length < 9)
+        .map((b) => b.puzzle_id),
+      otherCompletionCounts: Object.fromEntries(counts.results.map((b) => [b.puzzle_id, b.total])),
       completedPuzzleIds: result.results
         .filter((b) => !!b.locked || boardAttempts(b).length >= 9)
         .map((b) => b.puzzle_id),
     });
   } catch {
-    return json({ error: 'Could not load completed sets.' }, 503);
+    return json({ error: 'Could not load set progress.' }, 503);
   }
 }
