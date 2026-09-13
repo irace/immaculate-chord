@@ -52,7 +52,7 @@ await writeFile(
 );
 await writeFile(
   `${temp}/catalog-http-stub.mjs`,
-  `export const responses=new Map();export async function catalogJson(_provider,url){const u=new URL(url);const key=u.pathname+(u.searchParams.has('release-group')?'?group='+u.searchParams.get('release-group'):'');if(!responses.has(key))throw new Error('Unexpected catalog request '+url);return responses.get(key);}`,
+  `export const responses=new Map();export const requests=[];export async function catalogJson(_provider,url){requests.push(url);const u=new URL(url);const key=u.pathname+(u.searchParams.has('release-group')?'?group='+u.searchParams.get('release-group'):'');if(!responses.has(key))throw new Error('Unexpected catalog request '+url);return responses.get(key);}`,
 );
 const { sql, config } = await import(`${temp}/db.mjs`);
 sql.exec(await readFile('drizzle/0000_abnormal_guardsmen.sql', 'utf8'));
@@ -980,6 +980,46 @@ await test('catalog uncertainty leaves attempts, quota and lease unchanged', asy
   } finally {
     state.error = null;
   }
+});
+
+await test('catalog search scopes all terms to titles and ranks exact matches before unrelated artists', async () => {
+  const { musicbrainz } = await import(`${temp}/catalog-provider.mjs`);
+  const { responses, requests } = await import(`${temp}/catalog-http-stub.mjs`);
+  const recording = (id, title, artist, date, score = 100) => ({
+    id,
+    title,
+    'artist-credit': [{ name: artist }],
+    'first-release-date': date,
+    score,
+  });
+  responses.set('/ws/2/recording/', {
+    recordings: [
+      recording('unrelated', 'ROBOT', 'Stop', '1980'),
+      recording('prefix', 'Robot Stopping', 'Other', '1970'),
+      recording('actual', 'Robot Stop', 'King Gizzard', '2016', 80),
+      recording('duplicate', 'Robot Stop', 'King Gizzard', '2022'),
+    ],
+  });
+  const hits = await musicbrainz.search('Robot Stop');
+  assert.equal(hits[0].id, 'actual');
+  assert.deepEqual(
+    hits.map((x) => x.id),
+    ['actual', 'prefix'],
+  );
+  assert.equal(
+    new URL(requests.at(-1)).searchParams.get('query'),
+    'recording:"Robot" AND recording:Stop*',
+  );
+  responses.set('/ws/2/recording/', {
+    recordings: [
+      recording('song', 'Hey Jude', 'The Beatles', '1968'),
+      recording('title', 'The Beatles', 'Daniel Johnston', '1983'),
+    ],
+  });
+  assert.deepEqual(
+    (await musicbrainz.search('The Beatles')).map((x) => x.id),
+    ['title'],
+  );
 });
 
 await test('MusicBrainz adapter excludes deluxe editions and combines original album discs', async () => {

@@ -872,9 +872,9 @@ export default function Game({
               column. Facts are literal; feelings leave room for interpretation.
             </li>
             <li>
-              <b>Choose your recording.</b> Search for a song or artist and
-              select the matching recording. Every genre, language and era is
-              welcome. No repeat recordings on a board.
+              <b>Choose your recording.</b> Search by song title and select the
+              matching recording. Every genre, language and era is welcome. No
+              repeat recordings on a board.
             </li>
             <li>
               <b>Nine guesses total.</b> An accepted answer fills and locks its

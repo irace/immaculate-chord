@@ -44,7 +44,7 @@ export default function SongSearch({
         setStatus(
           data.results.length
             ? ''
-            : 'No recordings found. Try adding the artist’s name.',
+            : 'No recordings found. Try another song title.',
         );
       } catch (error) {
         if (!controller.signal.aborted) {
@@ -64,7 +64,7 @@ export default function SongSearch({
   }, [query, value]);
   return (
     <div className="song-search">
-      <label htmlFor="catalog-song">Song or artist</label>
+      <label htmlFor="catalog-song">Song title</label>
       <Combobox
         items={results}
         value={value}
@@ -87,7 +87,7 @@ export default function SongSearch({
       >
         <ComboboxInput
           id="catalog-song"
-          placeholder="Search for a song and artist"
+          placeholder="Search by song title"
           showTrigger={false}
           autoComplete="off"
         />
@@ -102,11 +102,7 @@ export default function SongSearch({
                 <span>
                   <strong>{item.title}</strong>
                   <small>{item.artist}</small>
-                  <small>
-                    {[item.album, item.year, item.version]
-                      .filter(Boolean)
-                      .join(' · ')}
-                  </small>
+                  <small>{item.version}</small>
                 </span>
               </ComboboxItem>
             )}
@@ -118,11 +114,7 @@ export default function SongSearch({
           {status}
         </p>
       )}
-      {value && (
-        <p className="small-print">
-          {[value.album, value.year, value.version].filter(Boolean).join(' · ')}
-        </p>
-      )}
+      {value?.version && <p className="small-print">{value.version}</p>}
     </div>
   );
 }

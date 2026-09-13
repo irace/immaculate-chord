@@ -99,48 +99,71 @@ export const musicbrainz: CatalogProvider = {
       .split(/\s+/)
       .slice(0, 12);
     if (!words.length) return [];
+    const normalized = (text: string) =>
+      text
+        .toLocaleLowerCase()
+        .replace(/[^\p{L}\p{N}]+/gu, ' ')
+        .trim();
+    const typed = normalized(query);
     let data: { recordings: Recording[] };
     try {
       data = await get<{ recordings: Recording[] }>(
         'recording/',
         {
-          query:
-            words
-              .map((w, i) => (i === words.length - 1 ? `${w}*` : `"${w}"`))
-              .join(' AND ') +
-            (/\blive\b/i.test(query) ? '' : ' AND NOT comment:live'),
-          limit: '40',
+          // Field every term: an artist-name match must never enumerate their songs.
+          query: words
+            .map(
+              (w, i) =>
+                `recording:${i === words.length - 1 ? `${w}*` : `"${w}"`}`,
+            )
+            .join(' AND '),
+          limit: '100',
         },
         5 * 60000,
       );
     } catch {
-      // Simpler exact-token search can succeed when the prefix query is unavailable.
+      // Keep the fallback title-scoped too; a simpler phrase query may succeed
+      // when MusicBrainz cannot serve the wildcard search.
       data = await get<{ recordings: Recording[] }>(
         'recording/',
-        { query: words.map((w) => `"${w}"`).join(' AND '), limit: '40' },
+        {
+          query: `recording:"${words.join(' ')}"`,
+          limit: '100',
+        },
         5 * 60000,
       );
     }
+    const seen = new Set<string>();
     return data.recordings
-      .filter((r) => artist(r))
+      .filter(
+        (r) =>
+          artist(r) &&
+          words.every((word, i) => {
+            const titleWords = normalized(r.title).split(' ');
+            return titleWords.some((t) =>
+              i === words.length - 1
+                ? t.startsWith(word.toLocaleLowerCase())
+                : t === word.toLocaleLowerCase(),
+            );
+          }),
+      )
       .sort(
         (a, b) =>
-          Number(b.score || 0) - Number(a.score || 0) ||
+          Number(normalized(b.title) === typed) -
+            Number(normalized(a.title) === typed) ||
           Number(!!a.disambiguation) - Number(!!b.disambiguation) ||
-          Number(
-            (b.releases || []).some(
-              (r) => standard(r) && album(r['release-group']),
-            ),
-          ) -
-            Number(
-              (a.releases || []).some(
-                (r) => standard(r) && album(r['release-group']),
-              ),
-            ) ||
           (a['first-release-date'] || '9999').localeCompare(
             b['first-release-date'] || '9999',
-          ),
+          ) ||
+          Number(b.score || 0) - Number(a.score || 0),
       )
+      .filter((r) => {
+        // Reissues and duplicate catalog entries should not crowd out other artists.
+        const key = `${normalized(r.title)}|${normalized(artist(r))}|${normalized(r.disambiguation || '')}`;
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      })
       .slice(0, 12)
       .map(hit);
   },
