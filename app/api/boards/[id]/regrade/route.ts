@@ -1,4 +1,3 @@
-import { prepareCatalog } from '@/lib/catalog';
 import { getDb, getGradingConfig } from '@/db';
 import {
   json,
@@ -65,13 +64,6 @@ export async function POST(
         },
         409,
       );
-    const catalog = await prepareCatalog(
-      getPuzzle(b.puzzle_id)!,
-      previous.cell,
-      previous.title,
-      previous.artist,
-      previous.catalog,
-    );
     const quota = await db
       .prepare(
         'INSERT INTO quotas (id,used) VALUES (?,1) ON CONFLICT(id) DO UPDATE SET used=used+1 WHERE used < 500 RETURNING used',
@@ -92,7 +84,6 @@ export async function POST(
       previous.cell,
       previous.title,
       previous.artist,
-      catalog,
     );
     if (
       attempts.some((a) => a.accepted && a.canonicalKey === result.canonicalKey)
@@ -133,8 +124,7 @@ export async function POST(
     return json(
       {
         error:
-          error instanceof Error &&
-          /judge|grade|Grading|Catalog|catalog|recording/.test(error.message)
+          error instanceof Error && /judge|grade|Grading/.test(error.message)
             ? error.message
             : 'Could not re-grade this guess. Your original result is unchanged; please try again.',
       },

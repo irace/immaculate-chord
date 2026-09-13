@@ -9,7 +9,3 @@ export function getGradingConfig() {
     model: env.OPENROUTER_MODEL || 'nvidia/nemotron-3-super-120b-a12b:free',
   };
 }
-
-export function getCatalogProviderName() {
-  return env.MUSIC_CATALOG_PROVIDER || 'musicbrainz';
-}

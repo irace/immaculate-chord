@@ -6,8 +6,6 @@ import path from 'node:path';
 import ts from 'typescript';
 const temp = await mkdtemp(path.join(tmpdir(), 'chord-tests-'));
 const files = {
-  'lib/catalog/facts.ts': 'catalog-facts',
-  'lib/catalog/musicbrainz.ts': 'catalog-provider',
   'lib/players.ts': 'players',
   'app/api/puzzles/[id]/community/route.ts': 'comparisons',
   'app/api/boards/[id]/clear/route.ts': 'clear',
@@ -30,8 +28,6 @@ for (const [source, name] of Object.entries(files)) {
     },
   }).outputText;
   code = code
-    .replace(/from ['"]\.\/http['"]/g, "from './catalog-http-stub.mjs'")
-    .replace(/from ['"]@\/lib\/catalog['"]/g, "from './catalog-stub.mjs'")
     .replace(/from ['"]@\/db['"]/g, "from './db.mjs'")
     .replace(
       /from ['"](?:@\/lib\/|\.\/)(game|puzzles|server|grader)['"]/g,
@@ -45,14 +41,6 @@ await writeFile(
 export const sql=new DatabaseSync(':memory:');export const config={key:'test-only',model:'nvidia/nemotron-3-ultra-550b-a55b:free'};
 export const getGradingConfig=()=>config;
 export const getDb=()=>({prepare(query){return {bind(...args){return {async all(){return {results:sql.prepare(query).all(...args)};},async first(){return sql.prepare(query).get(...args)||null;},async run(){return sql.prepare(query).run(...args);}}}}}});`,
-);
-await writeFile(
-  `${temp}/catalog-stub.mjs`,
-  `export const state={error:null}; export async function prepareCatalog(){if(state.error) throw new Error(state.error);return undefined;} export const validSelection=()=>false;`,
-);
-await writeFile(
-  `${temp}/catalog-http-stub.mjs`,
-  `export const responses=new Map();export const requests=[];export async function catalogJson(_provider,url){requests.push(url);const u=new URL(url);const key=u.pathname+(u.searchParams.has('release-group')?'?group='+u.searchParams.get('release-group'):'');if(!responses.has(key))throw new Error('Unexpected catalog request '+url);return responses.get(key);}`,
 );
 const { sql, config } = await import(`${temp}/db.mjs`);
 sql.exec(await readFile('drizzle/0000_abnormal_guardsmen.sql', 'utf8'));
@@ -136,10 +124,7 @@ globalThis.fetch = async (_url, options) => {
             rowFit: mode === 'wrong' ? 0 : 100,
             colFit: 90,
             obscurity: 80,
-            explanation:
-              mode === 'catalog_claim'
-                ? 'A deep cut from the 2007 album Ga Ga Ga Ga Ga.'
-                : 'Test-only mocked musical judgment.',
+            explanation: 'Test-only mocked musical judgment.',
           }),
         },
       },
@@ -626,19 +611,21 @@ await test('completed set list follows the viewer account or guest credential', 
     (await (await list(req(undefined, guestToken))).json()).startedPuzzleIds,
     [],
   );
-  sql.prepare('UPDATE boards SET attempts=? WHERE id=?').run(
-    JSON.stringify([
-      {
-        cell: 0,
-        title: 'Miss',
-        artist: 'Test',
-        rowFit: 0,
-        colFit: 100,
-        obscurity: 0,
-      },
-    ]),
-    guest.id,
-  );
+  sql
+    .prepare('UPDATE boards SET attempts=? WHERE id=?')
+    .run(
+      JSON.stringify([
+        {
+          cell: 0,
+          title: 'Miss',
+          artist: 'Test',
+          rowFit: 0,
+          colFit: 100,
+          obscurity: 0,
+        },
+      ]),
+      guest.id,
+    );
   assert.deepEqual(
     (await (await list(req(undefined, guestToken))).json()).startedPuzzleIds,
     ['02'],
@@ -867,259 +854,6 @@ await test('shared daily quota allows request 500 and blocks submissions and reg
       sql.prepare('SELECT attempts FROM boards WHERE id=?').get(b.id).attempts,
     ).length,
     2,
-  );
-});
-
-await test('catalog facts use recording dates, exact durations and any qualifying original album', async () => {
-  const { verifyFact } = await import(`${temp}/catalog-facts.mjs`);
-  const fact = (label) => ({ kind: 'fact', label, rule: label });
-  const r = {
-    provider: 'fixture',
-    id: 'recording',
-    title: 'EP song',
-    artist: 'Artist',
-    firstReleaseDate: '1999-12-01',
-    durationMs: 180000,
-    source: 'https://example.test/recording',
-    albums: [
-      {
-        title: 'Later LP',
-        date: '2001-01-01',
-        position: 1,
-        trackCount: 10,
-        source: 'https://example.test/album',
-      },
-    ],
-  };
-  assert.equal(verifyFact(fact('Released in the 1990s'), r).fit, 100);
-  assert.equal(verifyFact(fact('Released in the 2000s'), r).fit, 0);
-  assert.equal(verifyFact(fact('Album opener'), r).fit, 100);
-  assert.equal(verifyFact(fact('Under 3 minutes'), r).fit, 0);
-  assert.equal(verifyFact(fact('3 to 5 minutes'), r).fit, 100);
-  assert.equal(
-    verifyFact(fact('Over 5 minutes'), { ...r, durationMs: 300001 }).fit,
-    100,
-  );
-  assert.equal(
-    verifyFact(fact('Over 6 minutes'), { ...r, durationMs: 360000 }).fit,
-    0,
-  );
-  assert.throws(() => verifyFact(fact('Album closer'), r), /No guess was used/);
-  assert.equal(
-    verifyFact(fact('Album closer'), { ...r, albumCoverageComplete: true }).fit,
-    0,
-  );
-  assert.throws(
-    () =>
-      verifyFact(fact('Released in the 1990s'), {
-        ...r,
-        firstReleaseDate: undefined,
-      }),
-    /No guess was used/,
-  );
-  assert.equal(verifyFact(fact('Includes piano'), r), undefined);
-});
-await test('catalog facts override model contradictions and preserve canonical identity', async () => {
-  mode = 'valid';
-  const recording = {
-    provider: 'fixture',
-    id: 'abc',
-    title: 'Verified song',
-    artist: 'Verified artist',
-    albums: [],
-    source: 'https://example.test/recording',
-  };
-  const result = await grade(puzzles[0], 0, 'Spoofed title', 'Spoofed artist', {
-    recording,
-    row: { fit: 0, explanation: 'Released in 1968.', source: recording.source },
-  });
-  assert.equal(result.rowFit, 0);
-  assert.equal(result.title, 'Verified song');
-  assert.equal(result.artist, 'Verified artist');
-  assert.equal(result.catalog.id, 'abc');
-  assert.match(result.explanation, /^Released in 1968\./);
-  assert.equal(JSON.parse(lastRequest.messages[1].content).verifiedFits.row, 0);
-  mode = 'catalog_claim';
-  const protectedResult = await grade(puzzles[0], 0, 'Song', 'Artist', {
-    recording,
-    row: {
-      fit: 100,
-      explanation: 'Verified release date: 1975.',
-      source: recording.source,
-    },
-  });
-  assert.doesNotMatch(protectedResult.explanation, /Ga Ga|2007/);
-  assert.match(protectedResult.explanation, /1975/);
-  assert.match(protectedResult.explanation, /obscurity/);
-  mode = 'valid';
-});
-await test('catalog uncertainty leaves attempts, quota and lease unchanged', async () => {
-  const { state } = await import(`${temp}/catalog-stub.mjs`);
-  const token = 'catalog_failure_abcdefghijklmnopqrstuvwxyz0123456789';
-  const b = await (
-    await create(req({ puzzleId: '16', ownerToken: token }, token))
-  ).json();
-  const before = sql
-    .prepare('SELECT SUM(used) AS total FROM quotas')
-    .get().total;
-  const requestCount = calls;
-  state.error =
-    'Catalog data could not verify this recording. No guess was used.';
-  try {
-    const response = await post(b.id, 0, 'Unknown recording', token);
-    assert.equal(response.status, 503);
-    assert.match((await response.json()).error, /No guess was used/);
-    const row = sql.prepare('SELECT * FROM boards WHERE id=?').get(b.id);
-    assert.equal(row.lease, null);
-    assert.equal(row.answers, '[]');
-    assert.equal(calls, requestCount);
-    assert.equal(
-      sql.prepare('SELECT SUM(used) AS total FROM quotas').get().total,
-      before,
-    );
-  } finally {
-    state.error = null;
-  }
-});
-
-await test('catalog search scopes all terms to titles and ranks exact matches before unrelated artists', async () => {
-  const { musicbrainz } = await import(`${temp}/catalog-provider.mjs`);
-  const { responses, requests } = await import(`${temp}/catalog-http-stub.mjs`);
-  const recording = (id, title, artist, date, score = 100) => ({
-    id,
-    title,
-    'artist-credit': [{ name: artist }],
-    'first-release-date': date,
-    score,
-  });
-  responses.set('/ws/2/recording/', {
-    recordings: [
-      recording('unrelated', 'ROBOT', 'Stop', '1980'),
-      recording('prefix', 'Robot Stopping', 'Other', '1970'),
-      recording('actual', 'Robot Stop', 'King Gizzard', '2016', 80),
-      recording('duplicate', 'Robot Stop', 'King Gizzard', '2022'),
-    ],
-  });
-  const hits = await musicbrainz.search('Robot Stop');
-  assert.equal(hits[0].id, 'actual');
-  assert.deepEqual(
-    hits.map((x) => x.id),
-    ['actual', 'prefix'],
-  );
-  assert.equal(
-    new URL(requests.at(-1)).searchParams.get('query'),
-    'recording:"Robot" AND recording:Stop*',
-  );
-  responses.set('/ws/2/recording/', {
-    recordings: [
-      recording('song', 'Hey Jude', 'The Beatles', '1968'),
-      recording('title', 'The Beatles', 'Daniel Johnston', '1983'),
-    ],
-  });
-  assert.deepEqual(
-    (await musicbrainz.search('The Beatles')).map((x) => x.id),
-    ['title'],
-  );
-  responses.set('/ws/2/recording/', {
-    recordings: [
-      {
-        ...recording('beatles', 'Hey Jude', 'The Beatles', '1968'),
-        disambiguation: 'original mono studio mix',
-      },
-      recording('later', 'Hey Jude', 'The Beatles', '1978'),
-      recording('cover', 'Hey Jude', 'Paul Mauriat', '1968'),
-    ],
-  });
-  assert.deepEqual(
-    (await musicbrainz.search('Hey Jude', 'The Beatles')).map((x) => x.id),
-    ['beatles', 'later'],
-  );
-  assert.equal(
-    new URL(requests.at(-1)).searchParams.get('query'),
-    'recording:"Hey" AND recording:Jude* AND artist:"the" AND artist:"beatles"',
-  );
-  const count = requests.length;
-  assert.deepEqual(await musicbrainz.search('', 'The Beatles'), []);
-  assert.equal(requests.length, count);
-});
-
-await test('MusicBrainz adapter excludes deluxe editions and combines original album discs', async () => {
-  const { musicbrainz } = await import(`${temp}/catalog-provider.mjs`);
-  const { responses } = await import(`${temp}/catalog-http-stub.mjs`);
-  const id = '00000000-0000-0000-0000-000000000001';
-  responses.set('/ws/2/recording/' + id, {
-    id,
-    title: 'Fixture',
-    length: 123000,
-    'first-release-date': '1999-01-01',
-    'artist-credit': [{ name: 'Artist' }],
-    releases: [
-      {
-        'release-group': { id: 'group', title: 'LP', 'primary-type': 'Album' },
-      },
-    ],
-  });
-  responses.set('/ws/2/release/?group=group', {
-    'release-count': 2,
-    releases: [
-      {
-        id: 'deluxe',
-        title: 'LP',
-        date: '2001-01-01',
-        status: 'Official',
-        disambiguation: 'deluxe bonus edition',
-        media: [{ position: 1 }],
-      },
-      {
-        id: 'standard',
-        title: 'LP',
-        date: '2001-01-02',
-        status: 'Official',
-        media: [{ position: 1 }, { position: 2 }],
-      },
-    ],
-  });
-  responses.set('/ws/2/release/standard', {
-    title: 'LP',
-    media: [
-      {
-        position: 2,
-        'track-count': 1,
-        tracks: [{ position: 1, title: 'Fixture', recording: { id } }],
-      },
-      {
-        position: 1,
-        'track-count': 1,
-        tracks: [
-          { position: 1, title: 'Opening', recording: { id: 'different' } },
-        ],
-      },
-    ],
-  });
-  const result = await musicbrainz.resolve(id, { albums: true });
-  assert.equal(result.firstReleaseDate, '1999-01-01');
-  assert.equal(result.albums[0].position, 2);
-  assert.equal(result.albums[0].trackCount, 2);
-  assert.match(result.albums[0].source, /standard$/);
-  responses.set('/ws/2/release/standard', {
-    title: 'LP',
-    media: [
-      {
-        position: 1,
-        'track-count': 1,
-        tracks: [
-          { position: 1, title: 'Other song', recording: { id: 'different' } },
-        ],
-      },
-    ],
-  });
-  assert.equal(
-    (await musicbrainz.resolve(id, { albums: true })).albums.length,
-    0,
-  );
-  assert.equal(
-    (await musicbrainz.resolve(id, { albums: false })).durationMs,
-    123000,
   );
 });
 
