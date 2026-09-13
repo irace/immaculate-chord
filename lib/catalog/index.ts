@@ -43,7 +43,7 @@ export async function prepareCatalog(
   let chosen = selection;
   if (!chosen) {
     // Old clients and re-grades can resolve an unambiguous exact match. Never silently choose a fuzzy match.
-    const hits = await provider.search(title);
+    const hits = await provider.search(title, artist);
     const exact = hits.filter(
       (h: CatalogHit) =>
         normalizeSong(h.title, h.artist) === normalizeSong(title, artist) &&

@@ -91,12 +91,13 @@ function hit(r: Recording): CatalogHit {
 }
 export const musicbrainz: CatalogProvider = {
   id: 'musicbrainz',
-  async search(query) {
+  async search(query, artistQuery = '') {
     // Escape Lucene operators: user input is text, never a search expression.
     const words = query
       .replace(/[^\p{L}\p{N}\s]/gu, ' ')
       .trim()
       .split(/\s+/)
+      .filter(Boolean)
       .slice(0, 12);
     if (!words.length) return [];
     const normalized = (text: string) =>
@@ -104,6 +105,19 @@ export const musicbrainz: CatalogProvider = {
         .toLocaleLowerCase()
         .replace(/[^\p{L}\p{N}]+/gu, ' ')
         .trim();
+    const artistWords = normalized(artistQuery)
+      .split(' ')
+      .filter(Boolean)
+      .slice(0, 12);
+    const artistClause = artistWords.length
+      ? ' AND ' + artistWords.map((w) => `artist:"${w}"`).join(' AND ')
+      : '';
+    const variant = (r: Recording) =>
+      Number(
+        /live|demo|karaoke|remix|run.through|session|bootleg|instrumental|dj.mix/i.test(
+          r.disambiguation || '',
+        ),
+      );
     const typed = normalized(query);
     let data: { recordings: Recording[] };
     try {
@@ -111,12 +125,13 @@ export const musicbrainz: CatalogProvider = {
         'recording/',
         {
           // Field every term: an artist-name match must never enumerate their songs.
-          query: words
-            .map(
-              (w, i) =>
-                `recording:${i === words.length - 1 ? `${w}*` : `"${w}"`}`,
-            )
-            .join(' AND '),
+          query:
+            words
+              .map(
+                (w, i) =>
+                  `recording:${i === words.length - 1 ? `${w}*` : `"${w}"`}`,
+              )
+              .join(' AND ') + artistClause,
           limit: '100',
         },
         5 * 60000,
@@ -127,7 +142,7 @@ export const musicbrainz: CatalogProvider = {
       data = await get<{ recordings: Recording[] }>(
         'recording/',
         {
-          query: `recording:"${words.join(' ')}"`,
+          query: `recording:"${words.join(' ')}"${artistClause}`,
           limit: '100',
         },
         5 * 60000,
@@ -138,6 +153,9 @@ export const musicbrainz: CatalogProvider = {
       .filter(
         (r) =>
           artist(r) &&
+          artistWords.every((w) =>
+            normalized(artist(r)).split(' ').includes(w),
+          ) &&
           words.every((word, i) => {
             const titleWords = normalized(r.title).split(' ');
             return titleWords.some((t) =>
@@ -151,7 +169,7 @@ export const musicbrainz: CatalogProvider = {
         (a, b) =>
           Number(normalized(b.title) === typed) -
             Number(normalized(a.title) === typed) ||
-          Number(!!a.disambiguation) - Number(!!b.disambiguation) ||
+          variant(a) - variant(b) ||
           (a['first-release-date'] || '9999').localeCompare(
             b['first-release-date'] || '9999',
           ) ||

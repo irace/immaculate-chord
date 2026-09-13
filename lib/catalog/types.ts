@@ -21,6 +21,6 @@ export type CatalogRecording = CatalogHit & {
 };
 export interface CatalogProvider {
   id: string;
-  search(query: string): Promise<CatalogHit[]>;
+  search(query: string, artist?: string): Promise<CatalogHit[]>;
   resolve(id: string, options?: { albums: boolean }): Promise<CatalogRecording>;
 }

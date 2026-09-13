@@ -1020,6 +1020,27 @@ await test('catalog search scopes all terms to titles and ranks exact matches be
     (await musicbrainz.search('The Beatles')).map((x) => x.id),
     ['title'],
   );
+  responses.set('/ws/2/recording/', {
+    recordings: [
+      {
+        ...recording('beatles', 'Hey Jude', 'The Beatles', '1968'),
+        disambiguation: 'original mono studio mix',
+      },
+      recording('later', 'Hey Jude', 'The Beatles', '1978'),
+      recording('cover', 'Hey Jude', 'Paul Mauriat', '1968'),
+    ],
+  });
+  assert.deepEqual(
+    (await musicbrainz.search('Hey Jude', 'The Beatles')).map((x) => x.id),
+    ['beatles', 'later'],
+  );
+  assert.equal(
+    new URL(requests.at(-1)).searchParams.get('query'),
+    'recording:"Hey" AND recording:Jude* AND artist:"the" AND artist:"beatles"',
+  );
+  const count = requests.length;
+  assert.deepEqual(await musicbrainz.search('', 'The Beatles'), []);
+  assert.equal(requests.length, count);
 });
 
 await test('MusicBrainz adapter excludes deluxe editions and combines original album discs', async () => {

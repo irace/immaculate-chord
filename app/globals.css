@@ -1554,3 +1554,5 @@ input::placeholder {
 .catalog-result strong, .catalog-result small { display: block; }
 .catalog-result small { font-size: 14px; color: var(--muted-foreground); }
 .catalog-result[data-highlighted] { background: var(--muted); }
+
+.catalog-artist-label { display: block; margin-top: 16px; }

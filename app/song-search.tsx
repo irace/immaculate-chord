@@ -18,6 +18,7 @@ export default function SongSearch({
   disabled: boolean;
 }) {
   const [query, setQuery] = useState('');
+  const [artist, setArtist] = useState('');
   const [results, setResults] = useState<CatalogHit[]>([]);
   const [status, setStatus] = useState('');
   useEffect(() => {
@@ -31,7 +32,7 @@ export default function SongSearch({
     const timer = setTimeout(async () => {
       try {
         const response = await fetch(
-          `/api/catalog/search?q=${encodeURIComponent(query.trim())}`,
+          `/api/catalog/search?q=${encodeURIComponent(query.trim())}&artist=${encodeURIComponent(artist.trim())}`,
           { signal: controller.signal },
         );
         const data = (await response.json()) as {
@@ -44,7 +45,7 @@ export default function SongSearch({
         setStatus(
           data.results.length
             ? ''
-            : 'No recordings found. Try another song title.',
+            : 'No recordings found. Add or adjust the artist to narrow your search.',
         );
       } catch (error) {
         if (!controller.signal.aborted) {
@@ -61,29 +62,31 @@ export default function SongSearch({
       clearTimeout(timer);
       controller.abort();
     };
-  }, [query, value]);
+  }, [query, artist, value]);
   return (
     <div className="song-search">
       <label htmlFor="catalog-song">Song title</label>
       <Combobox
         items={results}
         value={value}
+        inputValue={query}
         filter={null}
         disabled={disabled}
-        itemToStringLabel={(item: CatalogHit) =>
-          `${item.title} — ${item.artist}`
-        }
+        itemToStringLabel={(item: CatalogHit) => item.title}
         isItemEqualToValue={(a: CatalogHit, b: CatalogHit) =>
           a.id === b.id && a.provider === b.provider
         }
         onInputValueChange={(text, details) => {
-          setQuery(text);
           if (details.reason === 'input-change') {
+            setQuery(text);
             onChange(null);
             setResults([]);
           }
         }}
-        onValueChange={(item: CatalogHit | null) => onChange(item)}
+        onValueChange={(item: CatalogHit | null) => {
+          onChange(item);
+          if (item) setQuery(item.title);
+        }}
       >
         <ComboboxInput
           id="catalog-song"
@@ -109,12 +112,33 @@ export default function SongSearch({
           </ComboboxList>
         </ComboboxContent>
       </Combobox>
+      <label className="catalog-artist-label" htmlFor="catalog-artist">
+        Artist (optional)
+      </label>
+      <input
+        id="catalog-artist"
+        value={artist}
+        disabled={disabled}
+        maxLength={120}
+        placeholder="Narrow the results, e.g. The Beatles"
+        autoComplete="off"
+        onChange={(event) => {
+          if (value) setQuery(value.title);
+          setArtist(event.target.value);
+          onChange(null);
+          setResults([]);
+        }}
+      />
       {status && (
         <p className="small-print" role="status">
           {status}
         </p>
       )}
-      {value?.version && <p className="small-print">{value.version}</p>}
+      {value && (
+        <p className="small-print">
+          {[value.artist, value.version].filter(Boolean).join(' · ')}
+        </p>
+      )}
     </div>
   );
 }
