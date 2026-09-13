@@ -1,0 +1,3370 @@
+{
+  "date": "2026-09-13T11:29:56.993Z",
+  "results": [
+    {
+      "provider": "deezer",
+      "title": "Hey Jude",
+      "expectedArtist": "The Beatles",
+      "rank": 2,
+      "ms": 324,
+      "hits": [
+        {
+          "id": "116348632",
+          "title": "Hey Jude (Remastered 2015)",
+          "artist": "The Beatles",
+          "album": "1 (Remastered)",
+          "durationMs": 429000
+        },
+        {
+          "id": "126848613",
+          "title": "Hey Jude",
+          "artist": "The Beatles",
+          "album": "Love",
+          "durationMs": 239000
+        },
+        {
+          "id": "116348108",
+          "title": "Hey Jude (Remastered 2009)",
+          "artist": "The Beatles",
+          "album": "The Beatles 1967 - 1970 (Remastered)",
+          "durationMs": 429000
+        },
+        {
+          "id": "765958",
+          "title": "Hey Jude",
+          "artist": "Wilson Pickett",
+          "album": "Wilson Pickett: A Man and a Half",
+          "durationMs": 247000
+        },
+        {
+          "id": "1041194042",
+          "title": "Hey Jude (Live At Citi Field, NYC, 2009)",
+          "artist": "Paul McCartney",
+          "album": "Good Evening New York City",
+          "durationMs": 443000
+        },
+        {
+          "id": "3980075661",
+          "title": "Hey Jude (Cover Version)",
+          "artist": "The Liverpool Beat Project",
+          "album": "The Beatles Songbook, Vol.2, Beat Meets Psychedelic (Cover Version)",
+          "durationMs": 422000
+        },
+        {
+          "id": "3772775922",
+          "title": "Hey Jude",
+          "artist": "Monique Kessous",
+          "album": "Cool Covers in Bossa Nova: Taste of Saudade",
+          "durationMs": 216000
+        },
+        {
+          "id": "30765721",
+          "title": "Hey Jude (Live)",
+          "artist": "Paul McCartney",
+          "album": "Back In The World (Live)",
+          "durationMs": 455000
+        },
+        {
+          "id": "4193842732",
+          "title": "Hey Jude",
+          "artist": "Benny Rivers",
+          "album": "Hey Jude",
+          "durationMs": 257000
+        },
+        {
+          "id": "2120181367",
+          "title": "Hey Jude",
+          "artist": "The Northern Lights Quintet",
+          "album": "Songs Vol. 1",
+          "durationMs": 247000
+        },
+        {
+          "id": "3081711611",
+          "title": "Hey Jude (Ao Vivo)",
+          "artist": "Reisan",
+          "album": "Reisan, Vol.1 (Acústico Ao Vivo)",
+          "durationMs": 308000
+        },
+        {
+          "id": "129231854",
+          "title": "Hey Jude",
+          "artist": "Elvis Presley",
+          "album": "Elvis Now",
+          "durationMs": 270000
+        },
+        {
+          "id": "1919423",
+          "title": "Hey Jude",
+          "artist": "Sweet Little Band",
+          "album": "Babies Go Beatles",
+          "durationMs": 258000
+        },
+        {
+          "id": "67846966",
+          "title": "Hey Jude",
+          "artist": "Let It Be",
+          "album": "Hey Jude",
+          "durationMs": 235000
+        },
+        {
+          "id": "74417480",
+          "title": "Hey Jude",
+          "artist": "Ella Fitzgerald",
+          "album": "Sunshine of Your Love",
+          "durationMs": 230000
+        },
+        {
+          "id": "30863671",
+          "title": "Hey Jude",
+          "artist": "Paul McCartney",
+          "album": "Back In The U.S.",
+          "durationMs": 421000
+        },
+        {
+          "id": "70331256",
+          "title": "Hey Jude (Glee Cast Version)",
+          "artist": "Glee Cast",
+          "album": "Glee Sings The Beatles",
+          "durationMs": 291000
+        },
+        {
+          "id": "83817028",
+          "title": "Hey Jude",
+          "artist": "The Fevers",
+          "album": "20 Super Sucessos: The Fevers",
+          "durationMs": 244000
+        },
+        {
+          "id": "2633464",
+          "title": "Hey Jude (Ao Vivo)",
+          "artist": "Yahoo",
+          "album": "20 Anos (Ao Vivo)",
+          "durationMs": 294000
+        },
+        {
+          "id": "2546663172",
+          "title": "Hey Jude",
+          "artist": "Dino Fonseca",
+          "album": "Dino - Acoustic Sessions (Parte 3)",
+          "durationMs": 229000
+        },
+        {
+          "id": "43461921",
+          "title": "Hey Jude",
+          "artist": "Lullaby Piano Series",
+          "album": "Rock-a-Bye Baby Beatles Soothing Piano Tribute",
+          "durationMs": 199000
+        },
+        {
+          "id": "1822872657",
+          "title": "Hey Jude (Live)",
+          "artist": "40 Fingers",
+          "album": "Hey Jude (Live)",
+          "durationMs": 384000
+        },
+        {
+          "id": "2260194827",
+          "title": "Hey Jude",
+          "artist": "Imaginary Future",
+          "album": "Hey Jude",
+          "durationMs": 217000
+        },
+        {
+          "id": "4634898",
+          "title": "Hey Jude",
+          "artist": "Maynard Ferguson",
+          "album": "M.F. Horn Two",
+          "durationMs": 451000
+        },
+        {
+          "id": "12941508",
+          "title": "Hey Jude",
+          "artist": "John Holt",
+          "album": "20 Love Songs",
+          "durationMs": 178000
+        }
+      ]
+    },
+    {
+      "provider": "itunes",
+      "title": "Hey Jude",
+      "expectedArtist": "The Beatles",
+      "rank": 1,
+      "ms": 512,
+      "hits": [
+        {
+          "id": "1441133277",
+          "title": "Hey Jude",
+          "artist": "The Beatles",
+          "album": "The Beatles 1967-1970 (The Blue Album)",
+          "durationMs": 431333
+        },
+        {
+          "id": "1440834224",
+          "title": "Hey Jude",
+          "artist": "The Beatles",
+          "album": "1",
+          "durationMs": 425653
+        },
+        {
+          "id": "1441133861",
+          "title": "Hey Jude",
+          "artist": "The Beatles",
+          "album": "Love",
+          "durationMs": 238854
+        },
+        {
+          "id": "265615705",
+          "title": "Hey Jude",
+          "artist": "Wilson Pickett",
+          "album": "Hey Jude",
+          "durationMs": 247733
+        },
+        {
+          "id": "1508598612",
+          "title": "Hey Jude (Live)",
+          "artist": "Paul McCartney",
+          "album": "Back In the U.S. (Live 2002)",
+          "durationMs": 421027
+        },
+        {
+          "id": "1680961021",
+          "title": "Hey Jude (As Heard on Ted Lasso)",
+          "artist": "Alex Vargas",
+          "album": "Hey Jude (As Heard on Ted Lasso) - EP",
+          "durationMs": 241283
+        },
+        {
+          "id": "312354609",
+          "title": "Hey Jude (Live)",
+          "artist": "Grateful Dead",
+          "album": "Download Series Vol. 9: 4/2/89 & 4/3/89 (Civic Arena, Pittsburgh, PA)",
+          "durationMs": 159000
+        },
+        {
+          "id": "1228312200",
+          "title": "Hey Jude (Live at Sullivan Stadium, Foxboro, MA 7/2/89)",
+          "artist": "Grateful Dead",
+          "album": "Long Strange Trip: The Untold Story of the Grateful Dead (Motion Picture Soundtrack)",
+          "durationMs": 239573
+        },
+        {
+          "id": "1713155397",
+          "title": "Hey Jude (2015 Mix)",
+          "artist": "The Beatles",
+          "album": "The Beatles 1967–1970 (2023 Edition) [The Blue Album]",
+          "durationMs": 431453
+        },
+        {
+          "id": "1452860137",
+          "title": "Hey Jude",
+          "artist": "Joe Anderson",
+          "album": "Across the Universe (Deluxe Edition) [Music from the Motion Picture]",
+          "durationMs": 250053
+        },
+        {
+          "id": "1441134371",
+          "title": "Hey Jude",
+          "artist": "The Beatles",
+          "album": "Past Masters, Vols. 1 & 2",
+          "durationMs": 429933
+        },
+        {
+          "id": "696885746",
+          "title": "Hey Jude (Glee Cast Version)",
+          "artist": "Glee Cast",
+          "album": "Glee Sings the Beatles",
+          "durationMs": 291320
+        },
+        {
+          "id": "1468032748",
+          "title": "Hey Jude",
+          "artist": "The Beatles",
+          "album": "Hey Jude",
+          "durationMs": 432200
+        },
+        {
+          "id": "379010333",
+          "title": "Hey Jude",
+          "artist": "Twinkle Twinkle Little Rock Star",
+          "album": "Lullaby Versions of The Beatles",
+          "durationMs": 253186
+        },
+        {
+          "id": "982690974",
+          "title": "Hey Jude",
+          "artist": "Rockabye Baby!",
+          "album": "Lullaby Renditions of the Beatles",
+          "durationMs": 273400
+        },
+        {
+          "id": "1440782367",
+          "title": "Hey Jude",
+          "artist": "Joe Anderson",
+          "album": "Across the Universe (Music from the Motion Picture) [Deluxe Edition]",
+          "durationMs": 250053
+        },
+        {
+          "id": "6811193795",
+          "title": "Hey Jude",
+          "artist": "Johnny Days Orchestra",
+          "album": "Instrumentales del Siglo XX, Vol. 2",
+          "durationMs": 263907
+        },
+        {
+          "id": "1436906072",
+          "title": "Hey Jude (Take 1)",
+          "artist": "The Beatles",
+          "album": "The Beatles (White Album) (Super Deluxe Edition) [2018 Remix & Remaster]",
+          "durationMs": 404480
+        },
+        {
+          "id": "1463172633",
+          "title": "Hey Jude (From the Album \"One Man Only\")",
+          "artist": "Himesh Patel",
+          "album": "Yesterday (Original Motion Picture Soundtrack)",
+          "durationMs": 368773
+        },
+        {
+          "id": "1138098054",
+          "title": "Hey Jude",
+          "artist": "Elvis Presley",
+          "album": "Elvis Now",
+          "durationMs": 275597
+        },
+        {
+          "id": "1440786882",
+          "title": "Hey Jude",
+          "artist": "Joe Anderson",
+          "album": "Across the Universe (Music from the Motion Picture)",
+          "durationMs": 249907
+        },
+        {
+          "id": "1676689162",
+          "title": "Hey Jude",
+          "artist": "Imaginary Future",
+          "album": "Yesterday - EP",
+          "durationMs": 211735
+        },
+        {
+          "id": "1054241421",
+          "title": "Hey Jude (Metal Cover)",
+          "artist": "Leo",
+          "album": "Leo Metal Covers Volume 5",
+          "durationMs": 259000
+        },
+        {
+          "id": "1017642833",
+          "title": "Hey Jude",
+          "artist": "Caspar Babypants",
+          "album": "Beatles Baby!",
+          "durationMs": 174427
+        },
+        {
+          "id": "307004058",
+          "title": "Hey Jude",
+          "artist": "The Love Me Do's",
+          "album": "The Beatles' Most Favourite Songs",
+          "durationMs": 197867
+        }
+      ]
+    },
+    {
+      "provider": "deezer",
+      "title": "Strange Fruit",
+      "expectedArtist": "Billie Holiday",
+      "rank": 1,
+      "ms": 289,
+      "hits": [
+        {
+          "id": "542807362",
+          "title": "Strange Fruit",
+          "artist": "Billie Holiday",
+          "album": "The Complete Billie Holiday On Verve 1945 - 1959",
+          "durationMs": 181000
+        },
+        {
+          "id": "593692962",
+          "title": "Strange Fruit",
+          "artist": "Billie Holiday & Her Orchestra",
+          "album": "Billie Holiday",
+          "durationMs": 190000
+        },
+        {
+          "id": "917121672",
+          "title": "Strange Fruit (From \"Sons of Anarchy: Season 4\")",
+          "artist": "Katey Sagal",
+          "album": "Strange Fruit (From \"Sons of Anarchy: Season 4\")",
+          "durationMs": 243000
+        },
+        {
+          "id": "2021827437",
+          "title": "Strange Fruit",
+          "artist": "AaRON",
+          "album": "Artificial Animals Riding on Neverland",
+          "durationMs": 172000
+        },
+        {
+          "id": "3411812",
+          "title": "Strange Fruit",
+          "artist": "Cassandra Wilson",
+          "album": "New Moon Daughter",
+          "durationMs": 333000
+        },
+        {
+          "id": "3668614532",
+          "title": "Strange Fruit",
+          "artist": "DJ Abdel",
+          "album": "Hip Hop Soul Party 4",
+          "durationMs": 220000
+        },
+        {
+          "id": "444379382",
+          "title": "Strange Fruit",
+          "artist": "Dominique Fils-Aimé",
+          "album": "Nameless",
+          "durationMs": 188000
+        },
+        {
+          "id": "93178788",
+          "title": "Strange Fruit",
+          "artist": "Cassandra Wilson",
+          "album": "Coming Forth by Day",
+          "durationMs": 294000
+        },
+        {
+          "id": "1974642847",
+          "title": "Strange Fruit (Live)",
+          "artist": "Beth Hart, Joe Bonamassa",
+          "album": "Live In Amsterdam (Live)",
+          "durationMs": 358000
+        },
+        {
+          "id": "3019073",
+          "title": "Strange Fruit (Live at Sin-é, New York, NY - July/August 1993)",
+          "artist": "Jeff Buckley",
+          "album": "Live At Sin-é (Legacy Edition)",
+          "durationMs": 463000
+        },
+        {
+          "id": "3196295621",
+          "title": "Strange Fruit",
+          "artist": "Matthieu Saglio",
+          "album": "Al Alba",
+          "durationMs": 288000
+        },
+        {
+          "id": "118339566",
+          "title": "Strange Fruit",
+          "artist": "Rokia Traoré",
+          "album": "Né So",
+          "durationMs": 220000
+        },
+        {
+          "id": "1213817282",
+          "title": "Strange Fruit (Music from the Motion Picture \"The United States vs. Billie Holiday\")",
+          "artist": "Andra Day",
+          "album": "Strange Fruit (Music from the Motion Picture \"The United States vs. Billie Holiday\")",
+          "durationMs": 206000
+        },
+        {
+          "id": "71105086",
+          "title": "Strange Fruit",
+          "artist": "JUKEBOX CHAMPIONS",
+          "album": "Don't Rock the Jukebox",
+          "durationMs": 259000
+        },
+        {
+          "id": "87886587",
+          "title": "Strange Fruit",
+          "artist": "Annie Lennox",
+          "album": "Nostalgia",
+          "durationMs": 227000
+        },
+        {
+          "id": "4226546332",
+          "title": "Strange Fruit",
+          "artist": "Neepo",
+          "album": "Strange Fruit",
+          "durationMs": 145000
+        },
+        {
+          "id": "66684130",
+          "title": "Strange Fruit",
+          "artist": "Beth Hart, Joe Bonamassa",
+          "album": "Seesaw",
+          "durationMs": 347000
+        },
+        {
+          "id": "1243947422",
+          "title": "Strange Fruit (feat. Ro$ama)",
+          "artist": "BigXthaPlug",
+          "album": "Strange Fruit (feat. Ro$ama)",
+          "durationMs": 212000
+        },
+        {
+          "id": "87769547",
+          "title": "Strange Fruit",
+          "artist": "Siouxsie And The Banshees",
+          "album": "Through The Looking Glass (Remastered And Expanded)",
+          "durationMs": 225000
+        },
+        {
+          "id": "1059223712",
+          "title": "Strange Fruit",
+          "artist": "Bettye LaVette",
+          "album": "Blackbirds",
+          "durationMs": 254000
+        },
+        {
+          "id": "1041317",
+          "title": "Strange Fruit",
+          "artist": "Carmen McRae",
+          "album": "Carmen McRae Sings Lover Man And Other Billie Holiday Classics",
+          "durationMs": 167000
+        },
+        {
+          "id": "3361506",
+          "title": "Strange Fruit",
+          "artist": "UB40",
+          "album": "Signing Off",
+          "durationMs": 246000
+        },
+        {
+          "id": "2949763201",
+          "title": "Strange Fruit (Arr. Kanneh-Mason & Gillam for Cello & Saxophone)",
+          "artist": "Sheku Kanneh-Mason",
+          "album": "Strange Fruit (Arr. Kanneh-Mason & Gillam for Cello & Saxophone)",
+          "durationMs": 184000
+        },
+        {
+          "id": "2114449",
+          "title": "Strange Fruit",
+          "artist": "Catherine Wheel",
+          "album": "Chrome",
+          "durationMs": 186000
+        },
+        {
+          "id": "109786324",
+          "title": "Strange Fruit",
+          "artist": "John Martyn",
+          "album": "The Church With One Bell",
+          "durationMs": 243000
+        }
+      ]
+    },
+    {
+      "provider": "itunes",
+      "title": "Strange Fruit",
+      "expectedArtist": "Billie Holiday",
+      "rank": 1,
+      "ms": 308,
+      "hits": [
+        {
+          "id": "1445229998",
+          "title": "Strange Fruit",
+          "artist": "Billie Holiday",
+          "album": "Billy Remembers Billie (Billy Crystal Selects His Favorite Billie Holiday Music)",
+          "durationMs": 190720
+        },
+        {
+          "id": "1445668660",
+          "title": "Strange Fruit",
+          "artist": "Nina Simone",
+          "album": "Pastel Blues",
+          "durationMs": 211554
+        },
+        {
+          "id": "1469579573",
+          "title": "Strange Fruit",
+          "artist": "Billie Holiday",
+          "album": "Billie Holiday",
+          "durationMs": 192935
+        },
+        {
+          "id": "1551478043",
+          "title": "Strange Fruit",
+          "artist": "Andra Day",
+          "album": "The United States vs. Billie Holiday (Music from the Motion Picture)",
+          "durationMs": 206944
+        },
+        {
+          "id": "1440854304",
+          "title": "Strange Fruit",
+          "artist": "Annie Lennox",
+          "album": "Nostalgia",
+          "durationMs": 226645
+        },
+        {
+          "id": "309064273",
+          "title": "Strange Fruit (Live)",
+          "artist": "Jeff Buckley",
+          "album": "Live At Sin-é (Legacy Edition) [Audio Version]",
+          "durationMs": 463330
+        },
+        {
+          "id": "1443124058",
+          "title": "Strange Fruit",
+          "artist": "Siouxsie & The Banshees",
+          "album": "Through the Looking Glass (Remastered and Expanded)",
+          "durationMs": 231333
+        },
+        {
+          "id": "483007873",
+          "title": "Strange Fruit (feat. Blake Mills)",
+          "artist": "Katey Sagal & The Forest Rangers",
+          "album": "Songs of Anarchy: Music from Sons of Anarchy Seasons 1-4",
+          "durationMs": 244747
+        },
+        {
+          "id": "724160308",
+          "title": "Strange Fruit",
+          "artist": "UB40",
+          "album": "Signing Off",
+          "durationMs": 245867
+        },
+        {
+          "id": "1469582571",
+          "title": "Strange Fruit",
+          "artist": "Billie Holiday & Tony Scott and His Orchestra",
+          "album": "Lady Sings the Blues",
+          "durationMs": 181658
+        },
+        {
+          "id": "1413954546",
+          "title": "Strange Fruit (Live In New York/1965)",
+          "artist": "Nina Simone",
+          "album": "Compact Jazz",
+          "durationMs": 213000
+        },
+        {
+          "id": "1429177627",
+          "title": "Strange Fruit",
+          "artist": "Billie Holiday",
+          "album": "The Complete Commodore Recordings",
+          "durationMs": 193493
+        },
+        {
+          "id": "1469586227",
+          "title": "Strange Fruit (Live In New York/1965)",
+          "artist": "Nina Simone",
+          "album": "Four Women: The Nina Simone Philips Recordings",
+          "durationMs": 211554
+        },
+        {
+          "id": "1434873243",
+          "title": "Strange Fruit",
+          "artist": "Billie Holiday and Her Orchestra",
+          "album": "20th Century Masters: Best of Billie Holiday (The Millennium Collection)",
+          "durationMs": 193400
+        },
+        {
+          "id": "1443614006",
+          "title": "Strange Fruit",
+          "artist": "Catherine Wheel",
+          "album": "Chrome",
+          "durationMs": 186360
+        },
+        {
+          "id": "1442870051",
+          "title": "Strange Fruit",
+          "artist": "Diana Ross",
+          "album": "Lady Sings the Blues (Original Motion Picture Soundtrack)",
+          "durationMs": 216592
+        },
+        {
+          "id": "1443111391",
+          "title": "Strange Fruit",
+          "artist": "Cassandra Wilson",
+          "album": "New Moon Daughter",
+          "durationMs": 355114
+        },
+        {
+          "id": "1231990365",
+          "title": "Strange Fruit",
+          "artist": "Jade Novah",
+          "album": "Strange Fruit - Single",
+          "durationMs": 172278
+        },
+        {
+          "id": "1444531800",
+          "title": "Strange Fruit (Live at The Philharmonic Auditorium, Los Angeles/1945)",
+          "artist": "Billie Holiday",
+          "album": "Jazz At The Philharmonic (Expanded Edition)",
+          "durationMs": 171759
+        },
+        {
+          "id": "1650643084",
+          "title": "Strange Fruit (Live)",
+          "artist": "Beth Hart & Joe Bonamassa",
+          "album": "Live In Amsterdam",
+          "durationMs": 358107
+        },
+        {
+          "id": "1470670729",
+          "title": "Strange Fruit",
+          "artist": "Nina Simone",
+          "album": "Feeling Good: The Very Best of Nina Simone",
+          "durationMs": 210000
+        },
+        {
+          "id": "636339985",
+          "title": "Strange Fruit",
+          "artist": "Beth Hart & Joe Bonamassa",
+          "album": "Seesaw",
+          "durationMs": 347293
+        },
+        {
+          "id": "1534633711",
+          "title": "Strange Fruit (From \"I Can't Breathe / Music For the Movement\")",
+          "artist": "Jensen McRae",
+          "album": "Strange Fruit (From \"I Can't Breathe / Music For the Movement\") - Single",
+          "durationMs": 200618
+        },
+        {
+          "id": "1443133521",
+          "title": "Strange Fruit",
+          "artist": "Sounds of Blackness",
+          "album": "Africa to America; The Journey of the Drum",
+          "durationMs": 162573
+        },
+        {
+          "id": "1484014561",
+          "title": "Strange Fruit",
+          "artist": "Billie Holiday and Her Orchestra",
+          "album": "The Apollo Original Motion Picture Soundtrack (Original Motion Picture Soundtrack)",
+          "durationMs": 190040
+        }
+      ]
+    },
+    {
+      "provider": "deezer",
+      "title": "Robot Stop",
+      "expectedArtist": "King Gizzard",
+      "rank": null,
+      "ms": 237,
+      "hits": [
+        {
+          "id": "1108945622",
+          "title": "Robot Stop (Live in San Francisco '16)",
+          "artist": "King Gizzard & The Lizard Wizard",
+          "album": "Live in San Francisco '16",
+          "durationMs": 261000
+        },
+        {
+          "id": "3564249161",
+          "title": "Robot Stop (Live at Red Rocks '23)",
+          "artist": "bootleg gizzard",
+          "album": "Live at Red Rocks '23",
+          "durationMs": 871000
+        },
+        {
+          "id": "3424251831",
+          "title": "Robot Stop (Live in Bulgaria '25)",
+          "artist": "bootleg gizzard",
+          "album": "Live in Bulgaria '25",
+          "durationMs": 514000
+        },
+        {
+          "id": "3497529101",
+          "title": "Robot Stop (Live at Bonnaroo '22)",
+          "artist": "bootleg gizzard",
+          "album": "Live at Bonnaroo '22",
+          "durationMs": 492000
+        },
+        {
+          "id": "3497735301",
+          "title": "Robot Stop (Live in Los Angeles '24)",
+          "artist": "bootleg gizzard",
+          "album": "Live in Los Angeles '24",
+          "durationMs": 521000
+        },
+        {
+          "id": "3393725891",
+          "title": "Robot Stop (Live at The Caverns '23)",
+          "artist": "bootleg gizzard",
+          "album": "Live at The Caverns '23",
+          "durationMs": 517000
+        },
+        {
+          "id": "3391016241",
+          "title": "Robot Stop (Live in Barcelona '25)",
+          "artist": "bootleg gizzard",
+          "album": "Live in Barcelona '25",
+          "durationMs": 596000
+        },
+        {
+          "id": "3497531061",
+          "title": "Robot Stop (Live in New York City '24)",
+          "artist": "bootleg gizzard",
+          "album": "Live in New York City '24",
+          "durationMs": 512000
+        },
+        {
+          "id": "3573059821",
+          "title": "Robot Stop (Live at Remlinger Farms '23)",
+          "artist": "bootleg gizzard",
+          "album": "Live at Remlinger Farms '23",
+          "durationMs": 567000
+        },
+        {
+          "id": "5240365",
+          "title": "Robot Stomp",
+          "artist": "The Velvet Candles",
+          "album": "The Story of Our Love",
+          "durationMs": 119000
+        },
+        {
+          "id": "2110230317",
+          "title": "Never Stop",
+          "artist": "Third Culture (USA)",
+          "album": "Chemicals",
+          "durationMs": 211000
+        },
+        {
+          "id": "121097136",
+          "title": "Robot Stomp",
+          "artist": "Vale Tudo",
+          "album": "Hardcore Heavyweights",
+          "durationMs": 78000
+        },
+        {
+          "id": "141346077",
+          "title": "Robots.Txt",
+          "artist": "Jonathan Coulton",
+          "album": "Solid State",
+          "durationMs": 195000
+        },
+        {
+          "id": "709544912",
+          "title": "Floor 3-3: Don't Stop Movin'! Like Really! Killer Robot Is After You!",
+          "artist": "Craig Barnes",
+          "album": "Streets of Rogue (Original Game Soundtrack)",
+          "durationMs": 180000
+        },
+        {
+          "id": "2402661925",
+          "title": "SEABIRD",
+          "artist": "Robousto",
+          "album": "oceanbay",
+          "durationMs": 184000
+        },
+        {
+          "id": "2947941961",
+          "title": "waiting...",
+          "artist": "Robousto",
+          "album": "waiting...",
+          "durationMs": 155000
+        },
+        {
+          "id": "11126735",
+          "title": "Can't Stop Getting Wasted",
+          "artist": "Robots In Disguise",
+          "album": "We're In The Music Biz",
+          "durationMs": 151000
+        },
+        {
+          "id": "491683722",
+          "title": "Robot Stomp",
+          "artist": "White Hills",
+          "album": "Frying on this Rock",
+          "durationMs": 708000
+        },
+        {
+          "id": "2890937",
+          "title": "Stop those robots",
+          "artist": "The Speed Freak",
+          "album": "Disinformation Overload",
+          "durationMs": 345000
+        },
+        {
+          "id": "2686665362",
+          "title": "Fly With Me",
+          "artist": "Robousto",
+          "album": "Fly With Me",
+          "durationMs": 198000
+        },
+        {
+          "id": "2873455952",
+          "title": "Robot Street Musicians",
+          "artist": "Stavroz",
+          "album": "Playground Party",
+          "durationMs": 482000
+        },
+        {
+          "id": "3573244641",
+          "title": "Robot",
+          "artist": "Space 92",
+          "album": "Robot",
+          "durationMs": 206000
+        },
+        {
+          "id": "1120345402",
+          "title": "Robot Soldier (Resurrection - Rescue)",
+          "artist": "Joe Hisaishi",
+          "album": "Laputa: Castle in the Sky Soundtrack -The Mystery of the Levitation Stone-",
+          "durationMs": 154000
+        },
+        {
+          "id": "1405243152",
+          "title": "Robot Soft Exorcism",
+          "artist": "Thrice",
+          "album": "Horizons / East",
+          "durationMs": 264000
+        },
+        {
+          "id": "2639248",
+          "title": "Robot soul",
+          "artist": "Cosmo Vitelli",
+          "album": "Clean",
+          "durationMs": 287000
+        }
+      ]
+    },
+    {
+      "provider": "itunes",
+      "title": "Robot Stop",
+      "expectedArtist": "King Gizzard",
+      "rank": null,
+      "ms": 305,
+      "hits": [
+        {
+          "id": "1831824598",
+          "title": "Robot Stop (Live in Chicago '24)",
+          "artist": "bootleg gizzard",
+          "album": "Live in Chicago '24",
+          "durationMs": 547940
+        },
+        {
+          "id": "1817516468",
+          "title": "Robot Stop (Live in Barcelona '25)",
+          "artist": "bootleg gizzard",
+          "album": "Live in Barcelona '25",
+          "durationMs": 595884
+        },
+        {
+          "id": "1535825016",
+          "title": "Robot Stop (Live in San Francisco '16)",
+          "artist": "King Gizzard & The Lizard Wizard",
+          "album": "Live in San Francisco '16",
+          "durationMs": 261332
+        },
+        {
+          "id": "1828475351",
+          "title": "Robot Stop (Live at Bonnaroo '22)",
+          "artist": "bootleg gizzard",
+          "album": "Live at Bonnaroo '22",
+          "durationMs": 491921
+        },
+        {
+          "id": "1842166461",
+          "title": "Robot Stop (Live at Remlinger Farms '23)",
+          "artist": "bootleg gizzard",
+          "album": "Live at Remlinger Farms '23",
+          "durationMs": 567842
+        },
+        {
+          "id": "1828483604",
+          "title": "Robot Stop (Live in New York City '24)",
+          "artist": "bootleg gizzard",
+          "album": "Live in New York City '24",
+          "durationMs": 512390
+        },
+        {
+          "id": "1831819582",
+          "title": "Robot Stop (Live in Los Angeles '24)",
+          "artist": "bootleg gizzard",
+          "album": "Live in Los Angeles '24",
+          "durationMs": 521411
+        },
+        {
+          "id": "1817827367",
+          "title": "Robot Stop (Live at The Caverns '23)",
+          "artist": "bootleg gizzard",
+          "album": "Live at The Caverns '23",
+          "durationMs": 517073
+        },
+        {
+          "id": "1828479451",
+          "title": "Robot Stop (Live at Levitation '16)",
+          "artist": "bootleg gizzard",
+          "album": "Live at Levitation '16",
+          "durationMs": 252467
+        },
+        {
+          "id": "1828483626",
+          "title": "Robot Stop (Live in Brussels '19)",
+          "artist": "bootleg gizzard",
+          "album": "Live in Brussels '19",
+          "durationMs": 343334
+        },
+        {
+          "id": "1821902521",
+          "title": "Robot Stop (Live in Bulgaria '25)",
+          "artist": "bootleg gizzard",
+          "album": "Live in Bulgaria '25",
+          "durationMs": 513988
+        },
+        {
+          "id": "1831815987",
+          "title": "Robot Stop (Live in New Orleans '24)",
+          "artist": "bootleg gizzard",
+          "album": "Live in New Orleans '24",
+          "durationMs": 381853
+        },
+        {
+          "id": "1828474647",
+          "title": "Robot Stop (Live in St. Louis '24)",
+          "artist": "bootleg gizzard",
+          "album": "Live in St. Louis '24",
+          "durationMs": 284086
+        },
+        {
+          "id": "1831827326",
+          "title": "Robot Stop (Live in Toronto '24)",
+          "artist": "bootleg gizzard",
+          "album": "Live in Toronto '24",
+          "durationMs": 426811
+        },
+        {
+          "id": "1520082226",
+          "title": "Robot Stop",
+          "artist": "Sean Michael Smith",
+          "album": "Songs for the Roni - EP",
+          "durationMs": 156500
+        },
+        {
+          "id": "1440809771",
+          "title": "Robot",
+          "artist": "Miley Cyrus",
+          "album": "Can't Be Tamed",
+          "durationMs": 223093
+        },
+        {
+          "id": "1533155203",
+          "title": "Robot",
+          "artist": "Trip Lee",
+          "album": "The Good Life",
+          "durationMs": 213627
+        },
+        {
+          "id": "945578427",
+          "title": "Can't Stop",
+          "artist": "Red Hot Chili Peppers",
+          "album": "By the Way",
+          "durationMs": 268370
+        },
+        {
+          "id": "6791687320",
+          "title": "ROBOT",
+          "artist": "Lee Young Ji",
+          "album": "ROBOT - Single",
+          "durationMs": 210000
+        },
+        {
+          "id": "948438478",
+          "title": "Can't Stop",
+          "artist": "Red Hot Chili Peppers",
+          "album": "By the Way (Deluxe Edition)",
+          "durationMs": 268370
+        },
+        {
+          "id": "434679264",
+          "title": "Robot",
+          "artist": "Getter Jaani",
+          "album": "Rockefeller Street",
+          "durationMs": 238395
+        },
+        {
+          "id": "1109251516",
+          "title": "Go Robot",
+          "artist": "Red Hot Chili Peppers",
+          "album": "The Getaway",
+          "durationMs": 263813
+        },
+        {
+          "id": "412794723",
+          "title": "Stop",
+          "artist": "Robot Man",
+          "album": "Play - EP",
+          "durationMs": 423307
+        },
+        {
+          "id": "1675485296",
+          "title": "Young Robot",
+          "artist": "Dance Gavin Dance",
+          "album": "Mothership",
+          "durationMs": 219080
+        },
+        {
+          "id": "1604623462",
+          "title": "Planet Rock",
+          "artist": "Afrika Bambaataa & The Soulsonic Force",
+          "album": "Planet Rock",
+          "durationMs": 382240
+        }
+      ]
+    },
+    {
+      "provider": "deezer",
+      "title": "New York Kiss",
+      "expectedArtist": "Spoon",
+      "rank": 1,
+      "ms": 277,
+      "hits": [
+        {
+          "id": "990803182",
+          "title": "New York Kiss",
+          "artist": "spoon",
+          "album": "They Want My Soul",
+          "durationMs": 206000
+        },
+        {
+          "id": "2890237442",
+          "title": "New York Kiss (Home Demo)",
+          "artist": "spoon",
+          "album": "They Want My Soul (Deluxe More Soul Edition)",
+          "durationMs": 181000
+        },
+        {
+          "id": "3169773",
+          "title": "New York, New York",
+          "artist": "Liza Minnelli",
+          "album": "New York, New York",
+          "durationMs": 195000
+        },
+        {
+          "id": "2397087715",
+          "title": "New York",
+          "artist": "The Kills",
+          "album": "God Games",
+          "durationMs": 244000
+        },
+        {
+          "id": "2524466",
+          "title": "New York Groove",
+          "artist": "Ace Frehley",
+          "album": "The Very Best Of Kiss",
+          "durationMs": 181000
+        },
+        {
+          "id": "2598227",
+          "title": "Looking For A Kiss",
+          "artist": "New York Dolls",
+          "album": "New York Dolls",
+          "durationMs": 199000
+        },
+        {
+          "id": "661490472",
+          "title": "Piano Quintet No. 2 in A Major, Op. 81, B. 155 : Dvořák: Piano Quintet No. 2 in A Major, Op. 81, B. 155: III. Scherzo (Furiant). Molto vivace (Live at Carnegie Hall, New York, 2018)",
+          "artist": "Evgeny Kissin",
+          "album": "The New York Concert (Live at Carnegie Hall, 2018)",
+          "durationMs": 249000
+        },
+        {
+          "id": "100246256",
+          "title": "Soul Kiss (Live At The Roundabout Theatre, New York City/1986)",
+          "artist": "Joe Jackson",
+          "album": "Big World (Live At The Roundabout Theatre, New York City/1986)",
+          "durationMs": 284000
+        },
+        {
+          "id": "8940697",
+          "title": "New York Bass",
+          "artist": "Money Game",
+          "album": "Greatest Beats",
+          "durationMs": 298000
+        },
+        {
+          "id": "661490382",
+          "title": "Piano Quartet No. 1 in G Minor, K. 478 : Mozart: Piano Quartet No. 1 in G Minor, K. 478: I. Allegro (Live at Carnegie Hall, New York, 2018)",
+          "artist": "Evgeny Kissin",
+          "album": "The New York Concert (Live at Carnegie Hall, 2018)",
+          "durationMs": 657000
+        },
+        {
+          "id": "661490452",
+          "title": "Piano Quintet No. 2 in A Major, Op. 81, B. 155 : Dvořák: Piano Quintet No. 2 in A Major, Op. 81, B. 155: I. Allegro, ma non tanto (Live at Carnegie Hall, New York, 2018)",
+          "artist": "Evgeny Kissin",
+          "album": "The New York Concert (Live at Carnegie Hall, 2018)",
+          "durationMs": 626000
+        },
+        {
+          "id": "661490392",
+          "title": "Piano Quartet No. 1 in G Minor, K. 478 : Mozart: Piano Quartet No. 1 in G Minor, K. 478: II. Andante (Live at Carnegie Hall, New York, 2018)",
+          "artist": "Evgeny Kissin",
+          "album": "The New York Concert (Live at Carnegie Hall, 2018)",
+          "durationMs": 462000
+        },
+        {
+          "id": "661490402",
+          "title": "Piano Quartet No. 1 in G Minor, K. 478 : Mozart: Piano Quartet No. 1 in G Minor, K. 478: III. Rondo. Allegro moderato (Live at Carnegie Hall, New York, 2018)",
+          "artist": "Evgeny Kissin",
+          "album": "The New York Concert (Live at Carnegie Hall, 2018)",
+          "durationMs": 475000
+        },
+        {
+          "id": "3813137432",
+          "title": "New York (Lookin' For A Kiss)",
+          "artist": "Sex Pistols",
+          "album": "No Future UK?",
+          "durationMs": 189000
+        },
+        {
+          "id": "3489943",
+          "title": "Kiss Me Right (Live At Village Gate Club, New York, 1961 / Remastered 2006 / Rudy Van Gelder Edition)",
+          "artist": "Horace Silver Quintet",
+          "album": "Doin' The Thing: The Horace Silver Quintet At The Village Gate (Remastered 2006/Rudy Van Gelder Edition)",
+          "durationMs": 559000
+        },
+        {
+          "id": "661490412",
+          "title": "Piano Quartet No. 1 in C Minor, Op. 15 : Fauré: Piano Quartet No. 1 in C Minor, Op. 15: I. Allegro molto moderato (Live at Carnegie Hall, New York, 2018)",
+          "artist": "Evgeny Kissin",
+          "album": "The New York Concert (Live at Carnegie Hall, 2018)",
+          "durationMs": 564000
+        },
+        {
+          "id": "137861883",
+          "title": "Merrily Kissed the Quaker/The New York Volunteer (Live)",
+          "artist": "The Brandos",
+          "album": "Town to Town, Sun to Sun (Live in Germany, October 2007)",
+          "durationMs": 254000
+        },
+        {
+          "id": "661490422",
+          "title": "Piano Quartet No. 1 in C Minor, Op. 15 : Fauré: Piano Quartet No. 1 in C Minor, Op. 15: II. Scherzo. Allegro vivo (Live at Carnegie Hall, New York, 2018)",
+          "artist": "Evgeny Kissin",
+          "album": "The New York Concert (Live at Carnegie Hall, 2018)",
+          "durationMs": 329000
+        },
+        {
+          "id": "30837091",
+          "title": "Looking For A Kiss",
+          "artist": "New York Dolls",
+          "album": "Lipstick Killers",
+          "durationMs": 222000
+        },
+        {
+          "id": "1251044",
+          "title": "Prelude To A Kiss (Live at Town Hall, New York, 1989)",
+          "artist": "Jim Hall",
+          "album": "Jim Hall and Friends Live at Town Hall",
+          "durationMs": 437000
+        },
+        {
+          "id": "661490482",
+          "title": "Piano Quintet No. 2 in A Major, Op. 81, B. 155 : Dvořák: Piano Quintet No. 2 in A Major, Op. 81, B. 155: IV. Allegro (Live at Carnegie Hall, New York, 2018)",
+          "artist": "Evgeny Kissin",
+          "album": "The New York Concert (Live at Carnegie Hall, 2018)",
+          "durationMs": 448000
+        },
+        {
+          "id": "661490432",
+          "title": "Piano Quartet No. 1 in C Minor, Op. 15 : Fauré: Piano Quartet No. 1 in C Minor, Op. 15: III. Adagio (Live at Carnegie Hall, New York, 2018)",
+          "artist": "Evgeny Kissin",
+          "album": "The New York Concert (Live at Carnegie Hall, 2018)",
+          "durationMs": 490000
+        },
+        {
+          "id": "661490462",
+          "title": "Piano Quintet No. 2 in A Major, Op. 81, B. 155 : Dvořák: Piano Quintet No. 2 in A Major, Op. 81, B. 155: II. Dumka. Andante con moto (Live at Carnegie Hall, New York, 2018)",
+          "artist": "Evgeny Kissin",
+          "album": "The New York Concert (Live at Carnegie Hall, 2018)",
+          "durationMs": 930000
+        },
+        {
+          "id": "3130400741",
+          "title": "KiSS OF DEATH (Live at Irving Plaza, New York City / 2024)",
+          "artist": "SiM",
+          "album": "PLAYDEAD (DELUXE EDiTiON)",
+          "durationMs": 245000
+        },
+        {
+          "id": "661490442",
+          "title": "Piano Quartet No. 1 in C Minor, Op. 15 : Fauré: Piano Quartet No. 1 in C Minor, Op. 15: IV. Allegro molto (Live at Carnegie Hall, New York, 2018)",
+          "artist": "Evgeny Kissin",
+          "album": "The New York Concert (Live at Carnegie Hall, 2018)",
+          "durationMs": 482000
+        }
+      ]
+    },
+    {
+      "provider": "itunes",
+      "title": "New York Kiss",
+      "expectedArtist": "Spoon",
+      "rank": 1,
+      "ms": 335,
+      "hits": [
+        {
+          "id": "1757288101",
+          "title": "New York Kiss",
+          "artist": "Spoon",
+          "album": "They Want My Soul (Deluxe More Soul Edition)",
+          "durationMs": 206782
+        },
+        {
+          "id": "1440658915",
+          "title": "New York Groove",
+          "artist": "Ace Frehley",
+          "album": "The Very Best of Kiss",
+          "durationMs": 180987
+        },
+        {
+          "id": "1589225620",
+          "title": "New York Kiss",
+          "artist": "Spoon",
+          "album": "They Want My Soul",
+          "durationMs": 206827
+        },
+        {
+          "id": "1757288367",
+          "title": "New York Kiss (Home Demo)",
+          "artist": "Spoon",
+          "album": "They Want My Soul (Deluxe More Soul Edition)",
+          "durationMs": 181002
+        },
+        {
+          "id": "1758366810",
+          "title": "New York",
+          "artist": "Two Strangers (Carry A Cake Across New York), Sam Tutty & Dujonna Gift",
+          "album": "Two Strangers (Carry a Cake Across New York) [Original London Cast Recording]",
+          "durationMs": 202064
+        },
+        {
+          "id": "1658863449",
+          "title": "New York",
+          "artist": "Steve Aoki, Regard & mazie",
+          "album": "New York - Single",
+          "durationMs": 132228
+        },
+        {
+          "id": "1254597304",
+          "title": "New York",
+          "artist": "Blind Pilot",
+          "album": "We Are the Tide",
+          "durationMs": 339933
+        },
+        {
+          "id": "1809015426",
+          "title": "New York",
+          "artist": "Addison Rae",
+          "album": "Addison",
+          "durationMs": 152495
+        },
+        {
+          "id": "1050204640",
+          "title": "New York",
+          "artist": "Ed Sheeran",
+          "album": "x (Wembley Edition)",
+          "durationMs": 235960
+        },
+        {
+          "id": "266317303",
+          "title": "New York",
+          "artist": "Sex Pistols",
+          "album": "Never Mind the Bollocks, Here's the Sex Pistols",
+          "durationMs": 186893
+        },
+        {
+          "id": "1440802001",
+          "title": "New York (Ya Out There)",
+          "artist": "Rakim",
+          "album": "The 18th Letter",
+          "durationMs": 244133
+        },
+        {
+          "id": "1443101319",
+          "title": "New York",
+          "artist": "U2",
+          "album": "All That You Can't Leave Behind",
+          "durationMs": 330267
+        },
+        {
+          "id": "1589160253",
+          "title": "New York",
+          "artist": "Cat Power",
+          "album": "Jukebox (Deluxe)",
+          "durationMs": 121107
+        },
+        {
+          "id": "1443470806",
+          "title": "New York",
+          "artist": "Fat Joe, Ja Rule & Jadakiss",
+          "album": "R.U.L.E.",
+          "durationMs": 260000
+        },
+        {
+          "id": "264983521",
+          "title": "New York Kiss",
+          "artist": "Kismet",
+          "album": "Broken Angels",
+          "durationMs": 218093
+        },
+        {
+          "id": "1878424762",
+          "title": "New York",
+          "artist": "Two Strangers (Carry A Cake Across New York), Sam Tutty & Christiani Pitts",
+          "album": "Two Strangers (Carry A Cake Across New York) [Original Broadway Cast Recording]",
+          "durationMs": 198659
+        },
+        {
+          "id": "358044945",
+          "title": "New York (Live)",
+          "artist": "Jadakiss",
+          "album": "Jadakiss: Kiss of Death - Tour 2005 (Live)",
+          "durationMs": 83615
+        },
+        {
+          "id": "1763284629",
+          "title": "New York",
+          "artist": "Fog Lake",
+          "album": "New York - Single",
+          "durationMs": 176143
+        },
+        {
+          "id": "1730963170",
+          "title": "New York",
+          "artist": "Two Strangers (Carry A Cake Across New York), Sam Tutty & Dujonna Gift",
+          "album": "Two Strangers (Carry a Cake Across New York) [Studio Cast Recording]",
+          "durationMs": 202064
+        },
+        {
+          "id": "6772586755",
+          "title": "New York Kiss",
+          "artist": "Talon Reeves",
+          "album": "City Dance",
+          "durationMs": 278720
+        },
+        {
+          "id": "1440855387",
+          "title": "New York Groove",
+          "artist": "Ace Frehley",
+          "album": "Kiss: Ace Frehley",
+          "durationMs": 181195
+        },
+        {
+          "id": "724446572",
+          "title": "New York",
+          "artist": "Richard Ashcroft",
+          "album": "Alone With Everybody",
+          "durationMs": 330827
+        },
+        {
+          "id": "1719692594",
+          "title": "New York",
+          "artist": "Steve Aoki, Regard & mazie",
+          "album": "HiROQUEST 2: Double Helix",
+          "durationMs": 132228
+        },
+        {
+          "id": "1635430551",
+          "title": "New York (feat. A Boogie wit da Hoodie & Jadakiss)",
+          "artist": "Rowdy Rebel",
+          "album": "Rebel vs. Rowdy",
+          "durationMs": 235200
+        },
+        {
+          "id": "1724794214",
+          "title": "New York (Studio Cast Recording)",
+          "artist": "Two Strangers (Carry A Cake Across New York), Buchan & Barne, Sam Tutty & Dujonna Gift",
+          "album": "New York (Studio Cast Recording) - Single",
+          "durationMs": 203463
+        }
+      ]
+    },
+    {
+      "provider": "itunes",
+      "title": "Avril 14th",
+      "expectedArtist": "Aphex Twin",
+      "rank": 1,
+      "ms": 322,
+      "hits": [
+        {
+          "id": "282559791",
+          "title": "Avril 14th",
+          "artist": "Aphex Twin",
+          "album": "Drukqs",
+          "durationMs": 125520
+        },
+        {
+          "id": "1299864370",
+          "title": "Avril 14th (Aphex Twin) [Loscil Remix]",
+          "artist": "Murcof & Vanessa Wagner",
+          "album": "EP03 - EP",
+          "durationMs": 314839
+        },
+        {
+          "id": "1452675644",
+          "title": "Avril 14",
+          "artist": "Katia & Marielle Labèque",
+          "album": "Minimalist Dream House",
+          "durationMs": 130543
+        },
+        {
+          "id": "1610633438",
+          "title": "Avril 14th",
+          "artist": "Simon Farintosh",
+          "album": "Aphex Twin for Guitar - EP",
+          "durationMs": 131993
+        },
+        {
+          "id": "1440788976",
+          "title": "Avril 14th",
+          "artist": "Daniel Hope, Jacques Ammon, Christoph Anacker, Jane Berthe & Kaiser Quartett",
+          "album": "For Seasons",
+          "durationMs": 132200
+        },
+        {
+          "id": "1549064964",
+          "title": "Avril 14th",
+          "artist": "YACHT",
+          "album": "Sub Versions",
+          "durationMs": 130065
+        },
+        {
+          "id": "1608902124",
+          "title": "Avril 14th",
+          "artist": "Murcof & Vanessa Wagner",
+          "album": "Statea",
+          "durationMs": 294015
+        },
+        {
+          "id": "410402618",
+          "title": "Avril 14th (arr. J.P. Richards)",
+          "artist": "Alarm Will Sound",
+          "album": "Acoustica",
+          "durationMs": 117840
+        },
+        {
+          "id": "1299864052",
+          "title": "Avril 14th (Vanessa Wagner Version)",
+          "artist": "Murcof & Vanessa Wagner",
+          "album": "EP03 - EP",
+          "durationMs": 165021
+        },
+        {
+          "id": "1452354132",
+          "title": "Avril 14th",
+          "artist": "Olga Scheps",
+          "album": "Melody",
+          "durationMs": 102573
+        },
+        {
+          "id": "1629137310",
+          "title": "Avril 14th (Remastered 2022)",
+          "artist": "Alessandro Viale",
+          "album": "Piano Chillout: 22 Relaxing Classical Themes (Remastered 2022)",
+          "durationMs": 120002
+        },
+        {
+          "id": "1362664759",
+          "title": "Avril 14Th",
+          "artist": "Johannes Bornlöf",
+          "album": "The 50 Greatest Epic Piano Pieces",
+          "durationMs": 116731
+        },
+        {
+          "id": "1817735864",
+          "title": "avril 14th",
+          "artist": "Nathanial Young & Branden Brown",
+          "album": "HARVEST",
+          "durationMs": 124436
+        },
+        {
+          "id": "1487988144",
+          "title": "Avril 14th",
+          "artist": "Olga Scheps",
+          "album": "Classical Piano - Peaceful music to fall asleep",
+          "durationMs": 102573
+        },
+        {
+          "id": "1556361239",
+          "title": "Avril 14th",
+          "artist": "Olga Scheps",
+          "album": "Piano Classics - Relaxing Classical Music",
+          "durationMs": 102573
+        },
+        {
+          "id": "1508182260",
+          "title": "Avril 14th",
+          "artist": "Olga Scheps",
+          "album": "Silence : Musique calme et apaisante",
+          "durationMs": 102578
+        },
+        {
+          "id": "1236332397",
+          "title": "Avril 14th",
+          "artist": "Jon Stickley Trio",
+          "album": "Maybe Believe",
+          "durationMs": 127217
+        },
+        {
+          "id": "1489033172",
+          "title": "Avril 14th",
+          "artist": "Josh Cohen",
+          "album": "Selections for Solo Piano",
+          "durationMs": 124512
+        },
+        {
+          "id": "432421432",
+          "title": "Avril 14Th",
+          "artist": "Lunapark",
+          "album": "Flim",
+          "durationMs": 142333
+        },
+        {
+          "id": "964957339",
+          "title": "Avril 14th",
+          "artist": "Martin Jacoby",
+          "album": "Soft Piano Ambience",
+          "durationMs": 110005
+        },
+        {
+          "id": "1734691906",
+          "title": "Avril 14th",
+          "artist": "Shane Parish",
+          "album": "Repertoire",
+          "durationMs": 116947
+        },
+        {
+          "id": "1509065100",
+          "title": "Avril 14th",
+          "artist": "Olga Scheps",
+          "album": "Piano relaxant : Le meilleur du piano classique",
+          "durationMs": 102578
+        },
+        {
+          "id": "1510968924",
+          "title": "Avril 14th",
+          "artist": "Olga Scheps",
+          "album": "Temps Calme : Musique douce pour enfants et bébés",
+          "durationMs": 102578
+        },
+        {
+          "id": "1579092435",
+          "title": "Avril 14th",
+          "artist": "The Westerlies",
+          "album": "Songbook, Vol. 1",
+          "durationMs": 122000
+        },
+        {
+          "id": "1803823022",
+          "title": "Avril 14th",
+          "artist": "For When You Can't Breathe",
+          "album": "Avril 14th - Single",
+          "durationMs": 131554
+        }
+      ]
+    },
+    {
+      "provider": "deezer",
+      "title": "Avril 14th",
+      "expectedArtist": "Aphex Twin",
+      "rank": 1,
+      "ms": 325,
+      "hits": [
+        {
+          "id": "29377601",
+          "title": "Avril 14th",
+          "artist": "Aphex Twin",
+          "album": "Drukqs",
+          "durationMs": 125000
+        },
+        {
+          "id": "631399982",
+          "title": "Avril 14th",
+          "artist": "Olga Scheps",
+          "album": "Avril 14th",
+          "durationMs": 102000
+        },
+        {
+          "id": "420893302",
+          "title": "Avril 14th (Aphex Twin) (Vanessa Wagner Version)",
+          "artist": "Murcof",
+          "album": "EP03",
+          "durationMs": 165000
+        },
+        {
+          "id": "1647699372",
+          "title": "Avril 14th",
+          "artist": "Murcof",
+          "album": "Statea",
+          "durationMs": 294000
+        },
+        {
+          "id": "1207971882",
+          "title": "Avril 14th",
+          "artist": "YACHT",
+          "album": "Sub Versions",
+          "durationMs": 130000
+        },
+        {
+          "id": "90397889",
+          "title": "Avril 14th",
+          "artist": "Martin Jacoby",
+          "album": "Relaxing Piano Music",
+          "durationMs": 110000
+        },
+        {
+          "id": "2794788472",
+          "title": "Avril 14th (Arr. J.P. Richards)",
+          "artist": "Alarm Will Sound",
+          "album": "Acoustica",
+          "durationMs": 117000
+        },
+        {
+          "id": "3614321672",
+          "title": "Avril 14th",
+          "artist": "Audric De Oliveira",
+          "album": "La loge du pianiste",
+          "durationMs": 104000
+        },
+        {
+          "id": "3391810951",
+          "title": "avril 14th",
+          "artist": "Nathanial Young",
+          "album": "HARVEST",
+          "durationMs": 124000
+        },
+        {
+          "id": "476512912",
+          "title": "Avril 14Th",
+          "artist": "Johannes Bornlof",
+          "album": "The 50 Greatest Epic Piano Pieces",
+          "durationMs": 116000
+        },
+        {
+          "id": "1450924962",
+          "title": "Avril 14th",
+          "artist": "The Westerlies",
+          "album": "Songbook Vol. 1",
+          "durationMs": 122000
+        },
+        {
+          "id": "2692362212",
+          "title": "Avril 14th",
+          "artist": "Shane Parish",
+          "album": "Repertoire",
+          "durationMs": 116000
+        },
+        {
+          "id": "1569797592",
+          "title": "Avril 14th",
+          "artist": "Troels Hammer",
+          "album": "House of Memories",
+          "durationMs": 146000
+        },
+        {
+          "id": "1574511112",
+          "title": "Avril 14th",
+          "artist": "Max Allard",
+          "album": "Odes / Codes",
+          "durationMs": 114000
+        },
+        {
+          "id": "1230940112",
+          "title": "Avril 14th",
+          "artist": "Simon Farintosh",
+          "album": "Aphex Twin for Guitar",
+          "durationMs": 131000
+        },
+        {
+          "id": "2207404867",
+          "title": "avril 14th",
+          "artist": "Remy van Kesteren",
+          "album": "Muses",
+          "durationMs": 127000
+        },
+        {
+          "id": "420893332",
+          "title": "Avril 14th (Aphex Twin) (Loscil Remix)",
+          "artist": "Murcof",
+          "album": "EP03",
+          "durationMs": 314000
+        },
+        {
+          "id": "3482089111",
+          "title": "Avril 14th (Soft Felt Piano)",
+          "artist": "Marco Velocci",
+          "album": "Avril 14th (Soft Felt Piano)",
+          "durationMs": 130000
+        },
+        {
+          "id": "3322408021",
+          "title": "Avril 14th (Hokhmat remix)",
+          "artist": "Hokhmat",
+          "album": "Avril 14th (Hokhmat remix)",
+          "durationMs": 185000
+        },
+        {
+          "id": "477802282",
+          "title": "Avril 14th",
+          "artist": "Mr. Foxx",
+          "album": "Avril 14th",
+          "durationMs": 113000
+        },
+        {
+          "id": "2204934117",
+          "title": "Avril 14th",
+          "artist": "Third Son",
+          "album": "Retrograde",
+          "durationMs": 123000
+        },
+        {
+          "id": "818590462",
+          "title": "Avril 14th",
+          "artist": "Josh Cohen",
+          "album": "Selections for Solo Piano",
+          "durationMs": 124000
+        },
+        {
+          "id": "2157124307",
+          "title": "Avril 14th (Aphex Twin)",
+          "artist": "Liam Arnold",
+          "album": "Avril 14th (Aphex Twin)",
+          "durationMs": 147000
+        },
+        {
+          "id": "3290401061",
+          "title": "Avril 14th",
+          "artist": "For When You Can't Breathe",
+          "album": "Avril 14th",
+          "durationMs": 131000
+        },
+        {
+          "id": "437887472",
+          "title": "Avril 14th",
+          "artist": "Phil Boniface",
+          "album": "Baixablue",
+          "durationMs": 287000
+        }
+      ]
+    },
+    {
+      "provider": "deezer",
+      "title": "Sense",
+      "expectedArtist": "King Gizzard",
+      "rank": null,
+      "ms": 302,
+      "hits": [
+        {
+          "id": "65723651",
+          "title": "Sense",
+          "artist": "Tom Odell",
+          "album": "Long Way Down (Deluxe)",
+          "durationMs": 270000
+        },
+        {
+          "id": "3843580591",
+          "title": "sense (is)",
+          "artist": "Hemlocke Springs",
+          "album": "the apple tree under the sea",
+          "durationMs": 257000
+        },
+        {
+          "id": "3919192691",
+          "title": "sense",
+          "artist": "Siamese",
+          "album": "dissolution",
+          "durationMs": 180000
+        },
+        {
+          "id": "4010521401",
+          "title": "Where Have You Been",
+          "artist": "SENSE",
+          "album": "Where Have You Been",
+          "durationMs": 162000
+        },
+        {
+          "id": "1518127072",
+          "title": "Sense",
+          "artist": "BAND-MAID",
+          "album": "Sense",
+          "durationMs": 204000
+        },
+        {
+          "id": "378379531",
+          "title": "Sense & Sensibility",
+          "artist": "Millencolin",
+          "album": "True Brew",
+          "durationMs": 157000
+        },
+        {
+          "id": "4063002941",
+          "title": "sense (Super Slowed)",
+          "artist": "Snxff",
+          "album": "sense",
+          "durationMs": 140000
+        },
+        {
+          "id": "2944263811",
+          "title": "sense",
+          "artist": "trapeia",
+          "album": "sense EP",
+          "durationMs": 96000
+        },
+        {
+          "id": "2575051",
+          "title": "Sense",
+          "artist": "Rasta Bigoud",
+          "album": "Breizh zion",
+          "durationMs": 315000
+        },
+        {
+          "id": "1586866712",
+          "title": "Sense",
+          "artist": "Last Dinosaurs",
+          "album": "Yumeno Garden",
+          "durationMs": 259000
+        },
+        {
+          "id": "2680903592",
+          "title": "Beggin'",
+          "artist": "SENSE",
+          "album": "Beggin'",
+          "durationMs": 111000
+        },
+        {
+          "id": "1082393652",
+          "title": "Sense",
+          "artist": "MAVI",
+          "album": "Let the Sun Talk",
+          "durationMs": 66000
+        },
+        {
+          "id": "3296171651",
+          "title": "Talk The Talk",
+          "artist": "SENSE",
+          "album": "Talk The Talk",
+          "durationMs": 148000
+        },
+        {
+          "id": "770761882",
+          "title": "Sense",
+          "artist": "Terry Hall",
+          "album": "Home (Expanded)",
+          "durationMs": 221000
+        },
+        {
+          "id": "1891945387",
+          "title": "Sense",
+          "artist": "Rokko Weißensee",
+          "album": "Was dich umbringt, tötet dich",
+          "durationMs": 298000
+        },
+        {
+          "id": "2605751232",
+          "title": "I Hate U, I Love U",
+          "artist": "SENSE",
+          "album": "I Hate U, I Love U",
+          "durationMs": 109000
+        },
+        {
+          "id": "1725191237",
+          "title": "First Time",
+          "artist": "SENSE",
+          "album": "Taste",
+          "durationMs": 193000
+        },
+        {
+          "id": "1258392012",
+          "title": "Sense (feat. iKell)",
+          "artist": "OVERWERK",
+          "album": "Vessel",
+          "durationMs": 253000
+        },
+        {
+          "id": "2150708377",
+          "title": "Honey Damoiseau",
+          "artist": "SenSey'",
+          "album": "Honey Damoiseau",
+          "durationMs": 147000
+        },
+        {
+          "id": "582773832",
+          "title": "Sense",
+          "artist": "Amanda Mair",
+          "album": "Amanda Mair",
+          "durationMs": 211000
+        },
+        {
+          "id": "3574480171",
+          "title": "Sense",
+          "artist": "Loris Mittaz",
+          "album": "Black Out",
+          "durationMs": 158000
+        },
+        {
+          "id": "1725191077",
+          "title": "Last Cigarette",
+          "artist": "SENSE",
+          "album": "Esper",
+          "durationMs": 212000
+        },
+        {
+          "id": "3936331081",
+          "title": "Sense",
+          "artist": "Skysia",
+          "album": "Gradient Bloom",
+          "durationMs": 296000
+        },
+        {
+          "id": "1036822",
+          "title": "Sense",
+          "artist": "The Lightning Seeds",
+          "album": "Like You Do - Best Of The Lightning Seeds",
+          "durationMs": 253000
+        },
+        {
+          "id": "4010305151",
+          "title": "You and Me",
+          "artist": "Mevii",
+          "album": "You and Me",
+          "durationMs": 159000
+        }
+      ]
+    },
+    {
+      "provider": "itunes",
+      "title": "Sense",
+      "expectedArtist": "King Gizzard",
+      "rank": 1,
+      "ms": 346,
+      "hits": [
+        {
+          "id": "1226176174",
+          "title": "Sense",
+          "artist": "King Gizzard & The Lizard Wizard",
+          "album": "Paper Mâché Dream Balloon",
+          "durationMs": 210653
+        },
+        {
+          "id": "1599856987",
+          "title": "Sense",
+          "artist": "Last Dinosaurs",
+          "album": "Yumeno Garden",
+          "durationMs": 259837
+        },
+        {
+          "id": "1678162764",
+          "title": "Sense",
+          "artist": "The Lightning Seeds",
+          "album": "Sense",
+          "durationMs": 253133
+        },
+        {
+          "id": "687868143",
+          "title": "Sense",
+          "artist": "Tom Odell",
+          "album": "Long Way Down",
+          "durationMs": 264827
+        },
+        {
+          "id": "1762470109",
+          "title": "sense",
+          "artist": "trapeia",
+          "album": "sense EP - EP",
+          "durationMs": 95750
+        },
+        {
+          "id": "1589761552",
+          "title": "Sense",
+          "artist": "Band Maid",
+          "album": "Sense - Single",
+          "durationMs": 204853
+        },
+        {
+          "id": "571977705",
+          "title": "Sense",
+          "artist": "Digitonal",
+          "album": "The Ambient Zone Just Music Cafe, Vol. 4",
+          "durationMs": 384120
+        },
+        {
+          "id": "1571952833",
+          "title": "Sense",
+          "artist": "LUVT",
+          "album": "Sense - Single",
+          "durationMs": 214342
+        },
+        {
+          "id": "1571952839",
+          "title": "Sense (White Noise)",
+          "artist": "LUVT",
+          "album": "Sense - Single",
+          "durationMs": 176000
+        },
+        {
+          "id": "1102440697",
+          "title": "Sense",
+          "artist": "Kllo",
+          "album": "Well Worn - EP",
+          "durationMs": 234953
+        },
+        {
+          "id": "1571952835",
+          "title": "Sense (Spa)",
+          "artist": "LUVT",
+          "album": "Sense - Single",
+          "durationMs": 226250
+        },
+        {
+          "id": "1441163900",
+          "title": "Sense",
+          "artist": "Pete Yorn",
+          "album": "musicforthemorningafter",
+          "durationMs": 234377
+        },
+        {
+          "id": "1599857122",
+          "title": "Sense",
+          "artist": "Alkaline",
+          "album": "Sense - Single",
+          "durationMs": 173196
+        },
+        {
+          "id": "1846081121",
+          "title": "Sense",
+          "artist": "starry",
+          "album": "Sense - EP",
+          "durationMs": 182238
+        },
+        {
+          "id": "1296336847",
+          "title": "Sense",
+          "artist": "Alex Lustig",
+          "album": "Sense - EP",
+          "durationMs": 156008
+        },
+        {
+          "id": "1877161725",
+          "title": "sense (is)",
+          "artist": "hemlocke springs",
+          "album": "the apple tree under the sea",
+          "durationMs": 257646
+        },
+        {
+          "id": "1308605494",
+          "title": "Sense",
+          "artist": "Tom Odell",
+          "album": "Long Way Down (Expanded Edition)",
+          "durationMs": 264827
+        },
+        {
+          "id": "1166698117",
+          "title": "Sense",
+          "artist": "Jasmine Rodgers",
+          "album": "Blood Red Sun",
+          "durationMs": 185074
+        },
+        {
+          "id": "1660624270",
+          "title": "Sense",
+          "artist": "Rona Mac",
+          "album": "Sense - Single",
+          "durationMs": 226000
+        },
+        {
+          "id": "1567635239",
+          "title": "Sense",
+          "artist": "Peter Gregson, Warren Zielinski, Magnus Johnston, Matthew Denton, Richard Blayden, James Boyd, Eoin Schmidt-Martin, Meghan Cassidy, Stephanie Edmundson, Richard Harwood, Reinoud Ford, Ben Chappell, Tim Lowe & Anthony Weeden",
+          "album": "Patina",
+          "durationMs": 376678
+        },
+        {
+          "id": "1643608834",
+          "title": "Sense",
+          "artist": "Band Maid",
+          "album": "Unleash",
+          "durationMs": 204878
+        },
+        {
+          "id": "561834354",
+          "title": "Sense",
+          "artist": "The New Division",
+          "album": "Shadows",
+          "durationMs": 300854
+        },
+        {
+          "id": "1582162929",
+          "title": "Sense (TV Size Version)",
+          "artist": "Band Maid",
+          "album": "Sense (TV Size Version) - Single",
+          "durationMs": 89441
+        },
+        {
+          "id": "1486193191",
+          "title": "Sense",
+          "artist": "Pete Yorn",
+          "album": "musicforthemorningafter (Expanded Edition)",
+          "durationMs": 234390
+        },
+        {
+          "id": "1120204525",
+          "title": "Sense",
+          "artist": "Preoccupations",
+          "album": "Preoccupations",
+          "durationMs": 61503
+        }
+      ]
+    },
+    {
+      "provider": "deezer",
+      "title": "Selkies: The Endless Obsession",
+      "expectedArtist": "Between the Buried and Me",
+      "rank": 1,
+      "ms": 177,
+      "hits": [
+        {
+          "id": "388977921",
+          "title": "Selkies: The Endless Obsession",
+          "artist": "Between The Buried And Me",
+          "album": "Alaska",
+          "durationMs": 443000
+        },
+        {
+          "id": "1084250612",
+          "title": "Selkies: The Endless Obsession",
+          "artist": "Between The Buried And Me",
+          "album": "Alaska (2020 Remix / Remaster)",
+          "durationMs": 440000
+        }
+      ]
+    },
+    {
+      "provider": "itunes",
+      "title": "Selkies: The Endless Obsession",
+      "expectedArtist": "Between the Buried and Me",
+      "rank": 1,
+      "ms": 187,
+      "hits": [
+        {
+          "id": "1442255887",
+          "title": "Selkies: The Endless Obsession",
+          "artist": "Between the Buried and Me",
+          "album": "The Best of Between the Buried and Me",
+          "durationMs": 443320
+        },
+        {
+          "id": "1525468232",
+          "title": "Selkies: The Endless Obsession",
+          "artist": "Between the Buried and Me",
+          "album": "Alaska (2020 Remix / Remaster)",
+          "durationMs": 440609
+        },
+        {
+          "id": "1581915801",
+          "title": "Selkies: The Endless Obsession (Gameboy Version)",
+          "artist": "robotmeadows",
+          "album": "Mechanical Heart - EP",
+          "durationMs": 444706
+        }
+      ]
+    },
+    {
+      "provider": "deezer",
+      "title": "Phantom Island",
+      "expectedArtist": "King Gizzard",
+      "rank": 1,
+      "ms": 378,
+      "hits": [
+        {
+          "id": "3233286901",
+          "title": "Phantom Island",
+          "artist": "King Gizzard & The Lizard Wizard",
+          "album": "Phantom Island",
+          "durationMs": 316000
+        },
+        {
+          "id": "3615108332",
+          "title": "Phantom / Island",
+          "artist": "Hearts Hearts",
+          "album": "Goods / Gods",
+          "durationMs": 191000
+        },
+        {
+          "id": "3768705452",
+          "title": "Phantom Land",
+          "artist": "EZ3kiel",
+          "album": "Barb4ry",
+          "durationMs": 293000
+        },
+        {
+          "id": "3849538931",
+          "title": "Phantom Land (Live)",
+          "artist": "EZ3kiel",
+          "album": "Versus Tour (Live 2004)",
+          "durationMs": 399000
+        },
+        {
+          "id": "1414386672",
+          "title": "Mercay Island (From The Legend of Zelda, The Phantom Hourglass) [Instrumental Mix]",
+          "artist": "Arcade Player",
+          "album": "Zelda: The Legendary Themes, Vol. 7",
+          "durationMs": 44000
+        },
+        {
+          "id": "142236471",
+          "title": "Mercay Island (From \"The Legend of Zelda: Phantom Hourglass\")",
+          "artist": "3000m",
+          "album": "The Legend of Zelda: Phantom Hourglass, Vol. 2",
+          "durationMs": 88000
+        },
+        {
+          "id": "2415199365",
+          "title": "Mercay Island (From \"The Legend of Zelda: Phantom Hourglass\") (Lofi Version)",
+          "artist": "Slofi",
+          "album": "Zelda Lofi, Vol. 7",
+          "durationMs": 144000
+        },
+        {
+          "id": "2632257042",
+          "title": "Phantom Limb",
+          "artist": "The Sometimes Island",
+          "album": "Phantom Limb",
+          "durationMs": 216000
+        },
+        {
+          "id": "1509547392",
+          "title": "Black Out Days (Future Islands Remix Slowed)",
+          "artist": "Phantogram",
+          "album": "Black Out Days - Future Islands Remix (Slowed)",
+          "durationMs": 214000
+        },
+        {
+          "id": "398582012",
+          "title": "Black Out Days (Future Islands Remix)",
+          "artist": "Phantogram",
+          "album": "Black Out Days (Future Islands Remix)",
+          "durationMs": 248000
+        },
+        {
+          "id": "773434662",
+          "title": "Sunshower at Sandy Island",
+          "artist": "Andrew Pekler",
+          "album": "Sounds From Phantom Islands",
+          "durationMs": 231000
+        },
+        {
+          "id": "773434732",
+          "title": "Tuanahe",
+          "artist": "Andrew Pekler",
+          "album": "Sounds From Phantom Islands",
+          "durationMs": 256000
+        },
+        {
+          "id": "2192589027",
+          "title": "Phantoms",
+          "artist": "Junya Nakano",
+          "album": "FINAL FANTASY X Original Soundtrack",
+          "durationMs": 226000
+        },
+        {
+          "id": "3233286911",
+          "title": "Deadstick",
+          "artist": "King Gizzard & The Lizard Wizard",
+          "album": "Phantom Island",
+          "durationMs": 214000
+        },
+        {
+          "id": "3233286961",
+          "title": "Aerodynamic",
+          "artist": "King Gizzard & The Lizard Wizard",
+          "album": "Phantom Island",
+          "durationMs": 287000
+        },
+        {
+          "id": "3233286921",
+          "title": "Lonely Cosmos",
+          "artist": "King Gizzard & The Lizard Wizard",
+          "album": "Phantom Island",
+          "durationMs": 335000
+        },
+        {
+          "id": "3233286931",
+          "title": "Eternal Return",
+          "artist": "King Gizzard & The Lizard Wizard",
+          "album": "Phantom Island",
+          "durationMs": 274000
+        },
+        {
+          "id": "3233286951",
+          "title": "Spacesick",
+          "artist": "King Gizzard & The Lizard Wizard",
+          "album": "Phantom Island",
+          "durationMs": 291000
+        },
+        {
+          "id": "3233286941",
+          "title": "Panpsych",
+          "artist": "King Gizzard & The Lizard Wizard",
+          "album": "Phantom Island",
+          "durationMs": 242000
+        },
+        {
+          "id": "3233286981",
+          "title": "Silent Spirit",
+          "artist": "King Gizzard & The Lizard Wizard",
+          "album": "Phantom Island",
+          "durationMs": 269000
+        },
+        {
+          "id": "3233286971",
+          "title": "Sea of Doubt",
+          "artist": "King Gizzard & The Lizard Wizard",
+          "album": "Phantom Island",
+          "durationMs": 265000
+        },
+        {
+          "id": "3233286991",
+          "title": "Grow Wings and Fly",
+          "artist": "King Gizzard & The Lizard Wizard",
+          "album": "Phantom Island",
+          "durationMs": 308000
+        },
+        {
+          "id": "61644951",
+          "title": "La ballade irlandaise",
+          "artist": "Debout Sur Le Zinc",
+          "album": "Bourvil chanté par...",
+          "durationMs": 164000
+        },
+        {
+          "id": "3918792491",
+          "title": "Call My Name",
+          "artist": "Smile",
+          "album": "Phantom Island",
+          "durationMs": 254000
+        },
+        {
+          "id": "3918792621",
+          "title": "Phantom Island",
+          "artist": "Smile",
+          "album": "Phantom Island",
+          "durationMs": 192000
+        }
+      ]
+    },
+    {
+      "provider": "itunes",
+      "title": "Phantom Island",
+      "expectedArtist": "King Gizzard",
+      "rank": null,
+      "ms": 483,
+      "hits": [
+        {
+          "id": "1796292220",
+          "title": "Deadstick",
+          "artist": "King Gizzard & The Lizard Wizard",
+          "album": "Phantom Island",
+          "durationMs": 213576
+        },
+        {
+          "id": "1796292356",
+          "title": "Aerodynamic",
+          "artist": "King Gizzard & The Lizard Wizard",
+          "album": "Phantom Island",
+          "durationMs": 286764
+        },
+        {
+          "id": "1796292358",
+          "title": "Silent Spirit",
+          "artist": "King Gizzard & The Lizard Wizard",
+          "album": "Phantom Island",
+          "durationMs": 268896
+        },
+        {
+          "id": "1796292359",
+          "title": "Grow Wings and Fly",
+          "artist": "King Gizzard & The Lizard Wizard",
+          "album": "Phantom Island",
+          "durationMs": 308424
+        },
+        {
+          "id": "1796292224",
+          "title": "Lonely Cosmos",
+          "artist": "King Gizzard & The Lizard Wizard",
+          "album": "Phantom Island",
+          "durationMs": 335068
+        },
+        {
+          "id": "1796292349",
+          "title": "Panpsych",
+          "artist": "King Gizzard & The Lizard Wizard",
+          "album": "Phantom Island",
+          "durationMs": 242032
+        },
+        {
+          "id": "1796292357",
+          "title": "Sea of Doubt",
+          "artist": "King Gizzard & The Lizard Wizard",
+          "album": "Phantom Island",
+          "durationMs": 264868
+        },
+        {
+          "id": "1080092698",
+          "title": "Phantom Island",
+          "artist": "Seven24",
+          "album": "Melody of My Heart",
+          "durationMs": 275671
+        },
+        {
+          "id": "1847868436",
+          "title": "Phantom / Island",
+          "artist": "Hearts Hearts",
+          "album": "Goods / Gods",
+          "durationMs": 191333
+        },
+        {
+          "id": "1887578083",
+          "title": "Phantom Island",
+          "artist": "Smile",
+          "album": "Phantom Island",
+          "durationMs": 192615
+        },
+        {
+          "id": "1729364333",
+          "title": "Phantom Island",
+          "artist": "Seven24",
+          "album": "Time to Relax, Vol.08",
+          "durationMs": 275671
+        },
+        {
+          "id": "1325173374",
+          "title": "Phantom Island",
+          "artist": "Bartel",
+          "album": "Phantom Island - Single",
+          "durationMs": 256862
+        },
+        {
+          "id": "1486004142",
+          "title": "Phantom Island",
+          "artist": "Ignyssium",
+          "album": "Chaotic Space",
+          "durationMs": 372587
+        },
+        {
+          "id": "1108871795",
+          "title": "Phantom Island (Chillout Mix)",
+          "artist": "Seven24",
+          "album": "Музыка для души",
+          "durationMs": 275671
+        },
+        {
+          "id": "1678228252",
+          "title": "Phantom Island",
+          "artist": "Luurel Varas",
+          "album": "Riddles For a Machine",
+          "durationMs": 391385
+        },
+        {
+          "id": "1556604677",
+          "title": "Phantom Island",
+          "artist": "Family Video",
+          "album": "Phantom Island",
+          "durationMs": 247681
+        },
+        {
+          "id": "1469839636",
+          "title": "Phantom Island",
+          "artist": "I Saw the Deep",
+          "album": "Astronavigation",
+          "durationMs": 259000
+        },
+        {
+          "id": "1729358611",
+          "title": "Phantom Island",
+          "artist": "Seven24",
+          "album": "Chilling Process, Vol.08",
+          "durationMs": 275671
+        },
+        {
+          "id": "1655649319",
+          "title": "Phantom island",
+          "artist": "Jiman",
+          "album": "Ousland Melodies",
+          "durationMs": 234000
+        },
+        {
+          "id": "675719757",
+          "title": "Phantom Island",
+          "artist": "Seven24",
+          "album": "Litovs Sampler 03",
+          "durationMs": 275671
+        },
+        {
+          "id": "1151222592",
+          "title": "Phantom Island (Chillout Mix)",
+          "artist": "Seven24",
+          "album": "Chillout Music #8 - Who is the Best in the Genre Chill Out, Lounge, New Age, Piano, Vocal, Ambient, Chillstep, Downtempo, Relax - Single",
+          "durationMs": 275671
+        },
+        {
+          "id": "1219119162",
+          "title": "Phantom Island (Chillout Mix)",
+          "artist": "Seven24",
+          "album": "Chillout October 2017: Top 10 Best of Collections",
+          "durationMs": 275671
+        },
+        {
+          "id": "1887577781",
+          "title": "Call My Name (feat. Robyn)",
+          "artist": "Smile",
+          "album": "Phantom Island",
+          "durationMs": 254503
+        },
+        {
+          "id": "1160951287",
+          "title": "Phantom Island",
+          "artist": "Yar",
+          "album": "Makai",
+          "durationMs": 232310
+        },
+        {
+          "id": "1160951296",
+          "title": "Phantom Island (Instrumental)",
+          "artist": "Yar",
+          "album": "Makai",
+          "durationMs": 232310
+        }
+      ]
+    },
+    {
+      "provider": "deezer",
+      "title": "Vampire Empire",
+      "expectedArtist": "Big Thief",
+      "rank": 1,
+      "ms": 174,
+      "hits": [
+        {
+          "id": "2421606815",
+          "title": "Vampire Empire",
+          "artist": "Big Thief",
+          "album": "Vampire Empire / Born For Loving You",
+          "durationMs": 192000
+        },
+        {
+          "id": "2682537082",
+          "title": "Vampire Empire",
+          "artist": "Adrianne Lenker",
+          "album": "Bright Future",
+          "durationMs": 235000
+        },
+        {
+          "id": "3305690851",
+          "title": "vampire empire (live)",
+          "artist": "Adrianne Lenker",
+          "album": "Live at Revolution Hall",
+          "durationMs": 281000
+        },
+        {
+          "id": "2758032931",
+          "title": "VAMPIRE EMPIRE",
+          "artist": "6ejou",
+          "album": "THE EMPIRE",
+          "durationMs": 342000
+        },
+        {
+          "id": "1319336",
+          "title": "Vampire Empire",
+          "artist": "Two Witches",
+          "album": "Wenches, Wytches And Vampyres: The Very Best Of Two Witches 1987-1999",
+          "durationMs": 336000
+        },
+        {
+          "id": "3329778521",
+          "title": "Made for Fun",
+          "artist": "Vampire Empire",
+          "album": "Made for Fun",
+          "durationMs": 206000
+        },
+        {
+          "id": "2651236572",
+          "title": "vampire empire (slowed + reverb)",
+          "artist": "BadKarma",
+          "album": "vampire empire (slowed + reverb)",
+          "durationMs": 218000
+        },
+        {
+          "id": "3045170231",
+          "title": "Vampire Empire",
+          "artist": "OGUZ",
+          "album": "Dam Square Dance Trax LV. 1",
+          "durationMs": 349000
+        },
+        {
+          "id": "2664356622",
+          "title": "vampire empire (8d audio)",
+          "artist": "surround.",
+          "album": "vampire empire (8d audio)",
+          "durationMs": 190000
+        },
+        {
+          "id": "2651227462",
+          "title": "vampire empire (sped up)",
+          "artist": "BadKarma",
+          "album": "vampire empire (sped up)",
+          "durationMs": 172000
+        },
+        {
+          "id": "2215779167",
+          "title": "Vampire Empire (8-Bit Big Thief Emultaion)",
+          "artist": "8-Bit Arcade",
+          "album": "By Request, Vol. 206",
+          "durationMs": 217000
+        },
+        {
+          "id": "2651231122",
+          "title": "vampire empire (cover)",
+          "artist": "BadKarma",
+          "album": "vampire empire (cover)",
+          "durationMs": 190000
+        },
+        {
+          "id": "2633938002",
+          "title": "Vampire Empire (Slowed + Reverb)",
+          "artist": "skyemane",
+          "album": "Vampire Empire (Slowed + Reverb)",
+          "durationMs": 230000
+        },
+        {
+          "id": "9160870",
+          "title": "Vampire Empire",
+          "artist": "Kristen Lawrence",
+          "album": "A Broom With A View - from the Halloween Carols",
+          "durationMs": 369000
+        },
+        {
+          "id": "1054051012",
+          "title": "Vampire of the Empire",
+          "artist": "Soom T",
+          "album": "The Arch",
+          "durationMs": 185000
+        },
+        {
+          "id": "64895128",
+          "title": "Vampire!! Vampire!!",
+          "artist": "ME the band",
+          "album": "Even the Odd Ones Out",
+          "durationMs": 180000
+        },
+        {
+          "id": "74942580",
+          "title": "Vampire vampire",
+          "artist": "Gogol Premier",
+          "album": "Kabaret Punk",
+          "durationMs": 299000
+        },
+        {
+          "id": "4357585",
+          "title": "Vampire's Empire",
+          "artist": "Bury Me Deep",
+          "album": "Nearly Down",
+          "durationMs": 165000
+        },
+        {
+          "id": "3254156741",
+          "title": "Empire Of The Vampire",
+          "artist": "Foxy Shazam",
+          "album": "Animality Opera",
+          "durationMs": 187000
+        },
+        {
+          "id": "8292799",
+          "title": "Ruined Garden (alien Vampires Mix)",
+          "artist": "Vanished Empire",
+          "album": "Theater of Tragedy",
+          "durationMs": 276000
+        },
+        {
+          "id": "3607242",
+          "title": "Vampire State",
+          "artist": "Alec Empire",
+          "album": "Shivers",
+          "durationMs": 278000
+        },
+        {
+          "id": "672770882",
+          "title": "This Life",
+          "artist": "Vampire Weekend",
+          "album": "Father of the Bride",
+          "durationMs": 268000
+        },
+        {
+          "id": "1094913102",
+          "title": "Step",
+          "artist": "Vampire Weekend",
+          "album": "Modern Vampires of the City",
+          "durationMs": 251000
+        },
+        {
+          "id": "1094913092",
+          "title": "Unbelievers",
+          "artist": "Vampire Weekend",
+          "album": "Modern Vampires of the City",
+          "durationMs": 202000
+        },
+        {
+          "id": "65606016",
+          "title": "Diane Young",
+          "artist": "Vampire Weekend",
+          "album": "Diane Young",
+          "durationMs": 160000
+        }
+      ]
+    },
+    {
+      "provider": "itunes",
+      "title": "Vampire Empire",
+      "expectedArtist": "Big Thief",
+      "rank": 1,
+      "ms": 279,
+      "hits": [
+        {
+          "id": "1693813373",
+          "title": "Vampire Empire",
+          "artist": "Big Thief",
+          "album": "Vampire Empire / Born For Loving You - Single",
+          "durationMs": 192128
+        },
+        {
+          "id": "1721534701",
+          "title": "Vampire Empire",
+          "artist": "Adrianne Lenker",
+          "album": "Bright Future",
+          "durationMs": 235179
+        },
+        {
+          "id": "1806103000",
+          "title": "vampire empire (live)",
+          "artist": "Adrianne Lenker",
+          "album": "Live at Revolution Hall",
+          "durationMs": 281732
+        },
+        {
+          "id": "1729405780",
+          "title": "Vampire Empire (acoustic)",
+          "artist": "Sunkissed",
+          "album": "Vampire Empire (Acoustic) - Single",
+          "durationMs": 190133
+        },
+        {
+          "id": "1759683529",
+          "title": "Vampire Empire (Live at Rat Future)",
+          "artist": "Winefred RT & Edie McKenna",
+          "album": "Live at Rat Future (Live at Rat Future) - EP",
+          "durationMs": 174500
+        },
+        {
+          "id": "1699247130",
+          "title": "Vampire Empire",
+          "artist": "Kyla Ren",
+          "album": "Vampire Empire - Single",
+          "durationMs": 167484
+        },
+        {
+          "id": "1727458457",
+          "title": "Vampire Empire (Slowed + Reverb)",
+          "artist": "skyemane & Sapphink",
+          "album": "Vampire Empire (Slowed + Reverb) - Single",
+          "durationMs": 230840
+        },
+        {
+          "id": "1698981152",
+          "title": "Vampire Empire",
+          "artist": "Stratofortress",
+          "album": "Vampire Empire // One Year Stand - Single",
+          "durationMs": 165333
+        },
+        {
+          "id": "1727470952",
+          "title": "Vampire Empire (Sped Up)",
+          "artist": "skyemane & Sapphink",
+          "album": "Vampire Empire (Sped Up) - Single",
+          "durationMs": 150229
+        },
+        {
+          "id": "219100237",
+          "title": "Vampire Empire",
+          "artist": "Two Witches",
+          "album": "Wenches, Wytches and Vampyres: The Very Best of Two Witches 1987-1999",
+          "durationMs": 336493
+        },
+        {
+          "id": "155791642",
+          "title": "Vampire Empire - Crimson",
+          "artist": "Two Witches",
+          "album": "Bites & Kisses",
+          "durationMs": 340253
+        },
+        {
+          "id": "1680080908",
+          "title": "Vampire Empire (Originally Performed by Big Thief) [Karaoke Version]",
+          "artist": "Backing Business",
+          "album": "Pristine Karaoke, Vol. 97",
+          "durationMs": 215365
+        },
+        {
+          "id": "1183181576",
+          "title": "Vampire Empire",
+          "artist": "Beyond",
+          "album": "No Longer At Ease",
+          "durationMs": 139160
+        },
+        {
+          "id": "344897509",
+          "title": "Vampire Empire",
+          "artist": "Mooseknuckle",
+          "album": "MooseKnuckle",
+          "durationMs": 271138
+        },
+        {
+          "id": "1742150093",
+          "title": "Vampire Empire",
+          "artist": "6EJOU",
+          "album": "The Empire - Single",
+          "durationMs": 342000
+        },
+        {
+          "id": "336689252",
+          "title": "Vampire Empire",
+          "artist": "Kristen Lawrence",
+          "album": "A Broom With a View - from the Halloween Carols",
+          "durationMs": 369270
+        },
+        {
+          "id": "1781752819",
+          "title": "Vampire Empire (Instrumental)",
+          "artist": "Guitar Tribute Players",
+          "album": "Acoustic Renditions of Big Thief (Instrumental)",
+          "durationMs": 170147
+        },
+        {
+          "id": "1044429336",
+          "title": "Vampire Empire (Live)",
+          "artist": "Beyond",
+          "album": "Dew It! / Live Crucial Chaos WNYU",
+          "durationMs": 140992
+        },
+        {
+          "id": "1781791480",
+          "title": "Vampire Empire",
+          "artist": "OGUZ & 6EJOU",
+          "album": "Dam Square Dance Trax LV. 1",
+          "durationMs": 349500
+        },
+        {
+          "id": "314283081",
+          "title": "Vampire Empire (Crimson Mix)",
+          "artist": "Two Witches",
+          "album": "Saints & Sinners",
+          "durationMs": 340307
+        },
+        {
+          "id": "336689193",
+          "title": "Vampire Empire - Instrumental Version",
+          "artist": "Kristen Lawrence",
+          "album": "A Broom With a View - from the Halloween Carols",
+          "durationMs": 366215
+        },
+        {
+          "id": "336836461",
+          "title": "Vampire Empire (Radio Edit)",
+          "artist": "Kristen Lawrence",
+          "album": "Vampire Empire - Radio Edits from the Halloween Carols",
+          "durationMs": 237882
+        },
+        {
+          "id": "1801637487",
+          "title": "Vampire Empire (Cover)",
+          "artist": "Tanjil Adams",
+          "album": "Vampire Empire (Cover) - Single",
+          "durationMs": 190746
+        },
+        {
+          "id": "1680068080",
+          "title": "Vampire Empire (8-Bit Computer Game Version)",
+          "artist": "8-Bit Arcade",
+          "album": "By Request, Vol. 206",
+          "durationMs": 217525
+        },
+        {
+          "id": "1767482768",
+          "title": "Vampire Empire",
+          "artist": "Voodoo Organist",
+          "album": "Here Comes Armageddon!",
+          "durationMs": 244983
+        }
+      ]
+    },
+    {
+      "provider": "itunes",
+      "title": "Hey Jude (Live)",
+      "expectedArtist": "Paul McCartney",
+      "rank": 1,
+      "ms": 282,
+      "hits": [
+        {
+          "id": "1508598612",
+          "title": "Hey Jude (Live)",
+          "artist": "Paul McCartney",
+          "album": "Back In the U.S. (Live 2002)",
+          "durationMs": 421027
+        },
+        {
+          "id": "1464300603",
+          "title": "Hey Jude (Live at Amoeba 2007)",
+          "artist": "Paul McCartney",
+          "album": "Amoeba Gig (Live)",
+          "durationMs": 480550
+        },
+        {
+          "id": "1440943199",
+          "title": "Hey Jude (Live)",
+          "artist": "Paul McCartney",
+          "album": "Tripping the Live Fantastic",
+          "durationMs": 483427
+        },
+        {
+          "id": "1481393293",
+          "title": "Hey Jude (Live at Hampton Coliseum, Hampton, VA, October 9, 1989)",
+          "artist": "Grateful Dead",
+          "album": "Hampton, VA, October 1989 (Live)",
+          "durationMs": 192867
+        },
+        {
+          "id": "307935556",
+          "title": "Hey Jude (Live At Fillmore East, February 11, 1969)",
+          "artist": "Grateful Dead",
+          "album": "Grateful Dead: Live At the Fillmore East, 2/11/69",
+          "durationMs": 503600
+        },
+        {
+          "id": "1510624766",
+          "title": "Hey Jude (Live - Extended)",
+          "artist": "Paul McCartney",
+          "album": "Back In The World (Live)",
+          "durationMs": 455560
+        },
+        {
+          "id": "1721997036",
+          "title": "Hey Jude (Live at Folsom Field, Boulder, CO, 7/1/23)",
+          "artist": "Dead & Company",
+          "album": "Live at Folsom Field, Boulder, CO, 7/1/2023",
+          "durationMs": 152273
+        },
+        {
+          "id": "803386222",
+          "title": "Hey Jude (Live 1969)",
+          "artist": "Ella Fitzgerald & Ernie Heckscher Big Band",
+          "album": "Sunshine of Your Love (Live 1969)",
+          "durationMs": 230859
+        },
+        {
+          "id": "1440941071",
+          "title": "Hey Jude (Live)",
+          "artist": "Paul McCartney",
+          "album": "Tripping the Live Fantastic: Highlights!",
+          "durationMs": 518440
+        },
+        {
+          "id": "1442447417",
+          "title": "Hey Jude (Live)",
+          "artist": "Paul McCartney",
+          "album": "Live At Knebworth 1990",
+          "durationMs": 425093
+        },
+        {
+          "id": "1443777665",
+          "title": "Hey Jude (Live)",
+          "artist": "Tom Jones",
+          "album": "Live In Las Vegas",
+          "durationMs": 231400
+        },
+        {
+          "id": "1228312200",
+          "title": "Hey Jude (Live at Sullivan Stadium, Foxboro, MA 7/2/89)",
+          "artist": "Grateful Dead",
+          "album": "Long Strange Trip: The Untold Story of the Grateful Dead (Motion Picture Soundtrack)",
+          "durationMs": 239573
+        },
+        {
+          "id": "6796304504",
+          "title": "Hey Jude (Live)",
+          "artist": "Elliot James Reay",
+          "album": "歌手2026 第10期 (Live)",
+          "durationMs": 317013
+        },
+        {
+          "id": "1525939725",
+          "title": "Hey Jude (Live at CitiField, NYC)",
+          "artist": "Paul McCartney",
+          "album": "Good Evening New York City",
+          "durationMs": 442747
+        },
+        {
+          "id": "312354609",
+          "title": "Hey Jude (Live)",
+          "artist": "Grateful Dead",
+          "album": "Download Series Vol. 9: 4/2/89 & 4/3/89 (Civic Arena, Pittsburgh, PA)",
+          "durationMs": 159000
+        },
+        {
+          "id": "1724749424",
+          "title": "Hey Jude (Live at Citi Field, Queens, NY, 6/22/23)",
+          "artist": "Dead & Company",
+          "album": "Live at Citi Field, Queens, NY, 6/22/23",
+          "durationMs": 209781
+        },
+        {
+          "id": "1441133277",
+          "title": "Hey Jude",
+          "artist": "The Beatles",
+          "album": "The Beatles 1967-1970 (The Blue Album)",
+          "durationMs": 431333
+        },
+        {
+          "id": "781245279",
+          "title": "Hey Jude (Live in New Jersey, April 1, 1988)",
+          "artist": "Grateful Dead",
+          "album": "Road Trip,s Vol. 4 No. 2: 3/31/88 - 4/1/88 (Brendan Byrne Arena, East Rutherford, NJ)",
+          "durationMs": 101173
+        },
+        {
+          "id": "1634228841",
+          "title": "Hey Jude (Live)",
+          "artist": "40 Fingers",
+          "album": "Hey Jude (Live) - Single",
+          "durationMs": 384477
+        },
+        {
+          "id": "1582412297",
+          "title": "Hey Jude (Live)",
+          "artist": "The Overton Berry Trio",
+          "album": "At Seattle's Doubletree Inn (Live)",
+          "durationMs": 344680
+        },
+        {
+          "id": "3629104",
+          "title": "Hey Jude (Live)",
+          "artist": "Stan Kenton and His Orchestra",
+          "album": "Live at Redlands University",
+          "durationMs": 673971
+        },
+        {
+          "id": "6796304782",
+          "title": "Hey Jude (Live典藏)",
+          "artist": "Elliot James Reay",
+          "album": "歌手2026 第10期 (Live)",
+          "durationMs": 317056
+        },
+        {
+          "id": "1771685633",
+          "title": "Hey Jude (Live in Ljubljana)",
+          "artist": "40 Fingers",
+          "album": "A Guitar Night (Live in Ljubljana)",
+          "durationMs": 459930
+        },
+        {
+          "id": "1466102111",
+          "title": "Hey Jude (Live at Live 8, Hyde Park, London, 2nd July 2005)",
+          "artist": "Paul McCartney",
+          "album": "Live 8 (Live, July 2005)",
+          "durationMs": 280900
+        },
+        {
+          "id": "1722014171",
+          "title": "Hey Jude (Live at Riverbend Music Center, Cincinnati, OH, 6/13/23)",
+          "artist": "Dead & Company",
+          "album": "Live at Riverbend Music Center, Cincinnati, OH, 6/13/23",
+          "durationMs": 223260
+        }
+      ]
+    },
+    {
+      "provider": "deezer",
+      "title": "Hey Jude (Live)",
+      "expectedArtist": "Paul McCartney",
+      "rank": 1,
+      "ms": 301,
+      "hits": [
+        {
+          "id": "30765721",
+          "title": "Hey Jude (Live)",
+          "artist": "Paul McCartney",
+          "album": "Back In The World (Live)",
+          "durationMs": 455000
+        },
+        {
+          "id": "1822872657",
+          "title": "Hey Jude (Live)",
+          "artist": "40 Fingers",
+          "album": "Hey Jude (Live)",
+          "durationMs": 384000
+        },
+        {
+          "id": "10178815",
+          "title": "Hey Jude (Live)",
+          "artist": "Paul McCartney",
+          "album": "Tripping The Live Fantastic",
+          "durationMs": 484000
+        },
+        {
+          "id": "3349455951",
+          "title": "Hey Jude (Live)",
+          "artist": "Paul McCartney",
+          "album": "Live At Knebworth",
+          "durationMs": 425000
+        },
+        {
+          "id": "1849334227",
+          "title": "Hey Jude (live)",
+          "artist": "The Beatles Revival Band",
+          "album": "40th Anniversary (Live at the FABRIK in Hamburg)",
+          "durationMs": 372000
+        },
+        {
+          "id": "1473390272",
+          "title": "Hey Jude (Live)",
+          "artist": "The Overton Berry Trio",
+          "album": "At Seattle's Doubletree Inn (Live)",
+          "durationMs": 344000
+        },
+        {
+          "id": "417354362",
+          "title": "Hey Jude (Live)",
+          "artist": "Tom Jones",
+          "album": "Live In Las Vegas",
+          "durationMs": 235000
+        },
+        {
+          "id": "2192251667",
+          "title": "Hey Jude (Live)",
+          "artist": "Surf Sessions",
+          "album": "Play Surf List, Vol 1.",
+          "durationMs": 289000
+        },
+        {
+          "id": "10329585",
+          "title": "Hey Jude (Live)",
+          "artist": "Paul McCartney",
+          "album": "Tripping The Live Fantastic Highlights!",
+          "durationMs": 518000
+        },
+        {
+          "id": "18386651",
+          "title": "Hey Jude (Live)",
+          "artist": "The Inmates",
+          "album": "Live in Paris",
+          "durationMs": 271000
+        },
+        {
+          "id": "3067053561",
+          "title": "Hey Jude (Live)",
+          "artist": "Mezzo Group",
+          "album": "Юбилейный концерт 10 лет (Live)",
+          "durationMs": 318000
+        },
+        {
+          "id": "3480745",
+          "title": "Hey Jude (Live)",
+          "artist": "Hanne Boel",
+          "album": "Kinda Soul",
+          "durationMs": 432000
+        },
+        {
+          "id": "3819495731",
+          "title": "Hey Jude (Live)",
+          "artist": "The Beatles Revival Band",
+          "album": "Live at the Alte Oper Frankfurt (Live)",
+          "durationMs": 394000
+        },
+        {
+          "id": "6891895",
+          "title": "Hey Jude (Live)",
+          "artist": "Münchner Zwietracht",
+          "album": "Oktoberfest München Live",
+          "durationMs": 174000
+        },
+        {
+          "id": "1041194042",
+          "title": "Hey Jude (Live At Citi Field, NYC, 2009)",
+          "artist": "Paul McCartney",
+          "album": "Good Evening New York City",
+          "durationMs": 443000
+        },
+        {
+          "id": "3980075661",
+          "title": "Hey Jude (Cover Version)",
+          "artist": "The Liverpool Beat Project",
+          "album": "The Beatles Songbook, Vol.2, Beat Meets Psychedelic (Cover Version)",
+          "durationMs": 422000
+        },
+        {
+          "id": "561634212",
+          "title": "Hey Joe (Live)",
+          "artist": "Roy Buchanan",
+          "album": "Live From Austin, TX",
+          "durationMs": 436000
+        },
+        {
+          "id": "143181878",
+          "title": "Hey Joe (Live)",
+          "artist": "Gary Moore",
+          "album": "Blues For Jimi (Live)",
+          "durationMs": 575000
+        },
+        {
+          "id": "134650828",
+          "title": "Hey Jude",
+          "artist": "The Liverpool Gents",
+          "album": "Playin' the Beatles Greatest Hits",
+          "durationMs": 426000
+        },
+        {
+          "id": "890408812",
+          "title": "Hey Joe (Live)",
+          "artist": "Willy DeVille",
+          "album": "Live from the Bottom Line to the Olympia Theatre - 1993",
+          "durationMs": 304000
+        },
+        {
+          "id": "3025622191",
+          "title": "Hey Jude (Live in Ljubljana)",
+          "artist": "40 Fingers",
+          "album": "A Guitar Night (Live in Ljubljana)",
+          "durationMs": 459000
+        },
+        {
+          "id": "104995904",
+          "title": "Hey Joe (Live)",
+          "artist": "Jimi Hendrix",
+          "album": "Freedom: Atlanta Pop Festival (Live)",
+          "durationMs": 277000
+        },
+        {
+          "id": "709914802",
+          "title": "Hey Jude (Live At Amoeba 2007)",
+          "artist": "Paul McCartney",
+          "album": "Amoeba Gig (Live)",
+          "durationMs": 480000
+        },
+        {
+          "id": "1527983132",
+          "title": "Hey Joe (Live)",
+          "artist": "Alvin Lee",
+          "album": "Ride On",
+          "durationMs": 359000
+        },
+        {
+          "id": "4169042452",
+          "title": "Hey Joe (Live)",
+          "artist": "Guitar Shorty",
+          "album": "GUITAR SHORTY LIVE BIRMINGHAM ALABAMA",
+          "durationMs": 1014000
+        }
+      ]
+    }
+  ]
+}

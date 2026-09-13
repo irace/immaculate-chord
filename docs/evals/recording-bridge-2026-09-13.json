@@ -1,0 +1,53 @@
+[
+  {
+    "id": "116348632",
+    "title": "Hey Jude (Remastered 2015)",
+    "artist": "The Beatles",
+    "isrc": "GBUM71505902",
+    "duration": 429,
+    "seconds": 0.6370900829999999,
+    "matches": [
+      {
+        "id": "5561d5e8-386e-4ea2-ae72-1f7ecf3cae3e",
+        "title": "Hey Jude",
+        "artist": "The Beatles",
+        "version": "2015 stereo mix",
+        "duration": 426000
+      }
+    ]
+  },
+  {
+    "id": "123687096",
+    "title": "Robot Stop",
+    "artist": "King Gizzard & The Lizard Wizard",
+    "isrc": "USATO1600102",
+    "duration": 322,
+    "seconds": 1.3641395,
+    "matches": [
+      {
+        "id": "fa518c6d-3a74-42cb-bf63-842bf85b7344",
+        "title": "Robot Stop",
+        "artist": "King Gizzard & the Lizard Wizard",
+        "version": "",
+        "duration": 322000
+      }
+    ]
+  },
+  {
+    "id": "29377601",
+    "title": "Avril 14th",
+    "artist": "Aphex Twin",
+    "isrc": "GBBPW0100148",
+    "duration": 125,
+    "seconds": 1.416717791,
+    "matches": [
+      {
+        "id": "856d081d-320b-4b6b-8dac-4427e308296d",
+        "title": "Avril 14th",
+        "artist": "Aphex Twin",
+        "version": "",
+        "duration": 125000
+      }
+    ]
+  }
+]
